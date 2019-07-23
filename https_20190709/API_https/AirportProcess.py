@@ -1,8 +1,14 @@
 # coding:utf-8
 from https_20190709.API_https.BlackList import *
 from BaiTaAirport2_month.TestData.PictureBase64One import Base64Picture
+from https_20190709.common.params_init_z import init_params
+from https_20190709.common.common_method import *
 from https_20190709.common.Log_z import mylog
-logger = mylog.get_log().get_logger()
+
+# logger = mylog.get_log().get_logger()
+# test_param = init_params("my_interface_test.yml","test_api_face_security_face_check")
+# test_param = test_param.all_params
+
 
 class AirportProcess(BlackListApi):
     def __init__(self, host="https://192.168.5.15:4433/"):
@@ -90,7 +96,9 @@ class AirportProcess(BlackListApi):
                                      scenePhoto="",
                                      sceneFeature="",
                                      cardPhoto="",
-                                     cardFeature=""):
+                                     cardFeature="",
+                                     largePhoto = ""
+                                     ):
         """2.3.15自助验证闸机B门接口（二期）"""
         body = {"reqId": reqId,
                 "gateNo": gateNo,
@@ -112,14 +120,31 @@ class AirportProcess(BlackListApi):
                 "cardPhoto": cardPhoto,
                 "cardFeature": cardFeature
                 }
-        res = requests.post(url=self.B_security_face_check,
-                            json=body,
-                            headers=self.get_headers("/api/v1/face/security/face-check"),
-                            verify=self.certificate)
-        logger.debug(self.B_security_face_check)
-
-        res.close()
-        return res
+        # print(reqId,
+        #       gateNo,
+        #       deviceId,
+        #       cardType,
+        #       idCard,
+        #       nameZh,
+        #       nameEn,
+        #       age,
+        #       sex,
+        #       birthDate,
+        #       address,
+        #       certificateValidity,
+        #       nationality,
+        #       ethnic,
+        #       contactWay,
+        #       scenePhoto,
+        #       sceneFeature,
+        #       cardPhoto,
+        #       cardFeature)
+        # res = requests.post(url=self.B_security_face_check,
+        #                     json=body,
+        #                     headers=self.get_headers("/api/v1/face/security/face-check"),
+        #                     verify=self.certificate)
+        # res.close()
+        # return res
 
     def api_anjian(self,
                      anjiangateNo="T1AJ1",
@@ -138,6 +163,7 @@ class AirportProcess(BlackListApi):
                      sceneFeature="",
                      cardPhoto="204.jpg",
                      cardFeature="",
+                     largePhoto = ""
                    ):
         """安检1：1人脸验证"""
         body = {"reqId": get_uuid(),
@@ -684,33 +710,37 @@ class AirportProcess(BlackListApi):
 
 
 if __name__ == '__main__':
+    pass
     # res = AirportProcess().api_v1_face_boarding_queryFlights(reqId=get_uuid(),
-    #                                                           flightNo="CZ6182"
+    #                                                          # reqId= "",
+    #                                                          flightNo="CZ6182"
     #                                                           )
-    # print(res.text)
-    scenePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\1.jpg")
-    sceneFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture8k\1.txt")
-    certificate_file = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
-
-    cardFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k/1.txt")
-    res = AirportProcess().api_anjian(anjiangateNo="T1AJ1",
-                                       anjiandeviceId="T1AJ001",
-                                       cardType=0,
-                                       idCard="300238199312134390",
-                                       nameZh="铁塔",
-                                       nameEn="CHENKEYUN",
-                                       age=25,
-                                       sex=1,
-                                       birthDate=get_birthday("300238199312134390"),
-                                       address="重庆市大竹林街道",
-                                       nationality="中国",
-                                       ethnic="汉族",
-                                       scenePhoto=scenePhoto,
-                                       sceneFeature=sceneFeature,
-                                       cardPhoto=scenePhoto,
-                                       cardFeature=cardFeature,
-                                       )
-    logger.debug(res.text)
+    # # logger.debug(res.text)
+    # scenePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\449.jpg")
+    # sceneFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture8k\1.txt")
+    # certificate_file = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"
+    # cardFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k/1.txt")
+    # res = AirportProcess().api_anjian(anjiangateNo="T1AJ1",
+    #                                    anjiandeviceId="T1AJ001",
+    #                                    cardType=0,
+    #                                    idCard="300238199312134390",
+    #                                    nameZh="铁塔",
+    #                                    nameEn="CHENKEYUN",
+    #                                    age=25,
+    #                                    sex=1,
+    #                                    birthDate=get_birthday("300238199312134390"),
+    #                                    address="重庆市大竹林街道",
+    #                                    nationality="中国",
+    #                                    ethnic="汉族",
+    #                                    scenePhoto=scenePhoto,
+    #                                    sceneFeature=sceneFeature,
+    #                                    cardPhoto=scenePhoto,
+    #                                    cardFeature=cardFeature,
+    #                                    largePhoto= scenePhoto
+    #                                    )
+    #
+    # res = AirportProcess().api_anjian(test_param)
+    # logger.debug(res.text)
     # res = AirportProcess().api_security_ticket_check(gateNo="123",
     #                               deviceId="123",
     #                               cardType="0",
@@ -779,34 +809,28 @@ if __name__ == '__main__':
     #                               fId=get_uuid()
     #                               )
     # print(res.text)
-    #
-    res = AirportProcess().api_face_security_face_check(reqId=get_uuid(),
-                                     gateNo="T1AJ1",
-                                     deviceId="T1AJ001",
-                                     cardType="0",
-                                     idCard="233238199312134392",
-                                     nameZh="nameZh",
-                                     nameEn="nameEn",
-                                     age=get_age("233238199312134392"),
-                                     sex="1",
-                                     birthDate=get_birthday("233238199312134392"),
-                                     address="重庆市",
-                                     certificateValidity="20180101-20260203",
-                                     nationality="China",
-                                     ethnic="汉族",
-                                     contactWay="0123456789",
-                                     # scenePhoto=Base64Picture,
-                                     # sceneFeature=sceneFeature,
-                                     # cardPhoto=Base64Picture,                                     # cardFeature=cardFeature
-
-                                     scenePhoto=scenePhoto,
-                                     sceneFeature=sceneFeature,
-                                     cardPhoto=scenePhoto,
-                                     cardFeature=cardFeature,
-                                                        )
-    # res = AirportProcess().api_face_security_face_check(all_params)
-    logger.debug(res.text)
-    #
+    # #
+    # res = AirportProcess().api_face_security_face_check(reqId=get_uuid(),
+    #                                  gateNo="T1AJ1",
+    #                                  deviceId="T1AJ001",
+    #                                  cardType=None,
+    #                                  idCard="542200197109207895",
+    #                                  nameZh="nameZh",
+    #                                  nameEn="nameEn",
+    #                                  age=get_age("542200197109207895"),
+    #                                  sex="1",
+    #                                  birthDate=get_birthday("542200197109207895"),
+    #                                  address="重庆市",
+    #                                  certificateValidity="20180101-20260203",
+    #                                  nationality="China",
+    #                                  ethnic="汉族",
+    #                                  contactWay="0123456789",
+    #                                  scenePhoto=scenePhoto,
+    #                                  sceneFeature=sceneFeature,
+    #                                  cardPhoto=scenePhoto,
+    #                                  cardFeature=cardFeature,
+    #                                  largePhoto=scenePhoto)
+    # print(res.text)
     #
     #
     # res1 = AirportProcess().api_face_review_self_check(reqid=get_uuid(),
@@ -872,5 +896,3 @@ if __name__ == '__main__':
     #     print(res2.text)
     #     print("第%d次完成" % (i+1))
     #     time.sleep(1)
-
-

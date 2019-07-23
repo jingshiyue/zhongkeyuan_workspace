@@ -5,7 +5,7 @@ test_api_face_security_face_check:     #函数名
       reqId: ["",1]
       gateNo: ["T1AJ1",1]
       deviceId: ["T1AJ001",1]
-      cardType: [2,1]
+      cardType: [0,1]
       idCard: ["500382199512303576",1]
       nameZh: ["蒋勇",1]
       nameEn: ["jiangyong",0]
@@ -21,5 +21,5 @@ test_api_face_security_face_check:     #函数名
       sceneFeature: ["",1]
       cardPhoto: ["",1]
       cardFeature: ["",1]
-#      largePhoto: ["",1]
+      largePhoto: ["",1]
 ...

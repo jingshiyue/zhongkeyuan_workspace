@@ -11,7 +11,7 @@ class BlackListApi(object):
     """
     def __init__(self, host="https://192.168.5.15:4433/"):
         # self.certificate = "D:/WorkSpace/https_20190709/API_https/cacert.crt"
-        self.certificate = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
+        self.certificate = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"
         self.apiId = "123456"
         self.apiKey = "1285384ddfb057814bad78127bc789be"
         self.host = host
@@ -270,8 +270,9 @@ class BlackListApi(object):
 
 
 if __name__ == '__main__':
-    blacklist = BlackListApi()
-    blacklist.api_black_list_save(peopleName="某某",focusTime="20180808080800",note="重点嫌疑人")
+    pass
+    # blacklist = BlackListApi()
+    # blacklist.api_black_list_save(peopleName="某某",focusTime="20180808080800",note="重点嫌疑人")
     # faceImage = to_base64(r"D:/pre_data/2.jpg")
     # # faceImage = to_base64(r"D:/pre_data/1.png")
     # print(blacklist.api_white_list_save(reqId=get_uuid(),   #必须

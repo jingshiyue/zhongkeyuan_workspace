@@ -8,7 +8,7 @@ from https_20190709.common.common_method import *
 from https_20190709.common.params_init_z import params
 from https_20190709.common.common_method import *
 blApi = BlackListApi()
-logger.debug("i am ok")
+
 #https://192.168.5.15:4433/security-server/api/v1/face/security/face-check
 host = "https://192.168.5.15:4433/security-server"
 # certificate_file = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
