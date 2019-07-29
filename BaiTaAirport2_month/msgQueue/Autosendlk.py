@@ -197,7 +197,7 @@ if __name__ == '__main__':
     #           lk_desk="CTU",                        #11    11目的地  机场三字代表码
     #           lk_ename="HHHH",                      #12    旅客英文姓名
     #           lk_flight="JD5283",                  #13    航班号 12
-    #           lk_gateno="10",                       #14    登机口号码 无意义
+    #           lateno="10",                       #14    登机口号码 无意义k_g
     #           lk_id=str(random.randint(1,999)),     #15    旅客ID 主键 str 36
     #           lk_inf=" ",                           #16    16婴儿标志3 INF带婴儿 “”表示未带婴儿
     #           lk_insur="0",                         #18    是否购保1
@@ -206,20 +206,20 @@ if __name__ == '__main__':
     #           lk_vip="0")                           #26    是否是贵宾1 否0，是1，未知2
     # log.logger.info("证件号码为："+idcard+"登机序列号为："+lk_bdno)
     send_lkxx(lk_IsInternation="0",  # 1     是否国际 0否，1是，2未知
-              lk_bdno="02",  # 2     <!--2 10 登机序号 -->  3位
-              lk_cardid="500112199109201754",  # 4     证件号码
+              lk_bdno="555",  # 2     <!--2 10 登机序号 -->  3位
+              lk_cardid="500112199909201754",  # 4     证件号码
               lk_chkt=get_time_mmss(),  # 6     值机日期
-              lk_cname="shenhao",  # 8     旅客中文姓名80
+              lk_cname="大西瓜",  # 8     旅客中文姓名80
               lk_date=produce_flight_date(),  # 9     9航班日期 8 YYYYMMDD
               lk_del="0",  # 10    是否删除 0否  1是
               lk_desk="CTU",  # 11    11目的地  机场三字代表码
-              lk_ename="HHHH",  # 12    旅客英文姓名
+              lk_ename="daxigua",  # 12    旅客英文姓名
               lk_flight="JD5283",  # 13    航班号 12
               lk_gateno="10",  # 14    登机口号码 无意义
               lk_id=str(random.randint(1, 999)),  # 15    旅客ID 主键 str 36
               lk_inf=" ",  # 16    16婴儿标志3 INF带婴儿 “”表示未带婴儿
               lk_insur="0",  # 18    是否购保1
-              lk_outtime="20190506201500",  # 20    旅客起飞时间
+              lk_outtime="20190724125500",  # 20    旅客起飞时间
               lk_sex="1",  # 23    性别  1男性 2女性 0 未知
               lk_vip="0")
 

@@ -21,33 +21,10 @@ class Test_AirportProcess():
     def setup_class(self):
         self.ap = AirportProcess()
 
-    @pytest.mark.parametrize("param", test_param)
-    def test_api_face_security_face_check(self,param):
-        logger.debug(param)
-
-        res = self.ap.api_face_security_face_check(
-                                param
-                                # reqId=test_param["reqId"],
-                                # gateNo=test_param["gateNo"],
-                                # deviceId=test_param["deviceId"],
-                                # cardType=test_param["cardType"],
-                                # idCard=test_param["idCard"],
-                                # nameZh=test_param["nameZh"],
-                                # nameEn=test_param["nameEn"],
-                                # age=test_param["age"],
-                                # sex=test_param["sex"],
-                                # birthDate=test_param["birthDate"],
-                                # address=test_param["address"],
-                                # certificateValidity=test_param["certificateValidity"],
-                                # nationality=test_param["nationality"],
-                                # ethnic=test_param["ethnic"],
-                                # contactWay=test_param["contactWay"],
-                                # scenePhoto=test_param["scenePhoto"],
-                                # sceneFeature=test_param["sceneFeature"],
-                                # cardPhoto=test_param["cardPhoto"],
-                                # cardFeature=test_param["cardFeature"],
-                                # largePhoto=test_param["largePhoto"]
-                            )
+    @pytest.mark.parametrize(str(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))), test_param)
+    def test_api_face_security_face_check(self,tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))):
+        res = self.ap.api_face_security_face_check(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))
+        # logger.debug(res.text)
 
 if __name__=="__main__":
     pytest.main(["-s","test_AirportProcess_https.py"])

@@ -69,8 +69,10 @@ class init_params(params):
 
         self.idcard8k = r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k"
         self.picture8k = r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture8k"
-        file = os.listdir(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)")
-        self.jpg_name = file[random.randint(0,len(file)-1)]
+        pho_file = os.listdir(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)")
+        self.jpg_name = pho_file[random.randint(0,len(pho_file)-1)]
+        feature_files = os.listdir(self.idcard8k)
+        self.feature_file = feature_files[random.randint(0,len(feature_files)-1)]
         self.photo_base64 = to_base64(os.path.join(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)",self.jpg_name))
         self.all_params = self.create()
 
@@ -83,11 +85,11 @@ class init_params(params):
             elif key == "scenePhoto":
                 self.all_params[key] = self.photo_base64
             elif key == "sceneFeature":
-                self.all_params[key] = read_feature(os.path.join(self.picture8k, str(random.randint(0, self.cnt)) + ".txt"))
+                self.all_params[key] = read_feature(os.path.join(self.picture8k, self.feature_file))
             elif key == "cardPhoto":
                 self.all_params[key] = self.photo_base64
             elif key == "cardFeature":
-                self.all_params[key] = read_feature(os.path.join(self.idcard8k, str(random.randint(0, self.cnt)) + ".txt"))
+                self.all_params[key] = read_feature(os.path.join(self.idcard8k, self.feature_file))
             elif key == "largePhoto":
                 self.all_params[key] = self.photo_base64
         return self.all_params

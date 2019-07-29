@@ -13,5 +13,7 @@ def test_foo1(*d):
 
 
 file = [1,2,3,4]
-jpg_name = file[random.randint(0, len(file))]
-print(jpg_name)
+f = tuple(file)
+print(f)
+f1 = (str(f))
+print(type(f1))

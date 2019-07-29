@@ -31,5 +31,6 @@ class MyLog(object):
     """日志的5个级别对应一下5个函数"""
 
 
-# if __name__ == '__main__':
-#     print(MyLog())
+if __name__ == '__main__':
+    mylogger = MyLog("20190724").logger
+    mylogger.debug("ok")

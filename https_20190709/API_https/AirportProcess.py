@@ -5,10 +5,6 @@ from https_20190709.common.params_init_z import init_params
 from https_20190709.common.common_method import *
 from https_20190709.common.Log_z import mylog
 
-# logger = mylog.get_log().get_logger()
-# test_param = init_params("my_interface_test.yml","test_api_face_security_face_check")
-# test_param = test_param.all_params
-
 
 class AirportProcess(BlackListApi):
     def __init__(self, host="https://192.168.5.15:4433/"):
@@ -33,7 +29,7 @@ class AirportProcess(BlackListApi):
 
 
 
-    def api_security_ticket_check(self,
+    def api_security_ticket_check(self,   #2.3.14自助验证闸机A门接口
                                   reqId=get_uuid(),
                                   gateNo="",
                                   deviceId="",
@@ -139,12 +135,12 @@ class AirportProcess(BlackListApi):
         #       sceneFeature,
         #       cardPhoto,
         #       cardFeature)
-        # res = requests.post(url=self.B_security_face_check,
-        #                     json=body,
-        #                     headers=self.get_headers("/api/v1/face/security/face-check"),
-        #                     verify=self.certificate)
-        # res.close()
-        # return res
+        res = requests.post(url=self.B_security_face_check,
+                            json=body,
+                            headers=self.get_headers("/api/v1/face/security/face-check"),
+                            verify=self.certificate)
+        res.close()
+        return res
 
     def api_anjian(self,
                      anjiangateNo="T1AJ1",
@@ -470,18 +466,19 @@ class AirportProcess(BlackListApi):
         print(body)
         return res
 
+    """人员回查-安检、登机口接口（二期）"""
     def api_face_data_flowback_query(self,
                                      reqId=get_uuid(),
                                      cardId="",
                                      flightNo="",
                                      flightDay="",   # 航班dd
                                      boardingNumber="",
-                                     isFuzzyQuery=0,
+                                     isFuzzyQuery=0, #不传是默认模糊查询，传值1-为模糊查询，非1为精确查询
                                      **kwargs
                                      ):
-        """2.3.17 人员回查-安检、登机口接口（二期）"""
+
         if "seatId" in kwargs.keys():
-            body = {"reqId": "",
+            body = {"reqId": reqId, #必须
                     "cardId": cardId,  # 否
                     "flightNo": flightNo,  # 否
                     "flightDay": flightDay,  # 否
@@ -490,9 +487,9 @@ class AirportProcess(BlackListApi):
                     "seatId":kwargs["seatId"]     #值为INF表示婴儿票
                     }
         else:
-            body = {"reqId": reqId,
-                    "cardId": cardId,  # 否
-                    "flightNo": flightNo,  # 否
+            body = {"reqId": reqId, #必须
+                    "cardId": "500112199909201754",  # 否
+                    "flightNo": "JD5283",  # 否
                     "flightDay": flightDay,  # 否
                     "boardingNumber": boardingNumber,  # 否
                     "isFuzzyQuery": isFuzzyQuery}
@@ -503,6 +500,7 @@ class AirportProcess(BlackListApi):
         res.close()
         return res
 
+    """2.3.17安检口人工放行接口（二期）"""
     def api_face_security_manual_optcheck(self,
                                           reqId=get_uuid(),
                                           gateNo="",
@@ -522,27 +520,31 @@ class AirportProcess(BlackListApi):
                                           scenePhoto="",
                                           sceneFeature="",
                                           cardPhoto="",
-                                          cardFeature=""):
+                                          cardFeature="",
+                                          largePhoto=""
+                                          ):
         """2.3.17安检口人工放行接口（二期）"""
-        body = {"reqId": reqId,
-                "gateNo": gateNo,
-                "deviceId": deviceId,
-                "cardType": cardType,
-                "idCard": idCard,
-                "nameZh": nameZh,
+        body = {"reqId": reqId,  #必填  #T1AJ1-T1AF1
+                "gateNo": "T1AJ1",#必填
+                "deviceId": "T1AJ001",#必填
+                "cardType": 0,#必填
+                "idCard": "500112199909201754",#必填
+                "nameZh": "大西瓜",
                 "nameEn": nameEn,
                 "age": age,
                 "sex": sex,
-                "birthDate": birthDate,
-                "address": address,
+                "birthDate": get_birthday("500112199909201754"),#必填
+                "address": "重庆",
                 "certificateValidity": certificateValidity,
-                "nationality": nationality,
-                "ethnic": ethnic,
+                "nationality": "中国",#必填
+                "ethnic": "汉",#必填
                 "contactWay": contactWay,
                 "scenePhoto": scenePhoto,
                 "sceneFeature": sceneFeature,
-                "cardPhoto": cardPhoto,
-                "cardFeature": cardFeature}
+                "cardPhoto": cardPhoto,#必填
+                "cardFeature": cardFeature,#必填
+                "largePhoto":largePhoto  #必填
+                }
         res = requests.post(url=self.api_v1_face_security_manual_optcheck,
                             headers=self.get_headers("/api/v1/face/security/manual-optcheck"),
                             json=body,
@@ -710,16 +712,27 @@ class AirportProcess(BlackListApi):
 
 
 if __name__ == '__main__':
-    pass
+    #####################################公用变量#######################################
+
+    scenePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\449.jpg")
+    cardPhoto = scenePhoto
+    largePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\450.jpg")
+
+    sceneFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture8k\1.txt")
+    certificate_file = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"
+    cardFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k/1.txt")
+
+    ###################################################################################
+    # T1AJ1-T1AF1
+
+
+
     # res = AirportProcess().api_v1_face_boarding_queryFlights(reqId=get_uuid(),
     #                                                          # reqId= "",
     #                                                          flightNo="CZ6182"
     #                                                           )
     # # logger.debug(res.text)
-    # scenePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\449.jpg")
-    # sceneFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture8k\1.txt")
-    # certificate_file = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"
-    # cardFeature = read_feature(r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k/1.txt")
+
     # res = AirportProcess().api_anjian(anjiangateNo="T1AJ1",
     #                                    anjiandeviceId="T1AJ001",
     #                                    cardType=0,
@@ -741,24 +754,93 @@ if __name__ == '__main__':
     #
     # res = AirportProcess().api_anjian(test_param)
     # logger.debug(res.text)
-    # res = AirportProcess().api_security_ticket_check(gateNo="123",
-    #                               deviceId="123",
-    #                               cardType="0",
-    #                               idCard="123",
-    #                               nameZh="nameZh",
-    #                               nameEn="nameEn",
+
+    # """2.3.20自助验证闸机A门接口（二期）"""
+    # res = AirportProcess().api_security_ticket_check(
+    #                               reqId=get_uuid(),     #必填
+    #                               gateNo="T1AJ1",      #必填,A B门T1AJ1，复核对应T1AF1
+    #                               deviceId="T1AJ001",  #必填
+    #                               cardType="0",         #必填
+    #                               idCard="500112199909201754",         #必填
+    #                               nameZh="大西瓜",
+    #                               nameEn="",
     #                               age=None,
     #                               sex=None,
-    #                               birthDate="99-01-12",
+    #                               birthDate="99-09-20",      #必填
     #                               address="重庆市",
-    #                               certificateValidity="20120101-20230202",
+    #                               certificateValidity="20120101-20230202",   #必填
     #                               nationality="CHina",
     #                               ethnic="汉族",
     #                               contactWay="0123456789",
-    #                               cardPhoto="123",
-    #                               fId=get_uuid()
+    #                               cardPhoto=Base64Picture,     #必填
+    #                               fId=get_uuid()       #必填
     #                               )
-    # print(res.text)
+    # logger.debug(res.text)
+    #
+    # """2.3.21自助验证闸机B门接口（二期）"""
+    # res = AirportProcess().api_face_security_face_check(
+    #                                  reqId=get_uuid(),  #必填
+    #                                  gateNo="T1AJ1",#必填
+    #                                  deviceId="T1AJ001",#必填
+    #                                  cardType=0,#必填
+    #                                  idCard="500112199909201754",#必填
+    #                                  nameZh="大西瓜",
+    #                                  nameEn="nameEn",
+    #                                  age=get_age("500112199909201754"),
+    #                                  sex="1",
+    #                                  birthDate=get_birthday("500112199909201754"),#必填
+    #                                  address="重庆市",
+    #                                  certificateValidity="20180101-20260203",#必填
+    #                                  nationality="China",#必填
+    #                                  ethnic="汉族",#必填
+    #                                  contactWay="0123456789",
+    #                                  scenePhoto=scenePhoto,#必填
+    #                                  sceneFeature=sceneFeature,#必填
+    #                                  cardPhoto=scenePhoto,#必填
+    #                                  cardFeature=cardFeature,#必填
+    #                                  largePhoto=scenePhoto#必填
+    #                                 )
+    # logger.debug(res.text)
+    #
+    """2.3.22	自助闸机复核接口（二期）  [1:N]"""
+    res = AirportProcess().api_face_review_self_check(
+        reqid=get_uuid(),  # 必填
+        gateno="T1AF1",  # 必填
+        deviceid="739",  # 必填
+        scenephoto=scenePhoto,  # 必填,可以不用2K
+        scenefeature=get_txt(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture2k" + "/1.txt"))  # 必填,需要2K文件夹里
+
+
+
+    """2.3.24	人员回查-安检、登机口接口（二期）"""
+    # res = AirportProcess().api_face_data_flowback_query(
+    #
+    # )
+    # logger.debug(res.text)
+    """2.3.17安检口人工放行接口（二期）"""
+    # res = AirportProcess().api_face_security_manual_optcheck(
+    #     reqId=get_uuid(),
+    #     gateNo="T1AJ1",  # 必填
+    #     deviceId="T1AJ001",  # 必填
+    #     cardType=0,  # 必填
+    #     idCard="500112199909201754",  # 必填
+    #     nameZh="大西瓜",
+    #     nameEn="",
+    #     age=20,
+    #     sex=1,
+    #     birthDate=get_birthday("500112199909201754"),  # 必填
+    #     address="重庆",
+    #     certificateValidity="20120101-20230202",
+    #     nationality="中国",  # 必填
+    #     ethnic="汉",  # 必填
+    #     contactWay="123456",
+    #     scenePhoto=scenePhoto,# 必填
+    #     sceneFeature=sceneFeature,
+    #     cardPhoto=cardPhoto,  # 必填
+    #     cardFeature=cardFeature,  # 必填
+    #     largePhoto=largePhoto  # 必填
+    # )
+
     # res = AirportProcess().api_data_flight_activate(reqId=get_uuid(),
     #                                                  flightDate="20190603",  # yyyyMMdd
     #                                                  flightNo="MF8027"
@@ -809,37 +891,9 @@ if __name__ == '__main__':
     #                               fId=get_uuid()
     #                               )
     # print(res.text)
-    # #
-    # res = AirportProcess().api_face_security_face_check(reqId=get_uuid(),
-    #                                  gateNo="T1AJ1",
-    #                                  deviceId="T1AJ001",
-    #                                  cardType=None,
-    #                                  idCard="542200197109207895",
-    #                                  nameZh="nameZh",
-    #                                  nameEn="nameEn",
-    #                                  age=get_age("542200197109207895"),
-    #                                  sex="1",
-    #                                  birthDate=get_birthday("542200197109207895"),
-    #                                  address="重庆市",
-    #                                  certificateValidity="20180101-20260203",
-    #                                  nationality="China",
-    #                                  ethnic="汉族",
-    #                                  contactWay="0123456789",
-    #                                  scenePhoto=scenePhoto,
-    #                                  sceneFeature=sceneFeature,
-    #                                  cardPhoto=scenePhoto,
-    #                                  cardFeature=cardFeature,
-    #                                  largePhoto=scenePhoto)
-    # print(res.text)
     #
-    #
-    # res1 = AirportProcess().api_face_review_self_check(reqid=get_uuid(),
-    #                                gateno="T1AF1",
-    #                                deviceid="T1AF001",
-    #                                scenephoto=Base64Picture,
-    #                                scenefeature=get_txt(shiwanli2k_features+"/0.txt"))
-    #
-    # print(res1.text)
+
+
     # idcard_list = get_id_re_match()
     # print(idcard_list)
     # for i in range(0, 20):
@@ -896,3 +950,6 @@ if __name__ == '__main__':
     #     print(res2.text)
     #     print("第%d次完成" % (i+1))
     #     time.sleep(1)
+    logger.debug("---------------------------------------------------")
+    logger.debug(res.text)
+    logger.debug("---------------------------------------------------")
