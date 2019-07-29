@@ -15,16 +15,17 @@ logger = mylog.get_log().get_logger()
 # certificate_file = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
 
 test_param = stru_params_tuple("my_interface_test.yml","test_api_face_security_face_check")
+print(test_param)
 
-class Test_AirportProcess():
-
-    def setup_class(self):
-        self.ap = AirportProcess()
-
-    @pytest.mark.parametrize(str(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))), test_param)
-    def test_api_face_security_face_check(self,tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))):
-        res = self.ap.api_face_security_face_check(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))
-        # logger.debug(res.text)
-
-if __name__=="__main__":
-    pytest.main(["-s","test_AirportProcess_https.py"])
+# class Test_AirportProcess():
+#
+#     def setup_class(cls):
+#         cls.ap = AirportProcess()
+#
+#     @pytest.mark.parametrize(str(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))), test_param)
+#     def test_api_face_security_face_check(self,tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))):
+#         res = cls.ap.api_face_security_face_check(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))
+#         # logger.debug(res.text)
+#
+# if __name__=="__main__":
+#     pytest.main(["-s","test_AirportProcess_https.py"])
