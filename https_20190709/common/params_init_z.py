@@ -82,6 +82,8 @@ class init_params(params):
         for key in list(self.get_must_params().keys()):
             if key == "reqId":
                 self.all_params[key] = get_uuid()
+            elif key == "birthDate":
+                self.all_params[key] = get_birthday(self.all_params["idCard"])
             elif key == "scenePhoto":
                 self.all_params[key] = self.photo_base64
             elif key == "sceneFeature":
@@ -142,5 +144,5 @@ if __name__ == '__main__':
     # print(a)
     #
     # params_list = get_params_list("my_interface_test.yml","test_api_face_security_face_check")
-    test_param = stru_params_tuple("my_interface_test.yml","test_api_face_security_face_check")
-    logger.debug(test_param)
+    test_param = change_params("my_interface_test.yml","test_api_face_security_face_check")
+    logger.debug(test_param[0]["birthDate"])
