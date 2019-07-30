@@ -3,17 +3,22 @@
 # Author : zcl
 import pytest
 import random
-#
-# @pytest.mark.parametrize("x,y", [(1,2),(2,3),(3,4)])
-def test_foo(x,y):
-    print("测试数据组合：x->%s, y->%s" % (x,y))
-
-def test_foo1(*d):
-    print(d)
+import pytest
+def f(p1="",p2=""):
+    print(p2)
+    print(p1)
+    return 1
 
 
-file = [1,2,3,4]
-f = tuple(file)
-print(f)
-f1 = (str(f))
-print(type(f1))
+@pytest.mark.parametrize('p1,p2',[({"p11":5},{"p22":4}),])
+def test_f(p1,p2):
+    a = p1["p11"]
+    b = p2["p22"]
+    f(a,b)
+
+
+dic = {"p1":1,"p2":2,"p3":3}
+tu = (1,2,3)
+
+if __name__=="__main__":
+    pytest.main(["-s","test_pytest.py"])

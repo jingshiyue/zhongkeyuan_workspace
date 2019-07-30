@@ -14,18 +14,43 @@ logger = mylog.get_log().get_logger()
 # host = "https://192.168.5.15:4433/security-server"
 # certificate_file = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
 
-test_param = stru_params_tuple("my_interface_test.yml","test_api_face_security_face_check")
+test_param = change_params("my_interface_test.yml","test_api_face_security_face_check")
 print(test_param)
 
-# class Test_AirportProcess():
-#
-#     def setup_class(cls):
-#         cls.ap = AirportProcess()
-#
-#     @pytest.mark.parametrize(str(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))), test_param)
-#     def test_api_face_security_face_check(self,tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))):
-#         res = cls.ap.api_face_security_face_check(tuple(get_params_list("my_interface_test.yml","test_api_face_security_face_check"))
-#         # logger.debug(res.text)
-#
-# if __name__=="__main__":
-#     pytest.main(["-s","test_AirportProcess_https.py"])
+params_list = get_params_list("my_interface_test.yml","test_api_face_security_face_check")
+
+
+
+class Test_AirportProcess():
+
+    def setup_class(self):
+        self.ap = AirportProcess()
+
+    @pytest.mark.parametrize("params",test_param)
+    def test_api_face_security_face_check(self,params):
+        res = self.ap.api_face_security_face_check(
+                                 reqId=params["reqId"],
+                                 gateNo=params["gateNo"],
+                                 deviceId=params["deviceId"],
+                                 cardType=params["cardType"],
+                                 idCard=params["idCard"],
+                                 nameZh=params["nameZh"],
+                                 nameEn=params["nameEn"],
+                                 age=params["age"],
+                                 sex=params["sex"],
+                                 birthDate=params["birthDate"],
+                                 address=params["address"],
+                                 certificateValidity=params["certificateValidity"],
+                                 nationality=params["nationality"],
+                                 ethnic=params["ethnic"],
+                                 contactWay=params["contactWay"],
+                                 scenePhoto=params["scenePhoto"],
+                                 sceneFeature=params["sceneFeature"],
+                                 cardPhoto=params["cardPhoto"],
+                                 cardFeature=params["cardFeature"],
+                                 largePhoto=params["largePhoto"]
+        )
+        logger.debug(res.text)
+
+if __name__=="__main__":
+    pytest.main(["-s","test_AirportProcess_https.py"])
