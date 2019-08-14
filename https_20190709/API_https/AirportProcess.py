@@ -96,6 +96,7 @@ class AirportProcess(BlackListApi):
                                      largePhoto = ""
                                      ):
         """2.3.15自助验证闸机B门接口（二期）"""
+
         body = {"reqId": reqId,
                 "gateNo": gateNo,
                 "deviceId": deviceId,
@@ -114,28 +115,10 @@ class AirportProcess(BlackListApi):
                 "scenePhoto": scenePhoto,
                 "sceneFeature": sceneFeature,
                 "cardPhoto": cardPhoto,
-                "cardFeature": cardFeature
+                "cardFeature": cardFeature,
+                "largePhoto":largePhoto
                 }
-        # print(reqId,
-        #       gateNo,
-        #       deviceId,
-        #       cardType,
-        #       idCard,
-        #       nameZh,
-        #       nameEn,
-              # age,
-              # sex,
-              # birthDate,
-              # address,
-              # certificateValidity,
-              # nationality,
-              # ethnic,
-              # contactWay,
-              # scenePhoto,
-              # sceneFeature,
-              # cardPhoto,
-              # cardFeature
-              # )
+
         res = requests.post(url=self.B_security_face_check,
                             json=body,
                             headers=self.get_headers("/api/v1/face/security/face-check"),
@@ -267,10 +250,11 @@ class AirportProcess(BlackListApi):
                                        boardingNumber="010",
                                        seatId="001",
                                        startPort="HET",
-                                       flightDay="1",
+                                       flightDay="1",   #注意日期格式不是YYYYMMDD
                                        # faceFeature=get_txt(shiwanli8k_features+"/999.txt"),
                                        faceFeature = "",
-                                       kindType=0                  # 类型：0：刷票 1：刷票放行
+                                       kindType=0,                  # 类型：0：刷票 1：刷票放行
+                                       largePhoto=""
                                        ):
         """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
         body = {"reqId": reqId,
@@ -283,8 +267,10 @@ class AirportProcess(BlackListApi):
                 "startPort": startPort,
                 "flightDay": flightDay,
                 "faceFeature": faceFeature,
-                "kindType": kindType
+                "kindType": kindType,
+                "largePhoto":largePhoto
                 }
+
         res = requests.post(url=self.api_v1_face_security_manual_check,
                             headers=self.get_headers("/api/v1/face/security/manual-check"),
                             json=body,
@@ -498,6 +484,7 @@ class AirportProcess(BlackListApi):
                             headers=self.get_headers("/api/v1/face/data/flowback-query"),
                             json=body,
                             verify=self.certificate)
+        # breakpoint()
         res.close()
         return res
 
@@ -758,50 +745,50 @@ if __name__ == '__main__':
     #
 
     """2.3.20自助验证闸机A门接口（二期）"""
-    # res = AirportProcess().api_security_ticket_check(
-    #                               reqId=get_uuid(),     #必填
-    #                               gateNo="T1AJ1",      #必填,A B门T1AJ1，复核对应T1AF1
-    #                               deviceId="T1AJ001",  #必填
-    #                               cardType="0",         #必填
-    #                               idCard="500382199907027073",         #必填
-    #                               nameZh="西瓜07",
-    #                               nameEn="xigua",
-    #                               age=20,
-    #                               sex=1,
-    #                               birthDate="99-09-20",      #必填
-    #                               address="重庆市",
-    #                               certificateValidity="20120101-20230202",   #必填
-    #                               nationality="CHina",
-    #                               ethnic="汉族",
-    #                               contactWay="13512134390",
-    #                               cardPhoto=cardPhoto,     #必填
-    #                               fId=get_uuid()       #必填
-    #                               )
-    # #
-    # sleep(5)
+    res = AirportProcess().api_security_ticket_check(
+                                  reqId=get_uuid(),     #必填
+                                  gateNo="T1AJ1",      #必填,A B门T1AJ1，复核对应T1AF1
+                                  deviceId="T1AJ001",  #必填
+                                  cardType="0",         #必填
+                                  idCard="500382199907027074",         #必填
+                                  nameZh="西瓜08",
+                                  nameEn="xigua",
+                                  age=get_age("500382199907027073"),
+                                  sex=1,
+                                  birthDate="99-09-20",      #必填
+                                  address="重庆市",
+                                  certificateValidity="20120101-20230202",   #必填
+                                  nationality="CHina",
+                                  ethnic="汉族",
+                                  contactWay="13512134390",
+                                  cardPhoto=cardPhoto,     #必填
+                                  fId=get_uuid()       #必填
+                                  )
+    #
+    sleep(5)
     """2.3.21自助验证闸机B门接口（二期）"""
-    # res = AirportProcess().api_face_security_face_check(
-    #                                  reqId=get_uuid(),  #必填
-    #                                  gateNo="T1AJ1",#必填
-    #                                  deviceId="T1AJ001",#必填
-    #                                  cardType=0,#必填
-    #                                  idCard="500382199907027073",#必填
-    #                                  nameZh="西瓜07",
-    #                                  nameEn="xigua",
-    #                                  age=get_age("500382199907027073"),
-    #                                  sex="1",
-    #                                  birthDate=get_birthday("500382199907027072"),#必填
-    #                                  address="重庆市",
-    #                                  certificateValidity="20180101-20260203",#必填
-    #                                  nationality="China",#必填
-    #                                  ethnic="汉族",#必填
-    #                                  contactWay="13512134390",
-    #                                  scenePhoto=scenePhoto,#必填
-    #                                  sceneFeature=sceneFeature,#必填
-    #                                  cardPhoto=scenePhoto,#必填
-    #                                  cardFeature=cardFeature,#必填
-    #                                  largePhoto=largePhoto#必填
-    #                                 )
+    res = AirportProcess().api_face_security_face_check(
+                                     reqId=get_uuid(),  #必填
+                                     gateNo="T1AJ1",#必填
+                                     deviceId="T1AJ001",#必填
+                                     cardType=0,#必填
+                                     idCard="500382199907027074",#必填
+                                     nameZh="西瓜08",
+                                     nameEn="xigua",
+                                     age=get_age("500382199907027073"),
+                                     sex="1",
+                                     birthDate=get_birthday("500382199907027072"),#必填
+                                     address="重庆市",
+                                     certificateValidity="20180101-20260203",#必填
+                                     nationality="China",#必填
+                                     ethnic="汉族",#必填
+                                     contactWay="13512134390",
+                                     scenePhoto=scenePhoto,#必填
+                                     sceneFeature=sceneFeature,#必填
+                                     cardPhoto=scenePhoto,#必填
+                                     cardFeature=cardFeature,#必填
+                                     largePhoto=largePhoto#必填
+                                    )
 
     #
     """2.3.22	自助闸机复核接口（二期）  [1:N]"""
@@ -815,32 +802,32 @@ if __name__ == '__main__':
 
 
     """2.3.24	人员回查-安检、登机口接口（二期）"""
-    # res = AirportProcess().api_face_data_flowback_query(
-    #
-    # )
-    # logger.debug(res.text)
+    res = AirportProcess().api_face_data_flowback_query(
+
+    )
+    logger.debug(res.text)
     """2.3.17安检口人工放行接口（二期）"""
-    res = AirportProcess().api_face_security_manual_optcheck(
-        reqId=get_uuid(),
-        gateNo="T1AF1",  # 必填
-        deviceId="T1AJ001",  # 必填
-        cardType=0,  # 必填
-        idCard="500382199907027073",  # 必填
-        nameZh="西瓜07",
-        nameEn="xigua",
-        age=21,
-        sex=1,
-        birthDate=get_birthday("500382199907027073"),  # 必填
-        address="重庆",
-        certificateValidity="20120101-20230202",
-        nationality="中国",  # 必填
-        ethnic="汉",  # 必填
-        contactWay="13512134390",
-        scenePhoto=scenePhoto,# 必填
-        sceneFeature=sceneFeature,
-        cardPhoto=cardPhoto,  # 必填
-        cardFeature=cardFeature,  # 必填
-        largePhoto=largePhoto)  # 必填
+    # res = AirportProcess().api_face_security_manual_optcheck(
+    #     reqId=get_uuid(),
+    #     gateNo="T1AF1",  # 必填
+    #     deviceId="T1AJ001",  # 必填
+    #     cardType=0,  # 必填
+    #     idCard="500382199907027073",  # 必填
+    #     nameZh="西瓜07",
+    #     nameEn="xigua",
+    #     age=20,
+    #     sex=1,
+    #     birthDate=get_birthday("500382199907027073"),  # 必填
+    #     address="重庆",
+    #     certificateValidity="20120101-20230202",
+    #     nationality="中国",  # 必填
+    #     ethnic="汉",  # 必填
+    #     contactWay="13512134390",
+    #     scenePhoto=scenePhoto,# 必填
+    #     sceneFeature=sceneFeature,
+    #     cardPhoto=cardPhoto,  # 必填
+    #     cardFeature=cardFeature,  # 必填
+    #     largePhoto=largePhoto)  # 必填
     # #
 
     # res = AirportProcess().api_data_flight_activate(reqId=get_uuid(),
