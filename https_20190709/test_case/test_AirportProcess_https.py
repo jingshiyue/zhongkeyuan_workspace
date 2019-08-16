@@ -15,7 +15,7 @@ logger = mylog.get_log().get_logger()
 # certificate_file = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
 
 test_param = change_params("my_interface_test.yml","test_api_face_security_face_check")
-print(test_param)
+# print(test_param)
 
 params_list = get_params_list("my_interface_test.yml","test_api_face_security_face_check")
 
