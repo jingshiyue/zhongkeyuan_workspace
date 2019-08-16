@@ -39,12 +39,12 @@ def first():
 #
 # if __name__ == "__main__":
 #     pytest.main(["-s", "test_pytest.py"])
-import requests
-certificate = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"
-raw = open(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\0.jpg","rb")
-raw = raw.read()
 
-url = "https://192.168.5.15:9090/data-platform-server/api/v1/resource/group1/M00/A5/BF/wKgFDl1SYcCAUZ-WAAAyr2moAmg757.jpg"
-res = requests.get(url=url,verify=certificate)
-print(len(res.content))
-print((res.content))
+
+str = "验证 reqId="" 时，服务器能正确响应"
+l = str.split(" ")
+p1 = (l[1].split("=")[0])
+print(p1)
+p2 = (l[1].split("=")[1])
+print(p2)
+assert p2==""
