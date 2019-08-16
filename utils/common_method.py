@@ -9,7 +9,7 @@ from _datetime import timedelta
 import os
 import linecache,logging
 import re
-
+from . import excel_operate
 
 # from BaiTaAirport2_month.common.new_xingm import *
 from https_20190709.common.new_xingm import *
@@ -394,6 +394,35 @@ def get_headers(sign):
     sign = to_md5_str(sign + timestamp + apiKey)
     header = {"apiId": apiId, "sign": sign, "timestamp": timestamp}
     return header
+
+def read_case_title(exl,col_idx=0,read_row=0):
+    """
+    :param exl: excel 对象，如exl = excel_operate.excel_obj(sheet_name,exl_f_path)
+    :param col_idx: 标题所在的列
+    :param read_row: 读取第几行
+    :return:返回读取excel的大、小标题、关键参数
+    """
+    T1 = exl.get_col_data(0)  # 一级标题  列表形式
+    t1 = ""  #一级标题
+    tmp_idx = 0
+    for i in T1:
+        if i != "":
+            t1 = i
+        tmp_idx += 1
+        t2 = ""
+        if tmp_idx == read_row:
+            t2 = exl.get_cell_value(read_row,col_idx)   #子标题
+        if "=" in t2:
+            print("==================")
+            print(t1)
+            print(t2)
+            keyparam = t2.split(" ")[1].split("=")[0]
+            print(keyparam)
+            print("==================")
+            break
+    return t1,t2,keyparam
+
+
 
 if __name__ == '__main__':
     print(random.randint(0,8))
