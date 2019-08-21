@@ -5,7 +5,7 @@ from WuLanChaBuApi.TestApi.new_method import *
 class DataDict(object):
     """数据字典值信息"""
     def __init__(self):
-        self.hostaddress = "http://192.168.1.105:9009/face-door-guard/"    # face-door-guard/
+        self.hostaddress = "http://175.168.1.86:10010/"    # face-door-guard/
         self.allprocessdictquery = self.hostaddress + "api/v1/system/dictory/query"
         self.allprocessdictupdate = self.hostaddress + "api/v1/system/dictory/update"
         self.apiId = "123456"
@@ -27,7 +27,6 @@ class DataDict(object):
                             json=body,
                             verify=False
                             )
-        print(res.text)
         return res.text
 
     def api_system_dictory_update(self, body, sign_only="/api/v1/system/dictory/update"):
@@ -36,7 +35,6 @@ class DataDict(object):
                             headers=header,
                             json=body,
                             verify=False)
-        print(res.text)
         return res.text
 
 if __name__ == '__main__':

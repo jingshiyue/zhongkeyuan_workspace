@@ -1,13 +1,15 @@
 # coding:utf-8
 import pytest
 from WuLanChaBuApi.common.mysql_class import DataBase
-shujuku = DataBase("192.168.1.107", 3306, "root", "123456", "faceguard")
+shujuku = DataBase("192.168.5.15", 3306, "root", "123456", "faceguard")
 
 
 @pytest.fixture()
 def add_dict_delete():
     shujuku.open_data_base()
     sql = "insert into base_dictory_value VALUES ('19','4','2018-09-19 15:10:56','2018-09-19 15:10:59','android','1');"
+    shujuku.cud(sql)
+    sql = "insert into base_dictory_value VALUES ('20','4','2019-09-19 15:10:56','2019-09-19 15:10:59','android','1');"
     shujuku.cud(sql)
     print("增加一条字典值")
 

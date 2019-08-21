@@ -2,13 +2,16 @@
 # Time : 2019/8/15 17:23 
 # Author : zcl
 import requests
-from utils.common_method import *
+from Attendance_sys_CQZGH.utils.common_method import *
+from Attendance_sys_CQZGH.utils.Log import mylog
+logger = mylog.get_log().get_logger()
+
 
 class attendance_sys():
-    def __init__(self, host="http://192.168.5.15:4433/"):
+    def __init__(self, host="http://175.168.1.86:10010/",anjian_server=""):
         self.host = host
-        self.anjian_server = ""
-        self.api_v1_attendence_rule_save = self.host + self.anjian_server + "api/v1/attendence/rule/save"
+        self.anjian_server = anjian_server
+        self._api_v1_attendence_rule_save = self.host + self.anjian_server + "api/v1/attendence/rule/save"
         self.api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
         self.api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
         self.api_v1_attendence_rule_delete = self.host + self.anjian_server + "api/v1/attendence/rule/delete"
@@ -30,20 +33,36 @@ class attendance_sys():
         self.api_v1_attendence_record_query = self.host + self.anjian_server + "api/v1/attendence/record/query"
         self.api_v1_attendence_record_export = self.host + self.anjian_server + "api/v1/attendence/record/export"
         self.api_v1_attendence_record_export_progress = self.host + self.anjian_server + "api/v1/attendence/record/export/progress"
+        self.api_v1_attendence_special_save = self.host + self.anjian_server + "/api/v1/attendence/special/save"
+        self.api_v1_attendence_special_update = self.host + self.anjian_server + "/api/v1/attendence/special/update"
+        self.api_v1_attendence_special_query = self.host + self.anjian_server + "/api/v1/attendence/special/query"
+        self.api_v1_attendence_special_delete = self.host + self.anjian_server + "/api/v1/attendence/special/delete"
+
+    def get_headers(self,sign):
+        """
+        sing:"/api/v1/face/backlist/save""
+        """
+        apiId = "123456"
+        apiKey = "1285384ddfb057814bad78127bc789be"
+        timestamp = get_time_stamp()
+        sign = to_md5_str(sign + timestamp + apiKey)
+        header = {"apiId": apiId, "sign": sign, "timestamp": timestamp}
+        return header
 
     """3.9.1.1考勤规则增加接口"""
     def api_v1_attendence_rule_save(self,
                                     reqId=get_uuid(),
-                                    ruleName = "AM",  # 规则名称
+                                    ruleName = "AM",  # 规则名称  {"0":"AM-早上","1":"AMLate-早上迟到","2":"NM-中午","3":"NMLate-中午迟到","4":"PM-下午","5":"PMLate-下午迟到"}
                                     startTime = "083000",  # 开始时间HHmmss
                                     endTime = "090000"): # 结束时间HHmmss
+        logger.info(self._api_v1_attendence_rule_save)
         body = {
             "reqId": reqId,
             "ruleName": ruleName,
             "startTime": startTime,
             "endTime": endTime
         }
-        res = requests.post(url=self.api_v1_attendence_rule_save,
+        res = requests.post(url=self._api_v1_attendence_rule_save,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/rule/save"),
                             )
@@ -117,371 +136,6 @@ class attendance_sys():
         res.close()
         return res
 
-    """3.9.2.1考勤登记-请假增加接口"""
-    def api_v1_attendence_leave_save(self,
-                                     reqId=get_uuid(),
-                                     personCode="",#员工编码	是
-                                     faceName="",#员工姓名	是
-                                     deptName="",#部门名称	是
-                                     deptId="",#部门ID	是
-                                     facePersonSex="",#员工性别	是
-                                     recordType="",#0-请假，1-公务外出，2-临时外出，3-补卡	是
-                                     startTime="",#开始时间HHmmss	是
-                                     endTime="",#结束时间HHmmss	是
-                                     remark="",#备注	是
-                                     ):
-        body = {
-                "reqId": reqId,
-                "personCode": personCode,
-                "faceName": faceName,
-                "deptName": deptName,
-                "deptId": deptId,
-                "facePersonSex": facePersonSex,
-                "recordType": recordType,
-                "startTime": startTime,
-                "endTime": endTime,
-                "remark": remark,
-        }
-
-        res = requests.post(url=self.api_v1_attendence_leave_save,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/leave/save"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.2考勤登记-请假修改接口"""
-    def api_v1_attendence_leave_update(self,
-                                     reqId=get_uuid(),
-                                     id = "",#请假的ID  是
-                                     startTime="",  # 开始时间HHmmss	是
-                                     endTime="",  # 结束时间HHmmss	是
-                                     remark="",  # 备注	是
-                                     ):
-        body = {
-            "reqId":reqId,
-            "id":id,
-            "startTime":startTime,
-            "endTime":endTime,
-            "remark":remark,
-        }
-        res = requests.post(url=self.api_v1_attendence_leave_update,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/leave/update"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.3考勤登记-请假查询接口"""
-    def api_v1_attendence_leave_query(self,
-                                      reqId=get_uuid(),  # 32位UUID  是
-                                      name="西瓜",  # 员工名称	否
-                                      personCode="",  # 员工编码	否
-                                      pageNum="",  # 分页的起始页，从1开始	是
-                                      pageSize="",  # 分页的大小	是
-                                      isCount="",  # 为1表是返回总数	是
-                                      deptId="",  # 部门ID，为空字符串，表示所有部门 是
-                                      startTime="",  # yyyyMMdd	是
-                                      endTime="",  # yyyyMMdd 是
-                                      ):
-        body = {
-            "reqId": reqId,
-            "name": name,
-            "personCode": personCode,
-            "pageNum": pageNum,
-            "pageSize": pageSize,
-            "isCount": isCount,
-            "deptId": deptId,
-            "startTime": startTime,
-            "endTime": endTime
-        }
-        res = requests.post(url=self.api_v1_attendence_leave_query,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/leave/query"),
-                            )
-        res.close()
-        return res
-
-
-    """3.9.2.3考勤登记-请假查询接口"""
-    def api_v1_attendence_leave_delete(self,
-                                      reqId=get_uuid(),  # 32位UUID  是
-                                      ids = ""#设备id，支持逗号“，”隔开  是
-                                      ):
-        body = {
-            "reqId": reqId,
-            "ids":ids
-        }
-        res = requests.post(url=self.api_v1_attendence_leave_delete,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/leave/delete"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.5考勤登记-公务外出增加接口"""
-    def api_v1_attendence_businessout_save(self,
-                                           reqId=get_uuid(),  # 32位UUID	是
-                                           personCode="",  # 员工编码	是
-                                           faceName="",  # 员工姓名	是
-                                           deptName="",  # 部门名称	是
-                                           deptId="",  # 部门ID	是
-                                           facePersonSex="",  # 员工性别	是
-                                           recordType="",  # 0-请假，1-公务外出，2-临时外出，3-补卡	是
-                                           startTime="",  # 开始时间HHmmss	是
-                                           endTime="",  # 结束时间HHmmss	是
-                                           remark=""  # 备注	是
-                                           ):
-        body = {
-            "reqId": reqId,
-            "personCode": personCode,
-            "faceName": faceName,
-            "deptName": deptName,
-            "deptId": deptId,
-            "facePersonSex": facePersonSex,
-            "recordType": recordType,
-            "startTime": startTime,
-            "endTime": endTime,
-            "remark": remark
-        }
-        res = requests.post(url=self.api_v1_attendence_businessout_save,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/businessout/save"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.6考勤登记-公务外出修改接口"""
-    def api_v1_attendence_businessout_update(self,
-                                             reqId=get_uuid(),  # 32位UUID	是
-                                             id="",  # 请假的ID	是
-                                             startTime="",  # 开始时间HHmmss	是
-                                             endTime="",  # 结束时间HHmmss	是
-                                             remark="",  # 备注	是
-                                             ):
-        body = {
-            "reqId": reqId,
-            "id": id,
-            "startTime": startTime,
-            "endTime": endTime,
-            "remark": remark,
-        }
-        res = requests.post(url=self.api_v1_attendence_businessout_update,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/ businessout/update"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.7考勤登记-公务外出查询接口"""
-    def api_v1_attendence_businessout_query(self,
-                                             reqId="",  # 32位UUID	是
-                                             name="",  # 员工名称	否
-                                             personCode="",  # 员工编码	否
-                                             pageNum="",  # 分页的起始页，从1开始	是
-                                             pageSize="",  # 分页的大小	是
-                                             isCount="",  # 为1表是返回总数	是
-                                             deptId="",  # 部门ID，为空字符串，表示所有部门	是
-                                             startTime="",  # yyyyMMdd	是
-                                             endTime="",  # yyyyMMdd	是
-                                             ):
-        body = {
-            "reqId": reqId,
-            "name": name,
-            "personCode": personCode,
-            "pageNum": pageNum,
-            "pageSize": pageSize,
-            "isCount": isCount,
-            "deptId": deptId,
-            "startTime": startTime,
-            "endTime": endTime,
-        }
-        res = requests.post(url=self.api_v1_attendence_businessout_query,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/businessout/query"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.8考勤登记-公务外出删除接口"""
-    def api_v1_attendence_businessout_delete(self,
-                                             reqId=get_uuid(),  # 32位UUID	是
-                                             ids=""#设备id，支持逗号“，”隔开   是
-                                             ):
-        body = {
-            "reqId": reqId,
-            "ids":ids
-        }
-        res = requests.post(url=self.api_v1_attendence_businessout_delete,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/businessout/delete"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.9考勤登记-临时外出增加接口"""
-    def api_v1_attendence_temporaryout_save(self,
-                                            reqId=get_uuid(),  # 32位UUID	是
-                                            personCode="",  # 员工编码	是
-                                            faceName="",  # 员工姓名	是
-                                            deptName="",  # 部门名称	是
-                                            deptId="",  # 部门ID	是
-                                            facePersonSex="",  # 员工性别	是
-                                            recordType="",  # 0-请假，1-公务外出，2-临时外出，3-补卡	是
-                                            startTime="",  # 开始时间HHmmss	是
-                                            endTime="",  # 结束时间HHmmss	是
-                                            remark="",  # 备注	是
-
-                                            ):
-        body = {
-            "reqId": reqId,
-            "personCode": personCode,
-            "faceName": faceName,
-            "deptName": deptName,
-            "deptId": deptId,
-            "facePersonSex": facePersonSex,
-            "recordType": recordType,
-            "startTime": startTime,
-            "endTime": endTime,
-            "remark": remark
-
-        }
-        res = requests.post(url=self.api_v1_attendence_temporaryout_save,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/temporaryout/save"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.10考勤登记-临时外出修改接口"""
-    def api_v1_attendence_temporaryout_update(self,
-                                              reqId=get_uuid(),  # 32位UUID	是
-                                              id="",  # 请假的ID	是
-                                              startTime="",  # 开始时间HHmmss	是
-                                              endTime="",  # 结束时间HHmmss	是
-                                              remark="",  # 备注	是
-                                              ):
-        body = {
-            "reqId":reqId,
-            "id":id,
-            "startTime":startTime,
-            "endTime":endTime,
-            "remark":remark
-        }
-        res = requests.post(url=self.api_v1_attendence_temporaryout_update,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/temporaryout/update"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.11考勤登记-临时外出查询接口"""
-    def api_v1_attendence_temporaryout_query(self,
-                                             reqId="",  # 32位UUID	是
-                                             name="",  # 员工名称	否
-                                             personCode="",  # 员工编码	否
-                                             pageNum="",  # 分页的起始页，从1开始	是
-                                             pageSize="",  # 分页的大小	是
-                                             isCount="",  # 为1表是返回总数	是
-                                             deptId="",  # 部门ID，为空字符串，表示所有部门	是
-                                             startTime="",  # yyyyMMdd	是
-                                             endTime="",  # yyyyMMdd	是
-                                             ):
-        body = {
-            "reqId": reqId,
-            "name": name,
-            "personCode": personCode,
-            "pageNum": pageNum,
-            "pageSize": pageSize,
-            "isCount": isCount,
-            "deptId": deptId,
-            "startTime": startTime,
-            "endTime": endTime
-        }
-        res = requests.post(url=self.api_v1_attendence_temporaryout_query,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/temporaryout/query"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.12考勤登记-临时外出删除接口"""
-    def api_v1_attendence_temporaryout_delete(self,
-                                             reqId="",  # 32位UUID	是
-                                             ids=""# 设备id，支持逗号“，”隔开
-                                             ):
-        body = {
-            "reqId": reqId,
-            "ids":ids
-        }
-        res = requests.post(url=self.api_v1_attendence_temporaryout_query,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/temporaryout/delete"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.13考勤登记-补卡增加接口"""
-    def api_v1_attendence_repunching_save(self,
-                                          reqId="",  # 32位UUID	是
-                                          personCode="",  # 员工编码	是
-                                          faceName="",  # 员工姓名	是
-                                          deptName="",  # 部门名称	是
-                                          deptId="",  # 部门ID	是
-                                          facePersonSex="",  # 员工性别	是
-                                          recordType="",  # 0-请假，1-公务外出，2-临时外出，3-补卡	是
-                                          startTime="",  # 开始时间HHmmss	是
-                                          endTime="",  # 结束时间HHmmss	是
-                                          remark="",  # 备注	是
-                                          ):
-        body = {
-            "reqId":reqId,
-            "personCode":personCode,
-            "faceName":faceName,
-            "deptName":deptName,
-            "deptId":deptId,
-            "facePersonSex":facePersonSex,
-            "recordType":recordType,
-            "startTime":startTime,
-            "endTime":endTime,
-            "remark":remark,
-        }
-        res = requests.post(url=self.api_v1_attendence_repunching_save,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/repunching/save"),
-                            )
-        res.close()
-        return res
-
-    """3.9.2.14考勤登记-补卡查询接口"""
-    def api_v1_attendence_repunching_query(self,
-                                          reqId="",  # 32位UUID	是
-                                          name="",  # 员工名称	否
-                                          personCode="",  # 员工编码	否
-                                          pageNum="",  # 分页的起始页，从1开始	是
-                                          pageSize="",  # 分页的大小	是
-                                          isCount="",  # 为1表是返回总数	是
-                                          deptId="",  # 部门ID，为空字符串，表示所有部门	是
-                                          startTime="",  # yyyyMMdd	是
-                                          endTime="",  # yyyyMMdd	是
-                                          ):
-        body = {
-            "reqId":reqId,
-            "name":name,
-            "personCode":personCode,
-            "pageNum":pageNum,
-            "pageSize":pageSize,
-            "isCount":isCount,
-            "deptId":deptId,
-            "startTime":startTime,
-            "endTime":endTime,
-        }
-        res = requests.post(url=self.api_v1_attendence_repunching_query,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/repunching/query"),
-                            )
-        res.close()
-        return res
 
     """3.9.3考勤流水记录查询接口"""
     def api_v1_attendence_record_query(self,
@@ -553,3 +207,112 @@ class attendance_sys():
         res.close()
         return res
 
+
+    """考勤登记-增加接口"""
+    def api_v1_attendence_special_save(self,
+                                       reqId="",  # 必须		32位UUID
+                                       personCode="",  # 必须		员工编码
+                                       faceName="",  # 必须		员工姓名
+                                       deptName="",  # 必须		部门名称
+                                       deptId="",  # 必须		部门ID
+                                       facePersonSex="",  # 必须		员工性别
+                                       recordType="",  # 必须		0-请假，1-公务外出，2-临时外出，3-补卡
+                                       startTime="",  # 必须		开始时间yyyyMMddHHmmss
+                                       endTime="",  # 必须		结束时间yyyyMMddHHmmss
+                                       remark="",  # 必须		备注
+                                       ):
+
+        body = {
+            "reqId": reqId,
+            "personCode": personCode,
+            "faceName": faceName,
+            "deptName": deptName,
+            "deptId": deptId,
+            "facePersonSex": facePersonSex,
+            "recordType": recordType,
+            "startTime": startTime,
+            "endTime": endTime,
+            "remark": remark,
+        }
+        res = requests.post(url=self.api_v1_attendence_special_save,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/special/save"),
+                            )
+        res.close()
+        return res
+
+
+
+    """考勤登记-更新接口"""
+    def api_v1_attendence_special_update(self,
+                                       reqId="",  # 必须		32位UUID
+                                       id="",# 必须
+                                       startTime="",  # 必须		开始时间yyyyMMddHHmmss
+                                       endTime="",  # 必须		结束时间yyyyMMddHHmmss
+                                       remark="",  # 必须		备注
+                                       ):
+        body = {
+            "reqId": reqId,
+            "id":id,
+            "startTime": startTime,
+            "endTime": endTime,
+            "remark": remark,
+        }
+        res = requests.post(url=self.api_v1_attendence_special_update,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/special/update"),
+                            )
+        res.close()
+        return res
+
+
+
+"""考勤登记-查询接口"""
+def api_v1_attendence_special_query(self,
+                                    reqId="",  # 必须    32位UUID
+                                    name="",  # 非必须    员工姓名
+                                    personCode="",  # 非必须    员工编码
+                                    pageNum="",  # 必须    页码
+                                    pageSize="",  # 必须    页大小
+                                    recordType="",  # 非必须    0-请假，1-公务外出，2-临时外出，3-补卡
+                                    isCount="",  # 必须    为1表是返回总数
+                                    startTime="",  # 必须    开始时间yyyyMMdd
+                                    endTime="",  # 必须    结束时间yyyyMMdd
+                                    deptId="",  # 必须    部门ID，为空字符串，表示所有部门
+                                    ):
+    body = {
+        "reqId": reqId,
+        "name": name,
+        "personCode": personCode,
+        "pageNum": pageNum,
+        "pageSize": pageSize,
+        "recordType": recordType,
+        "isCount": isCount,
+        "startTime": startTime,
+        "endTime": endTime,
+        "deptId": deptId,
+    }
+    res = requests.post(url=self.api_v1_attendence_special_query,
+                        json=body,
+                        headers=self.get_headers("/api/v1/attendence/special/query"),
+                        )
+    res.close()
+    return res
+
+
+
+"""考勤登记-查询接口"""
+def api_v1_attendence_special_delete(self,
+                                     reqId="",  # 必须		32位UUID
+                                     ids="",  # 必须
+                                     ):
+    body = {
+        "reqId": reqId,
+        "ids": ids,
+    }
+    res = requests.post(url=self.api_v1_attendence_special_delete,
+                        json=body,
+                        headers=self.get_headers("/api/v1/attendence/special/delete"),
+                        )
+    res.close()
+    return res

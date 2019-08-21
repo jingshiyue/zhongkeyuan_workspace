@@ -33,6 +33,8 @@ class Log:
                 self.logger.setLevel(logging.DEBUG)
 
                 # 2、创建一个handler，用于写入日志文件
+                if not os.path.exists(parentdir+"//Log"):
+                        os.mkdir(parentdir+"//Log")
                 fh = logging.FileHandler(log_file)
                 fh.setLevel(logging.DEBUG)
                 fh.setFormatter(formatter)  #给handler添加formatter

@@ -2,7 +2,6 @@
 import pytest
 import json
 from WuLanChaBuApi.TestApi.TestDataDict.DataDict import *
-
 DataDict_new = DataDict()
 
 
@@ -40,6 +39,7 @@ def test_04():
 
 def test_05(add_dict_delete):
     """测试能正确查询出字典值数据"""
+    print("Test_05")
     body = {"reqId": get_uuid()}
     res = DataDict_new.api_system_dictory_query(body)
     json_data = json.loads(res)
