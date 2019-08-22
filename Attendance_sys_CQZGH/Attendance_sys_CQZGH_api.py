@@ -12,31 +12,31 @@ class attendance_sys():
         self.host = host
         self.anjian_server = anjian_server
         self._api_v1_attendence_rule_save = self.host + self.anjian_server + "api/v1/attendence/rule/save"
-        self.api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
-        self.api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
-        self.api_v1_attendence_rule_delete = self.host + self.anjian_server + "api/v1/attendence/rule/delete"
-        self.api_v1_attendence_rule_query = self.host + self.anjian_server + "api/v1/attendence/rule/query"
-        self.api_v1_attendence_leave_save = self.host + self.anjian_server + "api/v1/attendence/leave/save"
-        self.api_v1_attendence_leave_update = self.host + self.anjian_server + "api/v1/attendence/leave/update"
-        self.api_v1_attendence_leave_query = self.host + self.anjian_server + "api/v1/attendence/leave/query"
-        self.api_v1_attendence_leave_delete = self.host + self.anjian_server + "api/v1/attendence/leave/delete"
-        self.api_v1_attendence_businessout_save = self.host + self.anjian_server + "api/v1/attendence/businessout/save"
-        self.api_v1_attendence_businessout_update = self.host + self.anjian_server + "api/v1/attendence/businessout/update"
-        self.api_v1_attendence_businessout_query = self.host + self.anjian_server + "api/v1/attendence/businessout/query"
-        self.api_v1_attendence_businessout_delete = self.host + self.anjian_server + "api/v1/attendence/businessout/delete"
-        self.api_v1_attendence_temporaryout_save = self.host + self.anjian_server + "api/v1/attendence/temporaryout/save"
-        self.api_v1_attendence_temporaryout_update = self.host + self.anjian_server + "api/v1/attendence/temporaryout/update"
-        self.api_v1_attendence_temporaryout_query = self.host + self.anjian_server + "api/v1/attendence/temporaryout/query"
-        self.api_v1_attendence_temporaryout_query = self.host + self.anjian_server + "api/v1/attendence/temporaryout/query"
-        self.api_v1_attendence_repunching_save = self.host + self.anjian_server + "api/v1/attendence/repunching/save"
-        self.api_v1_attendence_repunching_query = self.host + self.anjian_server + "api/v1/attendence/repunching/query"
-        self.api_v1_attendence_record_query = self.host + self.anjian_server + "api/v1/attendence/record/query"
-        self.api_v1_attendence_record_export = self.host + self.anjian_server + "api/v1/attendence/record/export"
-        self.api_v1_attendence_record_export_progress = self.host + self.anjian_server + "api/v1/attendence/record/export/progress"
-        self.api_v1_attendence_special_save = self.host + self.anjian_server + "/api/v1/attendence/special/save"
-        self.api_v1_attendence_special_update = self.host + self.anjian_server + "/api/v1/attendence/special/update"
-        self.api_v1_attendence_special_query = self.host + self.anjian_server + "/api/v1/attendence/special/query"
-        self.api_v1_attendence_special_delete = self.host + self.anjian_server + "/api/v1/attendence/special/delete"
+        self._api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
+        self._api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
+        self._api_v1_attendence_rule_delete = self.host + self.anjian_server + "api/v1/attendence/rule/delete"
+        self._api_v1_attendence_rule_query = self.host + self.anjian_server + "api/v1/attendence/rule/query"
+        self._api_v1_attendence_leave_save = self.host + self.anjian_server + "api/v1/attendence/leave/save"
+        self._api_v1_attendence_leave_update = self.host + self.anjian_server + "api/v1/attendence/leave/update"
+        self._api_v1_attendence_leave_query = self.host + self.anjian_server + "api/v1/attendence/leave/query"
+        self._api_v1_attendence_leave_delete = self.host + self.anjian_server + "api/v1/attendence/leave/delete"
+        self._api_v1_attendence_businessout_save = self.host + self.anjian_server + "api/v1/attendence/businessout/save"
+        self._api_v1_attendence_businessout_update = self.host + self.anjian_server + "api/v1/attendence/businessout/update"
+        self._api_v1_attendence_businessout_query = self.host + self.anjian_server + "api/v1/attendence/businessout/query"
+        self._api_v1_attendence_businessout_delete = self.host + self.anjian_server + "api/v1/attendence/businessout/delete"
+        self._api_v1_attendence_temporaryout_save = self.host + self.anjian_server + "api/v1/attendence/temporaryout/save"
+        self._api_v1_attendence_temporaryout_update = self.host + self.anjian_server + "api/v1/attendence/temporaryout/update"
+        self._api_v1_attendence_temporaryout_query = self.host + self.anjian_server + "api/v1/attendence/temporaryout/query"
+        self._api_v1_attendence_temporaryout_query = self.host + self.anjian_server + "api/v1/attendence/temporaryout/query"
+        self._api_v1_attendence_repunching_save = self.host + self.anjian_server + "api/v1/attendence/repunching/save"
+        self._api_v1_attendence_repunching_query = self.host + self.anjian_server + "api/v1/attendence/repunching/query"
+        self._api_v1_attendence_record_query = self.host + self.anjian_server + "api/v1/attendence/record/query"
+        self._api_v1_attendence_record_export = self.host + self.anjian_server + "api/v1/attendence/record/export"
+        self._api_v1_attendence_record_export_progress = self.host + self.anjian_server + "api/v1/attendence/record/export/progress"
+        self._api_v1_attendence_special_save = self.host + self.anjian_server + "/api/v1/attendence/special/save"
+        self._api_v1_attendence_special_update = self.host + self.anjian_server + "/api/v1/attendence/special/update"
+        self._api_v1_attendence_special_query = self.host + self.anjian_server + "/api/v1/attendence/special/query"
+        self._api_v1_attendence_special_delete = self.host + self.anjian_server + "/api/v1/attendence/special/delete"
 
     def get_headers(self,sign):
         """
@@ -49,13 +49,14 @@ class attendance_sys():
         header = {"apiId": apiId, "sign": sign, "timestamp": timestamp}
         return header
 
+
     """3.9.1.1考勤规则增加接口"""
     def api_v1_attendence_rule_save(self,
                                     reqId=get_uuid(),
                                     ruleName = "AM",  # 规则名称  {"0":"AM-早上","1":"AMLate-早上迟到","2":"NM-中午","3":"NMLate-中午迟到","4":"PM-下午","5":"PMLate-下午迟到"}
                                     startTime = "083000",  # 开始时间HHmmss
-                                    endTime = "090000"): # 结束时间HHmmss
-        logger.info(self._api_v1_attendence_rule_save)
+                                    endTime = "090000", # 结束时间HHmmss
+                                    ):
         body = {
             "reqId": reqId,
             "ruleName": ruleName,
@@ -64,17 +65,17 @@ class attendance_sys():
         }
         res = requests.post(url=self._api_v1_attendence_rule_save,
                             json=body,
-                            headers=self.get_headers("/api/v1/attendence/rule/save"),
+                           headers=self.get_headers("/api/v1/attendence/rule/save")
                             )
         res.close()
         return res
 
     """3.9.1.2考勤规则更新接口"""
     def api_v1_attendence_rule_update(self,
-                                      reqId=get_uuid(),
-                                      id="",  # 需要修改的规则的ID
-                                      startTime="083000",  # 开始时间HHmmss
-                                      endTime="090000"):  # 结束时间HHmmss
+                                      reqId=get_uuid(),#必须
+                                      id="",  # 必须  需要修改的规则的ID
+                                      startTime="083000",  #必须 开始时间HHmmss
+                                      endTime="090000"):  #必须 结束时间HHmmss
 
         body = {
             "reqId": reqId,
@@ -83,7 +84,7 @@ class attendance_sys():
             "endTime": endTime
         }
 
-        res = requests.post(url=self.api_v1_attendence_rule_update,
+        res = requests.post(url=self._api_v1_attendence_rule_update,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/rule/update"),
                             )
@@ -93,14 +94,14 @@ class attendance_sys():
     """3.9.1.3考勤规则删除接口（不建议使用）"""
     def api_v1_attendence_rule_delete(self,
                                       reqId=get_uuid(),
-                                      id=""):  # 设备id，支持逗号“，”隔开
+                                      ids=""):  # 设备id，支持逗号“，”隔开
 
         body = {
             "reqId": reqId,
-            "id": id,
+            "ids": ids,
         }
 
-        res = requests.post(url=self.api_v1_attendence_rule_update,
+        res = requests.post(url=self._api_v1_attendence_rule_delete,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/rule/delete"),
                             )
@@ -108,13 +109,13 @@ class attendance_sys():
         return res
 
     """3.9.1.4考勤规则查询接口"""
-    def api_v1_attendence_rule_delete(self,
+    def api_v1_attendence_rule_query(self,
                                       reqId=get_uuid()):
         body = {
             "reqId": reqId,
             "id": id,
         }
-        res = requests.post(url=self.api_v1_attendence_rule_delete,
+        res = requests.post(url=self.api_v1_attendence_rule_query,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/rule/query"),
                             )
@@ -129,7 +130,7 @@ class attendance_sys():
         body = {
             "reqId": reqId
         }
-        res = requests.post(url=self.api_v1_attendence_rule_query,
+        res = requests.post(url=self._api_v1_attendence_rule_query,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/rule/query"),
                             )
@@ -160,7 +161,7 @@ class attendance_sys():
             "startTime":startTime,
             "endTime":endTime,
         }
-        res = requests.post(url=self.api_v1_attendence_record_query,
+        res = requests.post(url=self._api_v1_attendence_record_query,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/record/query"),
                             )
@@ -184,7 +185,7 @@ class attendance_sys():
             "endTime":endTime,
             "deptId":deptId
         }
-        res = requests.post(url=self.api_v1_attendence_record_export,
+        res = requests.post(url=self._api_v1_attendence_record_export,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/record/export"),
                             )
@@ -200,7 +201,7 @@ class attendance_sys():
             "reqId":reqId,
             "serialNum":serialNum,
         }
-        res = requests.post(url=self.api_v1_attendence_record_export_progress,
+        res = requests.post(url=self._api_v1_attendence_record_export_progress,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/record/export/progress"),
                             )
@@ -234,7 +235,7 @@ class attendance_sys():
             "endTime": endTime,
             "remark": remark,
         }
-        res = requests.post(url=self.api_v1_attendence_special_save,
+        res = requests.post(url=self._api_v1_attendence_special_save,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/special/save"),
                             )
@@ -258,7 +259,7 @@ class attendance_sys():
             "endTime": endTime,
             "remark": remark,
         }
-        res = requests.post(url=self.api_v1_attendence_special_update,
+        res = requests.post(url=self._api_v1_attendence_special_update,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/special/update"),
                             )
@@ -292,7 +293,7 @@ def api_v1_attendence_special_query(self,
         "endTime": endTime,
         "deptId": deptId,
     }
-    res = requests.post(url=self.api_v1_attendence_special_query,
+    res = requests.post(url=self._api_v1_attendence_special_query,
                         json=body,
                         headers=self.get_headers("/api/v1/attendence/special/query"),
                         )
@@ -310,7 +311,7 @@ def api_v1_attendence_special_delete(self,
         "reqId": reqId,
         "ids": ids,
     }
-    res = requests.post(url=self.api_v1_attendence_special_delete,
+    res = requests.post(url=self._api_v1_attendence_special_delete,
                         json=body,
                         headers=self.get_headers("/api/v1/attendence/special/delete"),
                         )

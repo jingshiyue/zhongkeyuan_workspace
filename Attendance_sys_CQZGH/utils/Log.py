@@ -41,7 +41,7 @@ class Log:
 
                 #3、 再创建一个handler，用于输出到控制台
                 ch = logging.StreamHandler()
-                ch.setLevel(logging.INFO)
+                ch.setLevel(logging.DEBUG)
                 #ch.setLevel(logging.INFO)
                 ch.setFormatter(formatter)  #给handler添加formatter
 
