@@ -100,7 +100,6 @@ class attendance_sys():
             "reqId": reqId,
             "ids": ids,
         }
-
         res = requests.post(url=self._api_v1_attendence_rule_delete,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/rule/delete"),
@@ -211,7 +210,7 @@ class attendance_sys():
 
     """考勤登记-增加接口"""
     def api_v1_attendence_special_save(self,
-                                       reqId="",  # 必须		32位UUID
+                                       reqId=get_uuid(),  # 必须		32位UUID
                                        personCode="",  # 必须		员工编码
                                        faceName="",  # 必须		员工姓名
                                        deptName="",  # 必须		部门名称
@@ -246,7 +245,7 @@ class attendance_sys():
 
     """考勤登记-更新接口"""
     def api_v1_attendence_special_update(self,
-                                       reqId="",  # 必须		32位UUID
+                                       reqId=get_uuid(),  # 必须		32位UUID
                                        id="",# 必须
                                        startTime="",  # 必须		开始时间yyyyMMddHHmmss
                                        endTime="",  # 必须		结束时间yyyyMMddHHmmss
@@ -268,52 +267,52 @@ class attendance_sys():
 
 
 
-"""考勤登记-查询接口"""
-def api_v1_attendence_special_query(self,
-                                    reqId="",  # 必须    32位UUID
-                                    name="",  # 非必须    员工姓名
-                                    personCode="",  # 非必须    员工编码
-                                    pageNum="",  # 必须    页码
-                                    pageSize="",  # 必须    页大小
-                                    recordType="",  # 非必须    0-请假，1-公务外出，2-临时外出，3-补卡
-                                    isCount="",  # 必须    为1表是返回总数
-                                    startTime="",  # 必须    开始时间yyyyMMdd
-                                    endTime="",  # 必须    结束时间yyyyMMdd
-                                    deptId="",  # 必须    部门ID，为空字符串，表示所有部门
-                                    ):
-    body = {
-        "reqId": reqId,
-        "name": name,
-        "personCode": personCode,
-        "pageNum": pageNum,
-        "pageSize": pageSize,
-        "recordType": recordType,
-        "isCount": isCount,
-        "startTime": startTime,
-        "endTime": endTime,
-        "deptId": deptId,
-    }
-    res = requests.post(url=self._api_v1_attendence_special_query,
-                        json=body,
-                        headers=self.get_headers("/api/v1/attendence/special/query"),
-                        )
-    res.close()
-    return res
+    """考勤登记-查询接口"""
+    def api_v1_attendence_special_query(self,
+                                        reqId="",  # 必须    32位UUID
+                                        name="",  # 非必须    员工姓名
+                                        personCode="",  # 非必须    员工编码
+                                        pageNum="",  # 必须    页码
+                                        pageSize="",  # 必须    页大小
+                                        recordType="",  # 非必须    0-请假，1-公务外出，2-临时外出，3-补卡
+                                        isCount="",  # 必须    为1表是返回总数
+                                        startTime="",  # 必须    开始时间yyyyMMdd
+                                        endTime="",  # 必须    结束时间yyyyMMdd
+                                        deptId="",  # 必须    部门ID，为空字符串，表示所有部门
+                                        ):
+        body = {
+            "reqId": reqId,
+            "name": name,
+            "personCode": personCode,
+            "pageNum": pageNum,
+            "pageSize": pageSize,
+            "recordType": recordType,
+            "isCount": isCount,
+            "startTime": startTime,
+            "endTime": endTime,
+            "deptId": deptId,
+        }
+        res = requests.post(url=self._api_v1_attendence_special_query,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/special/query"),
+                            )
+        res.close()
+        return res
 
 
 
-"""考勤登记-查询接口"""
-def api_v1_attendence_special_delete(self,
-                                     reqId="",  # 必须		32位UUID
-                                     ids="",  # 必须
-                                     ):
-    body = {
-        "reqId": reqId,
-        "ids": ids,
-    }
-    res = requests.post(url=self._api_v1_attendence_special_delete,
-                        json=body,
-                        headers=self.get_headers("/api/v1/attendence/special/delete"),
-                        )
-    res.close()
-    return res
+    """考勤登记-查询接口"""
+    def api_v1_attendence_special_delete(self,
+                                         reqId="",  # 必须		32位UUID
+                                         ids="",  # 必须
+                                         ):
+        body = {
+            "reqId": reqId,
+            "ids": ids,
+        }
+        res = requests.post(url=self._api_v1_attendence_special_delete,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/special/delete"),
+                            )
+        res.close()
+        return res

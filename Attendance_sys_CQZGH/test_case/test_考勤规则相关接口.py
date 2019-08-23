@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 # Time : 2019/8/21 17:44 
 # Author : zcl
+
 import pytest
 import json,sys
+sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import attendance_sys
 from Attendance_sys_CQZGH.utils.Log import mylog
 logger = mylog.get_log().get_logger()
@@ -80,4 +82,4 @@ def test_attendence_rule_delete():
 
 
 if __name__ == '__main__':
-    pytest.main(["-q", "test_考勤规则相关接口.py"])
+    pytest.main(["-v -s", "test_考勤规则相关接口.py"])
