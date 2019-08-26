@@ -1,16 +1,11 @@
-from Attendance_sys_CQZGH.utils.excel_operate import excel_obj
-from Attendance_sys_CQZGH.utils.common_method import *
-def f(reqId="a",personCode="b"):
-    if data == "reqId":
-        reqId = ""
-    elif data == "personCode":
-        personCode = ""
+class cc():
+    def __init__(self):
+        self.apiId = "123456"
+        self.apiKey = "1285384ddfb057814bad78127bc789be"
+        self.hostaddress = "http://192.168.1.105:9009/face-door-guard/"
+        self.match = "api/v1/face/matchrecord/sync"
 
-    print(reqId)
-    print(personCode)
+c = cc("123","23","url","match")
 
 
-exl = excel_obj(sheet_name="3.9.2考勤登记相关接口接口",exl_f_path="D:\workfile\zhongkeyuan_workspace\Attendance_sys_CQZGH\重庆市总工会人脸识别考勤系统doc\重庆市总工会人脸识别考勤系统项目接口用例_20190815.xls")
-
-d = read_case_title(exl,4,30)
-print(d)
+print(c.hostaddress)

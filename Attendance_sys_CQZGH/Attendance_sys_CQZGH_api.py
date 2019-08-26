@@ -8,45 +8,50 @@ logger = mylog.get_log().get_logger()
 
 
 class attendance_sys():
-    def __init__(self, host="http://175.168.1.86:10010/",anjian_server=""):
+    def __init__(self, host="http://192.168.5.15:10019/",server=""):
         self.host = host
-        self.anjian_server = anjian_server
-        self._api_v1_attendence_rule_save = self.host + self.anjian_server + "api/v1/attendence/rule/save"
-        self._api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
-        self._api_v1_attendence_rule_update = self.host + self.anjian_server + "api/v1/attendence/rule/update"
-        self._api_v1_attendence_rule_delete = self.host + self.anjian_server + "api/v1/attendence/rule/delete"
-        self._api_v1_attendence_rule_query = self.host + self.anjian_server + "api/v1/attendence/rule/query"
-        self._api_v1_attendence_leave_save = self.host + self.anjian_server + "api/v1/attendence/leave/save"
-        self._api_v1_attendence_leave_update = self.host + self.anjian_server + "api/v1/attendence/leave/update"
-        self._api_v1_attendence_leave_query = self.host + self.anjian_server + "api/v1/attendence/leave/query"
-        self._api_v1_attendence_leave_delete = self.host + self.anjian_server + "api/v1/attendence/leave/delete"
-        self._api_v1_attendence_businessout_save = self.host + self.anjian_server + "api/v1/attendence/businessout/save"
-        self._api_v1_attendence_businessout_update = self.host + self.anjian_server + "api/v1/attendence/businessout/update"
-        self._api_v1_attendence_businessout_query = self.host + self.anjian_server + "api/v1/attendence/businessout/query"
-        self._api_v1_attendence_businessout_delete = self.host + self.anjian_server + "api/v1/attendence/businessout/delete"
-        self._api_v1_attendence_temporaryout_save = self.host + self.anjian_server + "api/v1/attendence/temporaryout/save"
-        self._api_v1_attendence_temporaryout_update = self.host + self.anjian_server + "api/v1/attendence/temporaryout/update"
-        self._api_v1_attendence_temporaryout_query = self.host + self.anjian_server + "api/v1/attendence/temporaryout/query"
-        self._api_v1_attendence_temporaryout_query = self.host + self.anjian_server + "api/v1/attendence/temporaryout/query"
-        self._api_v1_attendence_repunching_save = self.host + self.anjian_server + "api/v1/attendence/repunching/save"
-        self._api_v1_attendence_repunching_query = self.host + self.anjian_server + "api/v1/attendence/repunching/query"
-        self._api_v1_attendence_record_query = self.host + self.anjian_server + "api/v1/attendence/record/query"
-        self._api_v1_attendence_record_export = self.host + self.anjian_server + "api/v1/attendence/record/export"
-        self._api_v1_attendence_record_export_progress = self.host + self.anjian_server + "api/v1/attendence/record/export/progress"
-        self._api_v1_attendence_special_save = self.host + self.anjian_server + "/api/v1/attendence/special/save"
-        self._api_v1_attendence_special_update = self.host + self.anjian_server + "/api/v1/attendence/special/update"
-        self._api_v1_attendence_special_query = self.host + self.anjian_server + "/api/v1/attendence/special/query"
-        self._api_v1_attendence_special_delete = self.host + self.anjian_server + "/api/v1/attendence/special/delete"
+        self.server = server
+        self._api_v1_attendence_rule_save = self.host + self.server + "api/v1/attendence/rule/save"
+        self._api_v1_attendence_rule_update = self.host + self.server + "api/v1/attendence/rule/update"
+        self._api_v1_attendence_rule_update = self.host + self.server + "api/v1/attendence/rule/update"
+        self._api_v1_attendence_rule_delete = self.host + self.server + "api/v1/attendence/rule/delete"
+        self._api_v1_attendence_rule_query = self.host + self.server + "api/v1/attendence/rule/query"
+        self._api_v1_attendence_leave_save = self.host + self.server + "api/v1/attendence/leave/save"
+        self._api_v1_attendence_leave_update = self.host + self.server + "api/v1/attendence/leave/update"
+        self._api_v1_attendence_leave_query = self.host + self.server + "api/v1/attendence/leave/query"
+        self._api_v1_attendence_leave_delete = self.host + self.server + "api/v1/attendence/leave/delete"
+        self._api_v1_attendence_businessout_save = self.host + self.server + "api/v1/attendence/businessout/save"
+        self._api_v1_attendence_businessout_update = self.host + self.server + "api/v1/attendence/businessout/update"
+        self._api_v1_attendence_businessout_query = self.host + self.server + "api/v1/attendence/businessout/query"
+        self._api_v1_attendence_businessout_delete = self.host + self.server + "api/v1/attendence/businessout/delete"
+        self._api_v1_attendence_temporaryout_save = self.host + self.server + "api/v1/attendence/temporaryout/save"
+        self._api_v1_attendence_temporaryout_update = self.host + self.server + "api/v1/attendence/temporaryout/update"
+        self._api_v1_attendence_temporaryout_query = self.host + self.server + "api/v1/attendence/temporaryout/query"
+        self._api_v1_attendence_temporaryout_query = self.host + self.server + "api/v1/attendence/temporaryout/query"
+        self._api_v1_attendence_repunching_save = self.host + self.server + "api/v1/attendence/repunching/save"
+        self._api_v1_attendence_repunching_query = self.host + self.server + "api/v1/attendence/repunching/query"
+        self._api_v1_attendence_record_query = self.host + self.server + "api/v1/attendence/record/query"
+        self._api_v1_attendence_record_export = self.host + self.server + "api/v1/attendence/record/export"
+        self._api_v1_attendence_record_export_progress = self.host + self.server + "api/v1/attendence/record/export/progress"
+        self._api_v1_attendence_special_save = self.host + self.server + "/api/v1/attendence/special/save"
+        self._api_v1_attendence_special_update = self.host + self.server + "/api/v1/attendence/special/update"
+        self._api_v1_attendence_special_query = self.host + self.server + "/api/v1/attendence/special/query"
+        self._api_v1_attendence_special_delete = self.host + self.server + "/api/v1/attendence/special/delete"
 
     def get_headers(self,sign):
         """
         sing:"/api/v1/face/backlist/save""
         """
+        logger.info(sign)
         apiId = "123456"
         apiKey = "1285384ddfb057814bad78127bc789be"
         timestamp = get_time_stamp()
         sign = to_md5_str(sign + timestamp + apiKey)
-        header = {"apiId": apiId, "sign": sign, "timestamp": timestamp}
+        header = {"apiId": apiId, "sign": sign, "timestamp": ""}
+
+        logger.info(sign)
+        logger.info(timestamp)
+
         return header
 
 
@@ -107,25 +112,12 @@ class attendance_sys():
         res.close()
         return res
 
-    """3.9.1.4考勤规则查询接口"""
-    def api_v1_attendence_rule_query(self,
-                                      reqId=get_uuid()):
-        body = {
-            "reqId": reqId,
-            "id": id,
-        }
-        res = requests.post(url=self.api_v1_attendence_rule_query,
-                            json=body,
-                            headers=self.get_headers("/api/v1/attendence/rule/query"),
-                            )
-        res.close()
-        return res
 
     """3.9.1.4考勤规则查询接口"""
 
     def api_v1_attendence_rule_query(self,
                                       reqId=get_uuid()):
-
+        logger.info(len(reqId))
         body = {
             "reqId": reqId
         }
@@ -316,3 +308,7 @@ class attendance_sys():
                             )
         res.close()
         return res
+
+if __name__ == '__main__':
+    res = attendance_sys().api_v1_attendence_rule_query()
+    print(res.text)

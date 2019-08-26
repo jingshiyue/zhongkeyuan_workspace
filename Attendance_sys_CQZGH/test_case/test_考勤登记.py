@@ -70,4 +70,4 @@ def api_v1_attendence_special_delete():
 
 
 if __name__ == '__main__':
-    pytest.main(["-v -s", "test_考勤登记.py"])
+    pytest.main(["-s", "test_考勤登记.py"])
