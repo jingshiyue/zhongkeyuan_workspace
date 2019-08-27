@@ -6,9 +6,9 @@ dirpath = os.path.dirname(current_path)
 dirpath = os.path.dirname(dirpath)
 dirpath = os.path.dirname(dirpath)
 picpath = os.path.join(dirpath, "common\\picture")
+picpath = r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)"
 
-
-def test_match_record(i=90,j= 100):
+def test_match_record(i=100,j= 110):
     """"""
     records = []
     for k in range(i, j):
@@ -26,7 +26,7 @@ def test_match_record(i=90,j= 100):
             "swipeTime": "2048030608080000",
             "livePhoto": to_base64(picpath+"\\"+"%d.jpg" % k),
             "threshold": "0.8",
-            "matchingScore": "0.000111112121545454",
+            "matchingScore": "0.9",
             "passStatus": "0",
             "personSex": "1",
             "noPassReason": ""

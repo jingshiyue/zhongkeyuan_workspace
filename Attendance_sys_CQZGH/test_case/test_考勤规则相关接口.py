@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 # Time : 2019/8/21 17:44 
-# Author : zcl
+# Author : zcl   D:\workfile\zhongkeyuan_workspace\Attendance_sys_CQZGH\test_case\test_考勤规则相关接口.py
 
 import pytest
 import json,sys
-sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
-from Attendance_sys_CQZGH.utils.common_method import *
+# sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
+from zhongkeyuan_workspace.Attendance_sys_CQZGH.utils.common_method import *
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import attendance_sys
 from Attendance_sys_CQZGH.utils.Log import mylog
 logger = mylog.get_log().get_logger()
