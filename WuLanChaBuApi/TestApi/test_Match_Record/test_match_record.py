@@ -8,7 +8,8 @@ dirpath = os.path.dirname(dirpath)
 picpath = os.path.join(dirpath, "common\\picture")
 picpath = r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)"
 
-def test_match_record(i=100,j= 110):
+
+def match_record(i=100,j= 101):
     """"""
     records = []
     for k in range(i, j):
@@ -16,18 +17,18 @@ def test_match_record(i=100,j= 110):
             "id": get_uuid(),
             "baseDeviceCode": "Device1",
             "baseAreaCode": "T411",
-            "faceImageId": "af04ab00fd0111e8bf04dca266365d7c",
-            "personCode": "寅时三刻发贱鬼2",
-            "faceLibraryId": "402881e9679b7c6e01679b99647f0000",
+            "faceImageId": "e1ebf165008a4aa385d2277618817d8d",
+            "personCode": "500382199001017022",
+            "faceLibraryId": "4028858f6cd61b18016cd65d511c010b",
             "areaName": "三级区域1",
-            "faceName": "寅时三刻发贱鬼2",
+            "faceName": "正常考勤101",
             "codeType": "0",
-            "libraryName": "寅时三刻发贱鬼",
-            "swipeTime": "2048030608080000",
+            "libraryName": "室内办公人员01",
+            "swipeTime": "2019082708080000",
             "livePhoto": to_base64(picpath+"\\"+"%d.jpg" % k),
             "threshold": "0.8",
             "matchingScore": "0.9",
-            "passStatus": "0",
+            "passStatus": "1",
             "personSex": "1",
             "noPassReason": ""
         }
@@ -37,7 +38,11 @@ def test_match_record(i=100,j= 110):
         "records": records,
         "num": len(records)
     }
-    MatchRecord().api_face_matchrecord_sync(body)
+    res = MatchRecord().api_face_matchrecord_sync(body)
+    print(res.text)
 
-if __name__ == '__main__':
-    pytest.main(["-q", "test_match_record.py"])
+match_record()
+
+
+# if __name__ == '__main__':
+#     pytest.main(["-q", "test_match_record.py"])

@@ -1,7 +1,7 @@
 # coding:utf-8
 import pytest
 from WuLanChaBuApi.common.mysql_class import DataBase
-database = DataBase("192.168.1.107", 3306, "root", "123456", "faceguard")
+database = DataBase("192.168.5.15", 3306, "root", "123456", "faceguard")
 
 
 @pytest.fixture()

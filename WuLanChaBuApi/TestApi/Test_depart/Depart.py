@@ -9,7 +9,7 @@ class Depart(object):
         """部门信息CRUD"""
         self.apiId = "123456"
         self.apiKey = "1285384ddfb057814bad78127bc789be"
-        self.hostaddress = "http://192.168.1.105:9009/face-door-guard/"
+        self.hostaddress = "http://192.168.5.15:10019/"
         self.save = self.hostaddress+"api/v1/system/department/save"
         self.update = self.hostaddress+"api/v1/system/department/update"
         self.delete = self.hostaddress+"api/v1/system/department/delete"

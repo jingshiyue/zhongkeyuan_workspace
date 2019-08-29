@@ -9,7 +9,7 @@ class Regist(object):
         """人脸信息CRUD"""
         self.apiId = "123456"
         self.apiKey = "1285384ddfb057814bad78127bc789be"
-        self.hostaddress = "http://192.168.1.105:9009/face-door-guard/"
+        self.hostaddress = "http://192.168.5.15:10019/"
         self.regist = self.hostaddress+"api/v1/face/regist"
         self.update = self.hostaddress+"api/v1/face/update"
         self.delete = self.hostaddress+"api/v1/face/delete"
@@ -34,8 +34,7 @@ class Regist(object):
                             json=body,
                             verify=False
                             )
-        print(res.text)
-        return res.text
+        return res
 
     def api_v1_face_update(self, body, sign_only="/api/v1/face/update"):
         """更新人脸信息接口"""
@@ -89,8 +88,7 @@ class Regist(object):
                             json=body,
                             verify=False
                             )
-        print(res.text)
-        return res.text
+        return res
 
 if __name__ == '__main__':
     regist = Regist()

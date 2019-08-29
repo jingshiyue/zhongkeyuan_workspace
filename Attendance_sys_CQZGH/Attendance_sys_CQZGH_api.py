@@ -33,25 +33,22 @@ class attendance_sys():
         self._api_v1_attendence_record_query = self.host + self.server + "api/v1/attendence/record/query"
         self._api_v1_attendence_record_export = self.host + self.server + "api/v1/attendence/record/export"
         self._api_v1_attendence_record_export_progress = self.host + self.server + "api/v1/attendence/record/export/progress"
-        self._api_v1_attendence_special_save = self.host + self.server + "/api/v1/attendence/special/save"
-        self._api_v1_attendence_special_update = self.host + self.server + "/api/v1/attendence/special/update"
-        self._api_v1_attendence_special_query = self.host + self.server + "/api/v1/attendence/special/query"
-        self._api_v1_attendence_special_delete = self.host + self.server + "/api/v1/attendence/special/delete"
+        self._api_v1_attendence_special_save = self.host + self.server + "api/v1/attendence/special/save"
+        self._api_v1_attendence_special_update = self.host + self.server + "api/v1/attendence/special/update"
+        self._api_v1_attendence_special_query = self.host + self.server + "api/v1/attendence/special/query"
+        self._api_v1_attendence_special_delete = self.host + self.server + "api/v1/attendence/special/delete"
+        self._api_v1_attendence_record_download = self.host + self.server + "api/v1/attendence/record/download"
+
 
     def get_headers(self,sign):
         """
         sing:"/api/v1/face/backlist/save""
         """
-        logger.info(sign)
         apiId = "123456"
         apiKey = "1285384ddfb057814bad78127bc789be"
         timestamp = get_time_stamp()
         sign = to_md5_str(sign + timestamp + apiKey)
-        header = {"apiId": apiId, "sign": sign, "timestamp": ""}
-
-        logger.info(sign)
-        logger.info(timestamp)
-
+        header = {"apiId": apiId, "sign": sign, "timestamp": timestamp}
         return header
 
 
@@ -161,7 +158,7 @@ class attendance_sys():
 
     """3.9.4考勤记录导出接口"""
     def api_v1_attendence_record_export(self,
-                                        reqId="",  # 32位UUID	是
+                                        reqId=get_uuid(),  # 32位UUID	是
                                         serialNum="",  # 唯一的标志序列号	是
                                         exportName="",  # 需要导出数据的记录名称	是
                                         startTime="",  # 开始时间yyyyMMdd	是
@@ -176,6 +173,7 @@ class attendance_sys():
             "endTime":endTime,
             "deptId":deptId
         }
+        logger.info(self._api_v1_attendence_record_export)
         res = requests.post(url=self._api_v1_attendence_record_export,
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/record/export"),
@@ -196,6 +194,24 @@ class attendance_sys():
                             json=body,
                             headers=self.get_headers("/api/v1/attendence/record/export/progress"),
                             )
+        res.close()
+        return res
+
+
+    """考勤流水-导出下载"""
+    def api_v1_attendence_record_download(self,
+                                          fileName="", #考勤记录导出接口,得到此参数，如20190822-20190822考勤统计.xlsx
+                                          reqId="",  # 32位UUID	是
+                                          serialNum="",  # 序列号
+                                        ):
+        body = {
+            "reqId":reqId,
+            "serialNum":serialNum,
+        }
+        logger.info(self._api_v1_attendence_record_download+"/%s" %fileName)
+        res = requests.get(url=self._api_v1_attendence_record_download+"/%s" %fileName,
+                           params=body
+                          )
         res.close()
         return res
 
@@ -270,7 +286,7 @@ class attendance_sys():
                                         isCount="",  # 必须    为1表是返回总数
                                         startTime="",  # 必须    开始时间yyyyMMdd
                                         endTime="",  # 必须    结束时间yyyyMMdd
-                                        deptId="",  # 必须    部门ID，为空字符串，表示所有部门
+                                        deptId="",  # 非必须    部门ID，为空字符串，表示所有部门
                                         ):
         body = {
             "reqId": reqId,
@@ -293,7 +309,7 @@ class attendance_sys():
 
 
 
-    """考勤登记-查询接口"""
+    """考勤登记-查询删除"""
     def api_v1_attendence_special_delete(self,
                                          reqId="",  # 必须		32位UUID
                                          ids="",  # 必须
@@ -309,6 +325,8 @@ class attendance_sys():
         res.close()
         return res
 
+
+
 if __name__ == '__main__':
-    res = attendance_sys().api_v1_attendence_rule_query()
+    res = attendance_sys().api_v1_attendence_record_export()
     print(res.text)

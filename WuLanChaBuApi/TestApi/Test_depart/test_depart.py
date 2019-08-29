@@ -5,7 +5,7 @@ from WuLanChaBuApi.TestApi.Test_depart.Depart import Depart
 import json
 depart = Depart()
 
-
+@pytest.mark.skip(reason="不作为正常测试")
 def test_save_01(delete_depart):
     """能正确新增部门信息"""
     body = {"reqId": get_uuid(),      # 32位UUID
@@ -26,7 +26,8 @@ def test_save_01(delete_depart):
     assert json_data["status"] == 0
 
 
-@pytest.mark.skip(reason="仅作为异常测试，不作为正常测试")
+
+@pytest.mark.skip(reason="")
 def test_save_test_test():
     body = {"reqId": get_uuid(),      # 32位UUID
             "departmentCode": "SMscience111",  # 部门编号
@@ -44,7 +45,7 @@ def test_save_test_test():
     res = depart.api_system_department_save(body)
 
 
-# @pytest.mark.skip(reason="仅作为异常测试，不作为正常测试")
+@pytest.mark.skip(reason="仅作为异常测试，不作为正常测试")
 def test_save_02():
     """重复增加部门信息"""
     body = {"reqId": get_uuid(),      # 32位UUID
@@ -63,7 +64,7 @@ def test_save_02():
     json_data = json.loads(res)
     assert json_data["msg"] == "value repeat insert:departmentCode"
 
-
+@pytest.mark.skip(reason="不作为正常测试")
 def test_update_01():
     """部门信息更新"""
     body = {"reqId": get_uuid(),      # 32位UUID
@@ -81,14 +82,14 @@ def test_update_01():
             }
     res = depart.api_system_department_update(body)
 
-
+@pytest.mark.skip(reason="不作为正常测试")
 def test_delete_01():
     """验证部门信息删除"""
     body = {"reqId": get_uuid(),
             "ids": "402881e96796dd41016796fe768c002c,jjj"}
     depart.api_system_department_delete(body)
 
-
+@pytest.mark.skip(reason="")
 def test_query_01():
     """验证能查询出部门信息"""
     body = {"reqId": get_uuid()}
@@ -98,11 +99,11 @@ def test_query_01():
     for i in range(0, len(json_data["results"])):
         print(json_data["results"][i])
 
-
+# @pytest.mark.skip(reason="")
 def test_detail_01():
     """验证能正确查询出部门的详细信息"""
     body = {"reqId": get_uuid(),
-            "departmentId": "402881e96796dd41016796f579690028",
+            "departmentId": "4028858f6ccd13c0016ccd1a88a3000b",
             "isCount": 1,
             "pageNum": 1,
             "pageSize": 1}
