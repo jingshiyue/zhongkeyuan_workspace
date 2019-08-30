@@ -78,7 +78,7 @@ def test_attendence_rule_delete():
     # logger.info(endTime)
     # logger.info("******************")
 
-    res = attendance_sys().api_v1_attendence_rule_delete(ids="4028858f6cd10a69016cd1a829a701a5",)
+    res = attendance_sys().api_v1_attendence_rule_delete(ids="40123",)
     logger.info(res.text)
     res = attendance_sys().api_v1_attendence_rule_query()
     logger.info(json.loads(res.text)["results"])

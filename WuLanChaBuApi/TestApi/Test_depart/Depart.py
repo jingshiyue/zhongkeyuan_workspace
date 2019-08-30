@@ -33,8 +33,7 @@ class Depart(object):
                             json=body,
                             verify=False
                             )
-        print(res.text)
-        return res.text
+        return res
 
     def api_system_department_update(self, body, sign_only="/api/v1/system/department/update"):
         """更新部门"""
