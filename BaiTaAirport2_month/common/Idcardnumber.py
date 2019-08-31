@@ -57,7 +57,7 @@ def get_info_from_id(id18):
     :return:
     """
     addrId = id18[0:6]
-    for it in addr:
+    for it in addr.addr:
         if addrId == str(it[0]):  # 校验码
             addrName = it[1]
             break

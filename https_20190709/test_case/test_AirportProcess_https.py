@@ -15,7 +15,7 @@ logger = mylog.get_log().get_logger()
 # certificate_file = "D:/workfile/workspace/https_20190709/API_https/cacert.crt"
 
 test_param = change_params("my_interface_test.yml","test_api_face_security_face_check")
-print(test_param)
+# print(test_param)
 
 params_list = get_params_list("my_interface_test.yml","test_api_face_security_face_check")
 
@@ -28,6 +28,15 @@ class Test_AirportProcess():
 
     @pytest.mark.parametrize("params",test_param)
     def test_api_face_security_face_check(self,params):
+        logged_param = ""
+        for key,value in params.items():
+            if params[key] == "":
+                log_param = key
+        if log_param:
+            logger.debug("当前参数:%s 为空" %logged_param)
+        else:
+            logger.debug("所有参数已准备")
+
         res = self.ap.api_face_security_face_check(
                                  reqId=params["reqId"],
                                  gateNo=params["gateNo"],
