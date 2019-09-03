@@ -7,7 +7,7 @@ sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import *
 
 
-@pytest.mark.skip(reason="考勤导出")
+# @pytest.mark.skip(reason="考勤导出")
 def test_attendence_record_export():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_record_export(
@@ -22,7 +22,7 @@ def test_attendence_record_export():
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
 
-# @pytest.mark.skip(reason="考勤流水-导出下载")
+@pytest.mark.skip(reason="考勤流水-导出下载")
 def test_attendence_record_download():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_record_download(

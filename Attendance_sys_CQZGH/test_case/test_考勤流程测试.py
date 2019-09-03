@@ -58,7 +58,7 @@ def test_create_data_process_02():
 
 
 @pytest.mark.skip(reason="注册人脸信息,存在人脸信息表里")
-def test_create_data_process_03(start=100,end=110):#start=100,end=110,默认添加10个人
+def test_create_data_process_03(start=130,end=135):#添加人数
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     _registInfo = []
     for num in range(start,end):
@@ -115,7 +115,7 @@ def test_create_data_process_04(staff_dic):
 ###############################
 
 # @pytest.mark.skip(reason="刷脸，同步到考勤系统里")
-def test_matchrecord_process_01(staff_dic,staff_num=5):
+def test_matchrecord_process_01(staff_dic,staff_num=30):
     """
     :param:刷脸的员工人数，最大不能超过注册的员工数量
     :return:
@@ -128,7 +128,7 @@ def test_matchrecord_process_01(staff_dic,staff_num=5):
     m = 0
     for staff, value in staff_dic.items():
         if m < staff_num:
-            for time in ["20190821093000","20190821123000","20190821183000"]:  #一天的打卡时间
+            for time in ["20190901093000","20190901123000","20190901183000","20190901183500","20190901184000","20190901185000"]:  #一天的打卡时间
             # for time in ["20190830120000"]:  # 一天的打卡时间
                 record = {
                     "id": get_uuid(),
@@ -164,7 +164,7 @@ def test_matchrecord_process_01(staff_dic,staff_num=5):
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
 
-# @pytest.mark.skip(reason="考勤流水查询，同步到考勤系统里")
+@pytest.mark.skip(reason="考勤流水查询，同步到考勤系统里")
 def test_matchrecord_process_02():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_record_query(

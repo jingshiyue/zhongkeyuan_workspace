@@ -10,7 +10,7 @@ shujuku = DataBase("192.168.5.15", 3306, "root", "123456", "faceguard")
 staff_tuple = shujuku.find_all('SELECT * FROM face_image WHERE face_image.`name` LIKE "测试考勤%" ;')
 
 @pytest.fixture()
-def staff_dic():
+def staff_dic():  #查询数据库，返回员工的信息，添加到字典里
     logger.info("打开数据库连接！！！")
     staff = {}
     for i in staff_tuple:

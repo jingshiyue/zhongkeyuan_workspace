@@ -49,6 +49,7 @@ class attendance_sys():
         timestamp = get_time_stamp()
         sign = to_md5_str(sign + timestamp + apiKey)
         header = {"apiId": apiId, "sign": sign, "timestamp": timestamp}
+        logger.info(header)
         return header
 
 
@@ -149,9 +150,11 @@ class attendance_sys():
             "startTime":startTime,
             "endTime":endTime,
         }
+
+        logger.info(body)
         res = requests.post(url=self._api_v1_attendence_record_query,
                             json=body,
-                            headers=self.get_headers("/api/v1/attendence/record/query"),
+                            headers=self.get_headers("/api/v1/attendence/record/query")
                             )
         res.close()
         return res
@@ -173,6 +176,7 @@ class attendance_sys():
             "endTime":endTime,
             "deptId":deptId
         }
+        logger.info(body)
         logger.info(self._api_v1_attendence_record_export)
         res = requests.post(url=self._api_v1_attendence_record_export,
                             json=body,

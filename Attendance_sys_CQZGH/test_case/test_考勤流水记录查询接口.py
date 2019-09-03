@@ -12,8 +12,8 @@ def test_attendence_record_query():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_record_query(
         reqId=get_uuid(),  # 32位UUID	是
-        name="正常考勤101",  # 员工名称	否
-        personCode="500382199001017022",  # 员工编码	否
+        name="",  # 员工名称	否
+        personCode="",  # 员工编码	否
         pageNum=1,  # 分页的起始页，从1开始	是
         pageSize=100,  # 分页的大小	是
         isCount=1,  # 为1表是返回总数	是

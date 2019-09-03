@@ -1,7 +1,8 @@
 # coding:utf-8
 import requests
 from WuLanChaBuApi.TestApi.new_method import *
-
+from Attendance_sys_CQZGH.utils.Log import mylog
+logger = mylog.get_log().get_logger()
 
 class MatchRecord(object):
     def __init__(self,hostaddress="http://192.168.5.15:10019/"):
@@ -22,7 +23,11 @@ class MatchRecord(object):
 
     def api_face_matchrecord_sync(self, body,sign_only="/api/v1/face/matchrecord/sync"):####
         """刷脸记录同步接口"""
+
         header = self.get_header(sign_only)
+        logger.info(body)
+        logger.info(header)
+        logger.info(self.match)
         res = requests.post(url=self.match,
                             headers=header,
                             json=body,
