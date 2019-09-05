@@ -3,7 +3,7 @@
 # Author : zcl
 import pytest
 import json,sys
-sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
+# sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import *
 
 
@@ -25,3 +25,6 @@ def test_attendence_record_query():
 
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
+
+if __name__ == '__main__':
+    pytest.main(["-s", "test_考勤流水记录查询接口.py"])

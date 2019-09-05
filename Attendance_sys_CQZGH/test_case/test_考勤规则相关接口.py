@@ -4,14 +4,14 @@
 
 import pytest
 import json,sys
-# sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
+sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from Attendance_sys_CQZGH.utils.common_method import *
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import attendance_sys
 from Attendance_sys_CQZGH.utils.Log import mylog
 logger = mylog.get_log().get_logger()
 
 
-@pytest.mark.skip(reason="考勤规则增加")
+# @pytest.mark.skip(reason="考勤规则增加")
 def test_attendence_rule_add():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_rule_save(reqId="",ruleName="MYtest1",startTime="150000",endTime="160000")
@@ -33,8 +33,7 @@ def test_attendence_rule_query():
 
 
 
-
-@pytest.mark.skip(reason="测试考勤规则更新流程[添加规则->查询规则->更新规则->验证规则更新成功否->规则更改回去]")
+# @pytest.mark.skip(reason="测试考勤规则更新流程[添加规则->查询规则->更新规则->验证规则更新成功否->规则更改回去]")
 def test_attendence_rule_update():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_rule_save(ruleName="AMLate")
@@ -63,7 +62,7 @@ def test_attendence_rule_update():
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
 
-# @pytest.mark.skip(reason="测试考勤删除[包含了些流程，查询->删除]")
+@pytest.mark.skip(reason="测试考勤删除[包含了些流程，查询->删除]")
 def test_attendence_rule_delete():
     # logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     # res = attendance_sys().api_v1_attendence_rule_query()
@@ -78,8 +77,8 @@ def test_attendence_rule_delete():
     # logger.info(endTime)
     # logger.info("******************")
 
-    res = attendance_sys().api_v1_attendence_rule_delete(ids="40123",)
-    logger.info(res.text)
+    # res = attendance_sys().api_v1_attendence_rule_delete(ids="40123",)
+    # logger.info(res.text)
     res = attendance_sys().api_v1_attendence_rule_query()
     logger.info(json.loads(res.text)["results"])
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)

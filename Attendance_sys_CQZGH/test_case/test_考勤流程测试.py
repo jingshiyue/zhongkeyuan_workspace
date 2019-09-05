@@ -2,11 +2,12 @@
 # Time : 2019/8/22 13:45 
 # Author : zcl
 import pytest,sys,json
+# sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from WuLanChaBuApi.TestApi.test_Match_Record.MatchRecord import MatchRecord
 from Attendance_sys_CQZGH.utils.common_method import *
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import *
 logger = mylog.get_log().get_logger()
-# from WuLanChaBuApi.TestApi.new_method import *
+from WuLanChaBuApi.TestApi.new_method import *
 from WuLanChaBuApi.TestApi.Test_regist.Regist import Regist
 from WuLanChaBuApi.TestApi.Test_facelib.FaceLib import FaceLib
 from WuLanChaBuApi.TestApi.Test_depart.Depart import Depart
@@ -58,13 +59,13 @@ def test_create_data_process_02():
 
 
 @pytest.mark.skip(reason="注册人脸信息,存在人脸信息表里")
-def test_create_data_process_03(start=130,end=135):#添加人数
+def test_create_data_process_03(start=135,end=137):#添加人数
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     _registInfo = []
     for num in range(start,end):
-        reg_info = { "name":"测试考勤%d" %num,
+        reg_info = { "name":"测试考勤修改%d" %num,
                      "sex":1,
-                     "personCode":"500382199001017%d" %num, #填身份证
+                     "personCode":"501382199001017%d" %num, #填身份证
                      "cobDepartmentId":"4028858f6ccd13c0016ccd1a88a3000b",    #String    32位部门ID，对应3.3的部门表的ID
                      "faceImg":to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\%d.jpg" %num),
                       "birthdayDate":"19900101",
@@ -113,9 +114,8 @@ def test_create_data_process_04(staff_dic):
 ###############################
 #刷脸，登记考勤：同步刷脸 - >考勤流水查询 （前提:创建人脸数据库->创建底库 -> 绑定人脸库id与底库id）
 ###############################
-
 # @pytest.mark.skip(reason="刷脸，同步到考勤系统里")
-def test_matchrecord_process_01(staff_dic,staff_num=30):
+def test_matchrecord_process_01(staff_dic,staff_num=35):
     """
     :param:刷脸的员工人数，最大不能超过注册的员工数量
     :return:
@@ -128,7 +128,7 @@ def test_matchrecord_process_01(staff_dic,staff_num=30):
     m = 0
     for staff, value in staff_dic.items():
         if m < staff_num:
-            for time in ["20190901093000","20190901123000","20190901183000","20190901183500","20190901184000","20190901185000"]:  #一天的打卡时间
+            for time in ["20190831093000"]:  #一天的打卡时间
             # for time in ["20190830120000"]:  # 一天的打卡时间
                 record = {
                     "id": get_uuid(),
@@ -164,19 +164,19 @@ def test_matchrecord_process_01(staff_dic,staff_num=30):
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
 
-@pytest.mark.skip(reason="考勤流水查询，同步到考勤系统里")
+# @pytest.mark.skip(reason="考勤流水查询，同步到考勤系统里")
 def test_matchrecord_process_02():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_record_query(
         reqId=get_uuid(),  # 32位UUID	是
-        name="",  # 员工名称	否
+        name="测试考勤101",  # 员工名称	否
         deptId="",  # 部门ID，为空字符串，表示所有部门	是
         personCode="",  # 员工编码	否
         pageNum=1,  # 分页的起始页，从1开始	是
         pageSize=100,  # 分页的大小	是
         isCount=1,  # 为1表是返回总数	是
-        startTime="20190820",  # yyyyMMdd	是
-        endTime="20190831",  # yyyyMMdd	是
+        startTime="20190901",  # yyyyMMdd	是
+        endTime="20190901",  # yyyyMMdd	是
     )
     logger.info(res.text)
     assert json.loads(res.text)["status"] == 0
@@ -185,4 +185,4 @@ def test_matchrecord_process_02():
 
 
 if __name__ == '__main__':
-    pytest.main(["-q", "test_流程测试.py"])
+    pytest.main(["-s", "test_流程测试.py"])

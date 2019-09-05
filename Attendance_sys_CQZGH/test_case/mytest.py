@@ -8,5 +8,8 @@ for key,value in dic.items():
         dic_new.setdefault(key,value)
     m += 1
 
-print(len(dic_new))
-print(dic_new)
+# print(len(dic_new))
+# print(dic_new)
+
+for i in range(5,7):
+    print(i)

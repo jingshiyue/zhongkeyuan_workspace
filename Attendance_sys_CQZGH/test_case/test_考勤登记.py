@@ -13,14 +13,14 @@ def test_attendence_rule_add():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     res = attendance_sys().api_v1_attendence_special_save(
         reqId=get_uuid(),  # 必须		32位UUID
-        personCode="500382199001017022",  # 必须		员工编码
-        faceName="正常考勤101",  # 必须		员工姓名
+        personCode="500382199001017100",  # 必须		员工编码
+        faceName="测试考勤100",  # 必须		员工姓名
         deptName="职工服务中心",  # 必须		部门名称
         deptId="4028858f6ccd13c0016ccd1a88a3000b",  # 必须		部门ID
         facePersonSex=1,  # 必须		员工性别
-        recordType=3,  # 必须		0-请假，1-公务外出，2-临时外出，3-补卡； 补卡：填一样的 早上9：00 中午 12点  晚上  18：00
-        startTime="20190821090000",  # 必须		开始时间yyyyMMddHHmmss
-        endTime="20190821090000",  # 必须		结束时间yyyyMMddHHmmss
+        recordType=0,  # 必须		0-请假，1-公务外出，2-临时外出，3-补卡； 补卡：填一样的 早上9：00 中午 12点  晚上  18：00
+        startTime="20190901090000",  # 必须		开始时间yyyyMMddHHmmss
+        endTime="20190901120000",  # 必须		结束时间yyyyMMddHHmmss
         remark="test" # 必须		备注
     )
     logger.info(res.text)

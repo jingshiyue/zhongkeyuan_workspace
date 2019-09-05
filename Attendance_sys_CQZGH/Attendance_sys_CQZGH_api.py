@@ -330,7 +330,6 @@ class attendance_sys():
         return res
 
 
-
 if __name__ == '__main__':
     res = attendance_sys().api_v1_attendence_record_export()
     print(res.text)

@@ -1,8 +1,9 @@
 {
     "python.testing.pytestArgs": [
-        "Attendance_sys_CQZGH"
+        "Attendance_sys_CQZGH","-s","-v"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.pythonPath": "C:\\python37\\python.exe"
 }
