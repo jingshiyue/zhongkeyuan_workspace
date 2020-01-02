@@ -1,0 +1,21 @@
+[ {
+  "uid" : "c519b4779b2414f3",
+  "name" : "test_attendence_record_download",
+  "time" : {
+    "start" : 1570848315618,
+    "stop" : 1570848315623,
+    "duration" : 5
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "d4d83dc3d6607096",
+  "name" : "test_attendence_record_export",
+  "time" : {
+    "start" : 1570848315601,
+    "stop" : 1570848315615,
+    "duration" : 14
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]

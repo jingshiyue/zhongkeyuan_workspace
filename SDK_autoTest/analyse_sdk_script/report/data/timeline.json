@@ -1,0 +1,37 @@
+{
+  "uid" : "ab17fc5a4eb3bca4b216b548c7f9fcbc",
+  "name" : "timeline",
+  "children" : [ {
+    "name" : "DESKTOP-JAOQUI3",
+    "children" : [ {
+      "name" : "13648-MainThread",
+      "children" : [ {
+        "name" : "test_attendence_record_download",
+        "uid" : "c519b4779b2414f3",
+        "parentUid" : "29797ea1550385d6b4d9aa4855b97e32",
+        "status" : "passed",
+        "time" : {
+          "start" : 1570848315618,
+          "stop" : 1570848315623,
+          "duration" : 5
+        },
+        "flaky" : false,
+        "parameters" : [ ]
+      }, {
+        "name" : "test_attendence_record_export",
+        "uid" : "d4d83dc3d6607096",
+        "parentUid" : "29797ea1550385d6b4d9aa4855b97e32",
+        "status" : "passed",
+        "time" : {
+          "start" : 1570848315601,
+          "stop" : 1570848315615,
+          "duration" : 14
+        },
+        "flaky" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "29797ea1550385d6b4d9aa4855b97e32"
+    } ],
+    "uid" : "f280cc814d68e7846167ec166655c8ba"
+  } ]
+}

@@ -1,0 +1,7 @@
+WINDOWS
+    models文件夹替换C:\FaceSDKTest\Export\build\FaceSDKTest\models
+    windows文件夹下所以东西放到C:\FaceSDKTest\Export\face
+
+LINUX
+    1、 /home/ubuntu/FaceSDKTest/Export/face:model_vn、include、lib、models
+    2、/home/ubuntu/FaceSDKTest/Export/build/Target

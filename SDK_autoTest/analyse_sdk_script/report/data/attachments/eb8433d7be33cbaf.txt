@@ -1,0 +1,2 @@
+test_lookhtml.py            22 INFO     **************test_attendence_record_export 测试开始**************
+test_lookhtml.py            23 INFO     **************test_attendence_record_export 测试完成**************

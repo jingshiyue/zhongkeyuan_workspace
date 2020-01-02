@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>SDKTestBed Test Report</title>
+  </head>
+  <style type="text/css">
+		.environment_a{
+					font-family: "Microsoft YaHei UI";
+					font-size: 14px;
+					color: #255e95;
+					text-align: center-left;
+					font-weight:bold;
+					width:60px;
+				}
+		.environment_b{
+					font-family: "Microsoft YaHei UI";
+					font-size: 14px;
+					color: #255e95;
+					width:150px;
+					text-align: center;
+				}
+
+        .biaoti{
+            font-family: "Microsoft Himalaya";
+            font-size: 26px;
+            border-bottom:1px dashed #CCCCCC;
+            color: #255e95;
+
+        }
+
+
+        .mokuai_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            
+            text-align: center;
+            width:40px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        ;
+        }
+
+        .yongli_or_mudi_biaoti {
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            
+            text-align: center;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+		
+        .qianti_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            
+            text-align: center;
+            width:50px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+		
+        .buzhou_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            
+            text-align: center;
+            width:200px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+
+        .jieguo_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            
+            text-align: center;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+
+        .mokuai{
+            font-family: "Microsoft YaHei UI";
+            font-size: 16px;
+            color: #255e95;
+            
+            text-align: center;
+            width:35px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+        .yongli_or_mudi {
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            
+            text-align: center;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+		
+		.qianti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 12px;
+            color: #255e95;
+            
+            text-align:left;
+            width:100px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+        .buzhou{
+            font-family: "Microsoft YaHei UI";
+            font-size: 12px;
+            color: #255e95;
+            text-align:left;
+            width:200px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+        .jieguo{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            text-align: left;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+        .jieguo_failed{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #F00;
+            text-align: left;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+	body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	min-width: 1200px;
+	color: #999;
+}
+h2 {
+	font-size: 16px;
+	color: black;
+}
+
+p {
+    color: black;
+}
+
+a {
+	color: #999;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+
+#environment td {
+	padding: 5px;
+	border: 1px solid #E6E6E6;
+}
+
+#environment tr:nth-child(odd) {
+	background-color: #f6f6f6;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed, .passed .col-result {
+	color: green;
+}
+span.skipped, span.xfailed, span.rerun, .skipped .col-result, .xfailed .col-result, .rerun .col-result {
+	color: orange;
+}
+span.error, span.failed, span.xpassed, .error .col-result, .failed .col-result, .xpassed .col-result  {
+	color: red;
+}
+
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+ 
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed, .passed .col-result {
+	color: green;
+}
+span.skipped, span.xfailed, span.rerun, .skipped .col-result, .xfailed .col-result, .rerun .col-result {
+	color: orange;
+}
+span.error, span.failed, span.xpassed, .error .col-result, .failed .col-result, .xpassed .col-result  {
+	color: red;
+}
+
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+
+#results-table {
+	border: 1px solid #e6e6e6;
+	color: #999;
+	font-size: 12px;
+	width: 100%
+}
+
+#results-table th, #results-table td {
+	padding: 5px;
+	border: 1px solid #E6E6E6;
+	text-align: left
+}
+#results-table th {
+	font-weight: bold
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+
+.log:only-child {
+	height: inherit
+}
+.log {
+	background-color: #e6e6e6;
+	border: 1px solid #e6e6e6;
+	color: black;
+	display: block;
+	font-family: "Courier New", Courier, monospace;
+	height: 230px;
+	overflow-y: scroll;
+	padding: 5px;
+	white-space: pre-wrap
+}
+div.image {
+	border: 1px solid #e6e6e6;
+	float: right;
+	height: 240px;
+	margin-left: 5px;
+	overflow: hidden;
+	width: 320px
+}
+div.image img {
+	width: 320px
+}
+.collapsed {
+	display: none;
+}
+.expander::after {
+	content: " (show details)";
+	color: #BBB;
+	font-style: italic;
+	cursor: pointer;
+}
+.collapser::after {
+	content: " (hide details)";
+	color: #BBB;
+	font-style: italic;
+	cursor: pointer;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+	cursor: pointer;
+}
+
+.sort-icon {
+	font-size: 0px;
+	float: left;
+	margin-right: 5px;
+	margin-top: 5px;
+	/*triangle*/
+	width: 0;
+	height: 0;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+
+.inactive .sort-icon {
+	/*finish triangle*/
+	border-top: 8px solid #E6E6E6;
+}
+
+.asc.active .sort-icon {
+	/*finish triangle*/
+	border-bottom: 8px solid #999;
+}
+
+.desc.active .sort-icon {
+	/*finish triangle*/
+	border-top: 8px solid #999;
+}
+  </style>
+  <body onLoad="init()">
+    <script>
+
+    </script>
+
+    <table width="100%" border="0">
+        <tr>
+            <td align="center" class="biaoti" height="60">SDK自动测试平台测试报告</td>
+        </tr>
+<!--        <tr>-->
+<!--            <td align="right" height="25">2017-01-02-&#45;&#45;2017-05-02</td>-->
+<!--        </tr>-->
+    </table>
+    <h2>Environment</h2>
+
+    <table id="environment" width="30%" border="1" cellspacing="1" cellpadding="4">
+      <tr>
+        <td class="environment_a">操作系统</td>
+        <td class="environment_b" id="systemName">
+        </td></tr>
+      <tr>
+        <td class="environment_a">处理器</td>
+        <td class="environment_b">Inter(R) Celeron(R)CPU J1900 @1.99Hz 1.99Hz</td></tr>
+      <tr>
+         <td class="environment_a">RAM</td>
+         <td class="environment_b">4GB</td></tr>
+	  <tr>
+		<td class="environment_a">SDK版本</td>
+		<td class="environment_b" > 1.0.1.1015
+		</td></tr>
+	</table>
+   <h2>Summary</h2>
+   <span style="color:green;">
+   passed</span>,
+   <span style="color:orange;">
+   skipped</span>,
+   <span style="color:red;">
+   failed</span>,
+   <span style="color:red;">0 errors</span>,
+   <span style="color:orange;">0 expected failures</span>,
+   <span style="color:red;">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table width="99%" border="1" cellspacing="1" cellpadding="4">
+        <tr>
+            <td class="mokuai_biaoti">模块名称</td>
+            <td class="mokuai_biaoti">子模块名称</td>
+            <td class="yongli_or_mudi_biaoti">测试用例主标题</td>
+            <td class="yongli_or_mudi_biaoti">测试用例副标题</td>
+            <td class="qianti_biaoti">前提条件</td>
+            <td class="yongli_or_mudi_biaoti">测试目的</td>
+            <td class="buzhou_biaoti">用例操作步骤</td>
+            <td colspan="2" class="jieguo_biaoti">实测结果</td>
+        </tr>
+<!--=content start===-->
+
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>

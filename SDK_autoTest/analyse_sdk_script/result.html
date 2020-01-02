@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>SDKTestBed Test Report</title>
+  </head>
+	<style type="text/css">
+
+        .biaoti{
+            font-family: "Microsoft Himalaya";
+            font-size: 26px;
+            border-bottom:1px dashed #CCCCCC;
+            color: #255e95;
+
+        }
+
+
+        .mokuai_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:40px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        ;
+        }
+
+        .yongli_or_mudi_biaoti {
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+		
+        .qianti_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:50px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+		
+        .buzhou_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:200px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+
+        .jieguo_biaoti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+            font-weight:bold;
+        }
+
+        .mokuai{
+            font-family: "Microsoft YaHei UI";
+            font-size: 16px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:35px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+        .yongli_or_mudi {
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: center;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+		
+		.qianti{
+            font-family: "Microsoft YaHei UI";
+            font-size: 12px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align:left;
+            width:100px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+        .buzhou{
+            font-family: "Microsoft YaHei UI";
+            font-size: 12px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align:left;
+            width:200px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+        .jieguo{
+            font-family: "Microsoft YaHei UI";
+            font-size: 14px;
+            color: #255e95;
+            background-color: #e9faff;
+            text-align: left;
+            width:80px;
+            WORD-WRAP:break-word;
+            word-break:break-all;
+        }
+
+	body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	min-width: 1200px;
+	color: #999;
+}
+h2 {
+	font-size: 16px;
+	color: black;
+}
+
+p {
+    color: black;
+}
+
+a {
+	color: #999;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+
+#environment td {
+	padding: 5px;
+	border: 1px solid #E6E6E6;
+}
+
+#environment tr:nth-child(odd) {
+	background-color: #f6f6f6;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed, .passed .col-result {
+	color: green;
+}
+span.skipped, span.xfailed, span.rerun, .skipped .col-result, .xfailed .col-result, .rerun .col-result {
+	color: orange;
+}
+span.error, span.failed, span.xpassed, .error .col-result, .failed .col-result, .xpassed .col-result  {
+	color: red;
+}
+
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+
+#results-table {
+	border: 1px solid #e6e6e6;
+	color: #999;
+	font-size: 12px;
+	width: 100%
+}
+
+#results-table th, #results-table td {
+	padding: 5px;
+	border: 1px solid #E6E6E6;
+	text-align: left
+}
+#results-table th {
+	font-weight: bold
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+
+.log:only-child {
+	height: inherit
+}
+.log {
+	background-color: #e6e6e6;
+	border: 1px solid #e6e6e6;
+	color: black;
+	display: block;
+	font-family: "Courier New", Courier, monospace;
+	height: 230px;
+	overflow-y: scroll;
+	padding: 5px;
+	white-space: pre-wrap
+}
+div.image {
+	border: 1px solid #e6e6e6;
+	float: right;
+	height: 240px;
+	margin-left: 5px;
+	overflow: hidden;
+	width: 320px
+}
+div.image img {
+	width: 320px
+}
+.collapsed {
+	display: none;
+}
+.expander::after {
+	content: " (show details)";
+	color: #BBB;
+	font-style: italic;
+	cursor: pointer;
+}
+.collapser::after {
+	content: " (hide details)";
+	color: #BBB;
+	font-style: italic;
+	cursor: pointer;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+	cursor: pointer;
+}
+
+.sort-icon {
+	font-size: 0px;
+	float: left;
+	margin-right: 5px;
+	margin-top: 5px;
+	/*triangle*/
+	width: 0;
+	height: 0;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+
+.inactive .sort-icon {
+	/*finish triangle*/
+	border-top: 8px solid #E6E6E6;
+}
+
+.asc.active .sort-icon {
+	/*finish triangle*/
+	border-bottom: 8px solid #999;
+}
+
+.desc.active .sort-icon {
+	/*finish triangle*/
+	border-top: 8px solid #999;
+}
+	</style>
+  <body onLoad="init()">
+    <script>
+
+    </script>
+
+    <table width="100%" border="0">
+        <tr>
+            <td align="center" class="biaoti" height="60">SDK自动测试平台测试报告</td>
+        </tr>
+<!--        <tr>-->
+<!--            <td align="right" height="25">2017-01-02-&#45;&#45;2017-05-02</td>-->
+<!--        </tr>-->
+    </table>
+    <h2>Environment</h2>
+
+    <table id="environment" width="30%" border="1" cellspacing="1" cellpadding="4">
+      <tr>
+        <td width="80">操作系统</td>
+        <td align="center" id="systemName">
+        </td></tr>
+      <tr>
+        <td>处理器</td>
+        <td align="center">Inter(R) Celeron(R)CPU J1900 @1.99Hz 1.99Hz</td></tr>
+      <tr>
+         <td>RAM</td>
+         <td align="center">4GB</td></tr>
+	</table>
+<!--    <h2>Summary</h2>-->
+    <h2>Results</h2>
+    <table width="99%" border="1" cellspacing="1" cellpadding="4">
+        <tr>
+            <td class="mokuai_biaoti">模块名称</td>
+            <td class="mokuai_biaoti">子模块名称</td>
+            <td class="yongli_or_mudi_biaoti">测试用例主标题</td>
+            <td class="yongli_or_mudi_biaoti">测试用例副标题</td>
+            <td class="qianti_biaoti">前提条件</td>
+            <td class="yongli_or_mudi_biaoti">测试目的</td>
+            <td class="buzhou_biaoti">用例操作步骤</td>
+            <td colspan="2" class="jieguo_biaoti">实测结果</td>
+        </tr>
+<!--=content start===-->
+<tr>
+<td rowspan="12" class="mokuai">人脸检测跟踪</td>
+<td rowspan="3" class="mokuai">对指定路径的图片人脸检测</td>
+<td  class="yongli_or_mudi">单线程对指定路径的图片做人脸检测</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetectPath_SingleThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试单线程下对指定路径的图片人脸检测接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetectPath_SingleThread"，并判断其结果（>>Outputs<<）；<br></td>
+<td  class="jieguo" >文件夹A检出率: 99.00%<br> 文件夹B检出率: 100.00%<br> 平均时间: 26.66ms<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程对指定路径的图片做人脸检测</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetectPath_MultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试多线程下对指定路径的图片人脸检测接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetectPath_MultiThread"，并判断其结果（>>Outputs<<）；<br></td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程对指定路径的图片做人脸检测与多线程对指定路径的图片做人脸检测结果比对</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetectPath_OutResultCheck</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对比单多、线程对指定路径的图片人脸检测结果是否一致</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetectPath_OutResultCheck"，并判断其结果（>>Outputs<<）；<br></td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td rowspan="6" class="mokuai">使用给定的图片进行人脸检测</td>
+<td  class="yongli_or_mudi">单线程对给定的图片进行人脸检测</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetectRgb_SingleThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">单线程下测试使用给定的图片进行人脸检测接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-2用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetectRgb_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >文件夹A检出率: 99.00%<br> 文件夹B检出率: 100.00%<br> 平均时间: 24.84ms<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程对给定的图片进行人脸检测</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetectRgb_MultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">多线程下测试使用给定的图片进行人脸检测接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-2用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetectRgb_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程对给定的图片进行人脸检测与多线程对给定的图片进行人脸检测结果比对</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetectRgb_OutResultCheck</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">单线程对给定的图片进行人脸检测与多线程对给定的图片进行人脸检测结果比对</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；
+2、回到主菜单，运行3-2用例；
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetectRgb_OutResultCheck"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程人脸跟踪</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetTrackRgb_SingleThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">单线程下测试使用给定路径的图片进行人脸检测接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；
+2、回到主菜单，运行3-3用例；
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetTrackRgb_SingleThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程人脸跟踪</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetTrackRgb_MultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">多线程下测试使用给定路径的图片进行人脸检测接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-3用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetTrackRgb_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程人脸跟踪与多线程人脸跟踪结果比对</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISFaceDetTrackRgb_OutResultCheck</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对比单、多线程下使用给定路径的图片进行人脸检测结果是否一致</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-3用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISFaceDetTrackRgb_OutResultCheck"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td rowspan="3" class="mokuai">人脸关键点检测</td>
+<td  class="yongli_or_mudi">单线程人脸关键点检测</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISCalFaceInfoPath_SingleThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">单线程下测试人脸检测（获取人脸信息）接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-4用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISCalFaceInfoPath_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >文件夹A检出率: 99.00%<br> 文件夹B检出率: 100.00%<br> 平均时间: 8.37ms<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程人脸关键点检测</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISCalFaceInfoPath_MultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">多线程下测试人脸检测（获取人脸信息）接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-4用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISCalFaceInfoPath_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程人脸关键点检测结果与多线程人脸关键点检测结果对比</td>
+<td  class="yongli_or_mudi">ftISDetTrack.ISCalFaceInfoPath_OutResultCheck</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对比单、多线程人脸检测（获取人脸信息）结果是否一致</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行3-4用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISDetTrack.ISCalFaceInfoPath_OutResultCheck"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td rowspan="6" class="mokuai">提取特征</td>
+<td rowspan="3" class="mokuai">提取特征</td>
+<td  class="yongli_or_mudi">单线程提取特征</td>
+<td  class="yongli_or_mudi">ftISFeature.ISGetFeaturePath_SingleThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">单线程测试提取特征接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行4-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISFeature.ISGetFeaturePath_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >文件夹A检出率: 96.00%<br> 文件夹B检出率: 100.00%<br> 平均时间: 105.26ms<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程提取特征</td>
+<td  class="yongli_or_mudi">ftISFeature.ISGetFeaturePath_MultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">多线程测试提取特征接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行4-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISFeature.ISGetFeaturePath_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程提取特征与多线程提取特征结果对比</td>
+<td  class="yongli_or_mudi">ftISFeature.ISGetFeaturePath_OutResultCheck</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对比单、多线程提取特征接口的结果是否一致</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行4-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISFeature.ISGetFeaturePath_OutResultCheck"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td rowspan="3" class="mokuai">获取图片中指定坐标中的人脸特征</td>
+<td  class="yongli_or_mudi">单线程从指定坐标中的人脸特征提取</td>
+<td  class="yongli_or_mudi">ftISFeature.ISGetFeatureWithFacePosPath_SingleThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">单线程测试获取图片中指定坐标中的人脸特征接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行4-2用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISFeature.ISGetFeatureWithFacePosPath_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >文件夹A检出率: 100.00%<br> 文件夹B检出率: 100.00%<br> 平均时间: 85.84ms<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程从指定坐标中的人脸特征提取</td>
+<td  class="yongli_or_mudi">ftISFeature.ISGetFeatureWithFacePosPath_MultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试获取图片中指定坐标中的人脸特征接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行4-2用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISFeature.ISGetFeatureWithFacePosPath_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程从指定坐标中的人脸特征提取与多线程从指定坐标中的人脸特征提取结果对比</td>
+<td  class="yongli_or_mudi">ftISFeature.ISGetFeatureWithFacePosPath_OutResultCheck</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对比单、多线程测试获取图片中指定坐标中的人脸特征接口结果是否一致</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行4-2用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISFeature.ISGetFeatureWithFacePosPath_OutResultCheck"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td rowspan="3" class="mokuai">人脸确认指标（1:1）</td>
+<td rowspan="1" class="mokuai">1:1对比数据准备</td>
+<td  class="yongli_or_mudi">1:1测试前的数据准备</td>
+<td  class="yongli_or_mudi">ftISCompare.prepareFeatureAndPcaRapidlyUsingMultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">为1：1测试前准备测试数据</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行5-1用例，准备好测试数据；<br>
+3、终端里输出结果里查找"ftISCompare.prepareFeatureAndPcaRapidlyUsingMultiThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" ><br></td>
+</tr>
+<tr>
+<td rowspan="1" class="mokuai">单线程下1:1对比</td>
+<td  class="yongli_or_mudi">单线程下1:1对比</td>
+<td  class="yongli_or_mudi">ftISCompare.ISCompare_SingleThread</td>
+<td  class="qianti">继1:1测试前的数据准备</td>
+<td  class="yongli_or_mudi">单线程情况下测试（1:1）对比接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行5-2用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISCompare.ISCompare_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >正确率:100.00%<br> 正确接收率:100.00%<br> 错误接收率:0.00%<br> 平均时间: -nanms<br></td>
+</tr>
+<tr>
+<td rowspan="1" class="mokuai">多线程下1:1对比</td>
+<td  class="yongli_or_mudi">多线程下1:1对比</td>
+<td  class="yongli_or_mudi">ftISCompare.ISCompare_MultiThread</td>
+<td  class="qianti">继1:1测试前的数据准备</td>
+<td  class="yongli_or_mudi">多线程情况下测试（1:1）对比接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行5-2用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISCompare.ISCompare_MultiThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >正确率:100.00%<br> 正确接收率:100.00%<br> 错误接收率:0.00%<br> 平均时间: -nanms<br></td>
+</tr>
+<tr>
+<td rowspan="5" class="mokuai">人脸辨认指标（1:N）</td>
+<td rowspan="1" class="mokuai">1:N对比数据准备</td>
+<td  class="yongli_or_mudi">1:N测试前的数据准备</td>
+<td  class="yongli_or_mudi">ftISCompareMN.prepareFeatureAndPcaRapidlyUsingMultiThread</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">为1：N测试前准备测试数据</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行6-1用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISCompareMN.prepareFeatureAndPcaRapidlyUsingMultiThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" ><br></td>
+</tr>
+<tr>
+<td rowspan="2" class="mokuai">1:N对比</td>
+<td  class="yongli_or_mudi">单线程下1:N对比</td>
+<td  class="yongli_or_mudi">ftISCompare.ISCompareMN_SingleThread</td>
+<td  class="qianti">继1:N测试前的数据准备</td>
+<td  class="yongli_or_mudi">单线程情况下测试（1:N）对比接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行6-2用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] fftISCompare.ISCompareMN_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程下1:N对比</td>
+<td  class="yongli_or_mudi">ftISCompare.ISCompareMN_MultiThread</td>
+<td  class="qianti">继1:N测试前的数据准备</td>
+<td  class="yongli_or_mudi">多线程情况下测试（1:N）对比接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行6-2用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISCompare.ISCompareMN_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td rowspan="2" class="mokuai">特征值预先载入1:N对比</td>
+<td  class="yongli_or_mudi">单线程下特征值预先载入1:N对比</td>
+<td  class="yongli_or_mudi">ftISCompare.ISCompareMNfaster_SingleThread</td>
+<td  class="qianti">继1:N测试前的数据准备</td>
+<td  class="yongli_or_mudi">单线程情况下测试（1:N）快速对比接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行6-3用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISCompare.ISCompareMNfaster_SingleThread"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程下特征值预先载入1:N对比</td>
+<td  class="yongli_or_mudi">ftISCompare.ISCompareMNfaster_MultiThread</td>
+<td  class="qianti">继1:N测试前的数据准备</td>
+<td  class="yongli_or_mudi">多线程情况下测试（1:N）快速对比接口</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到上级菜单，运行6-3用例，准备好测试数据；<br>
+3、终端里输出结果里查找"[ RUN      ] ftISCompare.ISCompareMNfaster_MultiThread"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td rowspan="12" class="mokuai">特殊场景测试</td>
+<td rowspan="12" class="mokuai">特殊场景测试</td>
+<td  class="yongli_or_mudi">对小尺寸图片的识别</td>
+<td  class="yongli_or_mudi">ftError.inputImagesWithATooSmallSize</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试对小尺寸图片的识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-1用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.inputImagesWithATooSmallSize"，并判断其结果（>>Outputs<<）；</td>
+<td  class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">无输入图片情况下的识别</td>
+<td  class="yongli_or_mudi">ftError.inputImagesCanNotBeFound</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试无输入图片情况下的识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-2用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.inputImagesCanNotBeFound"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">无检测通道情况下的识别</td>
+<td  class="yongli_or_mudi">ftError.detectWithOutCreatingDectectChannel</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试无检测通道情况下的识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-3用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.detectWithOutCreatingDectectChannel"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">对输入图片检测不到人脸时的识别</td>
+<td  class="yongli_or_mudi">ftError.inputImagesDetectedNoFace</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试对输入图片检测不到人脸时的识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-4用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.inputImagesDetectedNoFace"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">对输入图片提取不到特征的识别</td>
+<td  class="yongli_or_mudi">ftError.inputImagesGetNoFeature</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试对输入图片提取不到特征的识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-5用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.inputImagesGetNoFeature"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">对错误特征值的图片识别</td>
+<td  class="yongli_or_mudi">ftError.whatImageLeadsToGetFeatureError</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试对错误特征值的图片识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-6用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.whatImageLeadsToGetFeatureError"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">MN比对过大</td>
+<td  class="yongli_or_mudi">ftError.whatIsCompareMNError</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试MN比对过大效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行6-7用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftError.whatIsCompareMNError"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >失败<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">对特征长度值超出范围的图片识别</td>
+<td  class="yongli_or_mudi">ftAppliance.ISGetFeatureLength_Check</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试对特征长度值超出范围的图片识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；
+2、运行7-2用例；
+3、终端里输出结果里查找"[ RUN      ] ftAppliance.ISGetFeatureLength_Check"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">图片里超过15个人脸</td>
+<td  class="yongli_or_mudi">ftAppliance.theGivenPictureHasMoreThan15FacesBeDetected</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试图片里超过15个人脸识别效果</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行7-4用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftAppliance.theGivenPictureHasMoreThan15FacesBeDetected"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >失败<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">图片中有多个人脸时，先后识别出人脸的顺序</td>
+<td  class="yongli_or_mudi">ftAppliance.whatFaceReturnsEarlierInOutResultAndWhatLater</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试图片中有多个人脸时，先后识别出人脸的顺序</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行7-5用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftAppliance.whatFaceReturnsEarlierInOutResultAndWhatLater"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" ><br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">对文件夹内多个子文件夹里对应放入一张现场照和一张人脸人证比对</td>
+<td  class="yongli_or_mudi">ftAppliance.personAndIdCardCompareOfOneDirectory</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对文件夹内多个子文件夹里对应放入一张现场照和一张人脸人证比对</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行7-6用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftAppliance.personAndIdCardCompareOfOneDirectory"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">对文件夹内多个子文件夹里对应放入一张现场照和一张人脸人证分步识别比对</td>
+<td  class="yongli_or_mudi">ftAppliance.personAndIdCardCompareOfOneDirectorySteply</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">对文件夹内多个子文件夹里对应放入一张现场照和一张人脸人证分步识别比对</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、运行7-7用例；<br>
+3、终端里输出结果里查找"[ RUN      ] ftAppliance.personAndIdCardCompareOfOneDirectorySteply"，并判断其结果（>>Outputs<<）；</td><td colspan="2" class="jieguo" >通过<br></td>
+</tr>
+<tr>
+<td rowspan="6" class="mokuai">流程测试</td>
+<td rowspan="6" class="mokuai">流程测试</td>
+<td  class="yongli_or_mudi">单线程人脸检测+特征提取+1:1对比</td>
+<td  class="yongli_or_mudi">SingleThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试单线程1:1人脸识别流程</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行1-1用例；
+</td>
+<td  class="jieguo" ></td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程人脸检测+特征提取+1:N对比</td>
+<td  class="yongli_or_mudi">SingleThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试单线程1:N人脸识别流程</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行1-2用例；
+ </td><td colspan="2" class="jieguo" >流程平均耗时:0.00ms</td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">单线程人脸检测+特征提取+1:N快速比对</td>
+<td  class="yongli_or_mudi">SingleThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试单线程1:N快速人脸识别流程</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行1-3用例；
+</td><td colspan="2" class="jieguo" >流程平均耗时:0.00ms</td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程人脸检测+特征提取+1:1对比</td>
+<td  class="yongli_or_mudi">MultiThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试多线程1:1人脸识别流程</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行2-1用例；
+</td><td colspan="2" class="jieguo" >流程平均耗时:0.00ms</td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程人脸检测+特征提取+1:N对比</td>
+<td  class="yongli_or_mudi">MultiThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试多线程1:N人脸识别流程</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行2-2用例；
+</td><td colspan="2" class="jieguo" >流程平均耗时:0.00ms</td>
+</tr>
+<tr>
+<td  class="yongli_or_mudi">多线程人脸检测+特征提取+1:N快速比对</td>
+<td  class="yongli_or_mudi">MultiThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)</td>
+<td  class="qianti">1、阈值:0.85，最小人脸像素值:46,最大人脸像素值:1000；<br>
+2、文件夹A存证件照20016张，文件夹B对应的现场照20016张，对应关系A1与B1是同一个人的照片；<br>
+3、文件夹A、文件夹B的少许照片识别不出人脸，少许照片提取特征值失败；</td>
+<td  class="yongli_or_mudi">测试多线程1:N快速人脸识别流程</td>
+<td  class="buzhou">1、启动程序后，终端里依次输入7、3，及运行7-3用例，加载config.ini；<br>
+2、回到主菜单，运行2-3用例；</td><td colspan="2" class="jieguo" >流程平均耗时:0.00ms</td>
+</tr>
+
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>

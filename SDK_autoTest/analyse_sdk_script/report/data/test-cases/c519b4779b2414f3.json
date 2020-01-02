@@ -1,0 +1,76 @@
+{
+  "uid" : "c519b4779b2414f3",
+  "name" : "test_attendence_record_download",
+  "fullName" : "test_lookhtml.test_attendence_record_download",
+  "historyId" : "8edab1d2675291837798c0987f41d31a",
+  "time" : {
+    "start" : 1570848315618,
+    "stop" : 1570848315623,
+    "duration" : 5
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "86e483afe1487099",
+      "name" : "Captured log call",
+      "source" : "86e483afe1487099.txt",
+      "type" : "text/plain",
+      "size" : 225
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : true,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-JAOQUI3"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "severity",
+    "value" : "normal"
+  }, {
+    "name" : "thread",
+    "value" : "13648-MainThread"
+  }, {
+    "name" : "suite",
+    "value" : "test_lookhtml"
+  }, {
+    "name" : "testClass",
+    "value" : "test_lookhtml"
+  }, {
+    "name" : "testMethod",
+    "value" : "test_attendence_record_download"
+  }, {
+    "name" : "package",
+    "value" : "test_lookhtml"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "c519b4779b2414f3.json",
+  "parameterValues" : [ ]
+}

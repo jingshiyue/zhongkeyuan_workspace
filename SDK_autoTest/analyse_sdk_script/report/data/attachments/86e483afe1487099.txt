@@ -1,0 +1,2 @@
+test_lookhtml.py            28 INFO     **************test_attendence_record_download 测试开始**************
+test_lookhtml.py            29 INFO     **************test_attendence_record_download 测试完成**************
