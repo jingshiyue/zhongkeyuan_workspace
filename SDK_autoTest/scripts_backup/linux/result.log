@@ -1,0 +1,11 @@
+2020-01-03 13:13:56,928 INFO [分析文件]  ./result/tmp/LINUX_20200103131001/SdkTestbed.log
+2020-01-03 13:13:57,909 DEBUG [OUTPUT] ./result/tmp/LINUX_20200103131001/result.xls
+2020-01-03 13:13:57,910 DEBUG generate EXCEL complete...
+2020-01-03 13:13:58,026 DEBUG update_title_pos
+2020-01-03 13:13:58,053 DEBUG findfont: Matching :family=sans-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('/home/ubuntu/.local/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+2020-01-03 13:13:58,205 DEBUG findfont: Matching :family=sans-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0 to DejaVu Sans ('/home/ubuntu/.local/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+2020-01-03 13:13:58,591 DEBUG update_title_pos
+2020-01-03 13:13:58,699 DEBUG generate monitor.png complete...
+2020-01-03 13:13:58,700 DEBUG analyse successfully !!!
+2020-01-03 13:14:00,093 DEBUG /home/ubuntu/FaceSDKTest/Export
+2020-01-03 13:14:00,171 DEBUG generate html successfully ...

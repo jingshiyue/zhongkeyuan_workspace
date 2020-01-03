@@ -8,6 +8,12 @@ config.read(r"./testbed.ini")
 env = config.get("testbed","env")
 resultPath = config.get("testbed","resultPath")
 log_path = resultPath + "/Monitor.log"
+
+config.set("testbed","monitorlog",log_path)
+with open("./testbed.ini", 'w') as config_file:
+    config.write(config_file)
+
+
 logging.basicConfig(level=logging.DEBUG,
     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
     filename = log_path,

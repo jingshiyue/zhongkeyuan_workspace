@@ -1,41 +1,14 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
 import os
 from goto import with_goto
+#./Export/build/Target/FaceSDKTest
 import psutil
 import os,datetime,time
 import threading
 import logging
-
-# os.chdir(os.path.dirname(__file__)+"/Export/build/Target")
-os.chdir(os.getcwd()+"/Export/build/Target")
-
-log_path = "../../result/tmp/Monitor_CPU_RAM_%s.txt" % time.strftime('%Y%m%d%H%M%S',time.localtime())
-# logging.basicConfig(level=logging.DEBUG,
-    # format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-    # filename = log_path,
-    # filemode='a')
-# console = logging.StreamHandler()
-# console.setLevel(logging.DEBUG)
-# formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
-# console.setFormatter(formatter)
-# logger = logging.getLogger()
-# logger.addHandler(console)
-
-
-def getMemCpu():
-    data = psutil.virtual_memory()
-    # total = data.total #总内存,单位为byte
-    # free = data.available #可以内存
-    memory = "Memory:%d"%(int(round(data.percent)))+"%"+" "
-    cpu = "CPU:%0.2f"%psutil.cpu_percent(interval=1)+"%"
-    logging.info(memory+cpu)
-    timer = threading.Timer(2*60,getMemCpu)
-    timer.start()
-################
-
-
+os.chdir(os.getcwd()+"/build/Target")
 
 @with_goto
 def test():
@@ -252,27 +225,27 @@ def test():
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.dumpConfigIni")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.dumpVersionNo")
         os.system("./FaceSDKTest --gtest_filter=ftISDetTrack.ISFaceDetectPath*")
-        print("SingleThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)")
+        os.system("echo SingleThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompare_SingleThread")
-        print("SingleThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)")
+        os.system("echo SingleThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMN_SingleThread")
-        print("SingleThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)")
+        os.system("echo SingleThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMNfaster_SingleThread")
-        print("MultiThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)")
+        os.system("echo MultiThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompare_MultiThread")
-        print("MultiThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)")
+        os.system("echo MultiThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMN_MultiThread")
-        print("MultiThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)")
+        os.system("echo MultiThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMNfaster_MultiThread")
@@ -293,6 +266,7 @@ def test():
         os.system("./FaceSDKTest --gtest_filter=ftError.whatImageLeadsToGetFeatureError")
         os.system("./FaceSDKTest --gtest_filter=ftError.whatIsCompareMNError")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.ISGetFeatureLength_Check")
+        os.system("./FaceSDKTest --gtest_filter=ftAppliance.dumpConfigIni")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.theGivenPictureHasMoreThan15FacesBeDetected")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.whatFaceReturnsEarlierInOutResultAndWhatLater")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.personAndIdCardCompareOfOneDirectory")
@@ -302,21 +276,5 @@ def test():
        
 
 print("prepare pics first, and then update configuration to config.ini!")
-
-# f = open("/proc/cpuinfo", "rt")
-# namePrinted = False;
-# coresPrinted = False;
-# for line in f:
-    # if "model name" in line and not(namePrinted):
-        # print(line, end='')
-        # namePrinted = True
-    # if "cpu cores" in line and not(coresPrinted):
-        # print(line, end='')
-        # coresPrinted = True
-# f.close()
-
-query_timer = threading.Timer(0,getMemCpu)
-query_timer.setDaemon(True)
-query_timer.start()
 test()
 
