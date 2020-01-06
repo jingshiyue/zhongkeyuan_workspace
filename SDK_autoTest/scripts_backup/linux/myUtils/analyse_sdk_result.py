@@ -20,12 +20,12 @@ logger.addHandler(console)
 
 # os.chdir(os.path.dirname(__file__))
 ######################套件和用例管理##########################################################
-suites_name = ["SingleThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)",
-                "SingleThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)",
-                "SingleThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)",
-                "MultiThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)",
-                "MultiThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)",
-                "MultiThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)",
+suites_name = ["SingleThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare",
+                "SingleThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN",
+                "SingleThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster",
+                "MultiThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare",
+                "MultiThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN",
+                "MultiThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster",
                 ]
 
 
@@ -34,16 +34,19 @@ suite_dict = collections.OrderedDict([
         "ftISDetTrack.ISFaceDetectPath_MultiThread",
         "ftISDetTrack.ISFaceDetectPath_OutResultCheck",]),
 
-    ("SingleThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)",["ftISDetTrack.ISFaceDetectRgb_SingleThread","ftISFeature.ISGetFeatureWithFacePosPath_SingleThread","ftISCompare.ISCompare_SingleThread"]),
-    ("SingleThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)",["ftISDetTrack.ISFaceDetectRgb_SingleThread","ftISFeature.ISGetFeatureWithFacePosPath_SingleThread","ftISCompareMN.ISCompareMN_SingleThread"]),
-    ("SingleThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)",["ftISDetTrack.ISFaceDetectRgb_SingleThread","ftISFeature.ISGetFeatureWithFacePosPath_SingleThread","ftISCompareMN.ISCompareMNfaster_SingleThread"]),
-    ("MultiThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare)",["ftISDetTrack.ISFaceDetectRgb_MultiThread","ftISFeature.ISGetFeatureWithFacePosPath_MultiThread","ftISCompare.ISCompare_MultiThread"]),
-    ("MultiThread:(2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN)",["ftISDetTrack.ISFaceDetectRgb_MultiThread","ftISFeature.ISGetFeatureWithFacePosPath_MultiThread","ftISCompareMN.ISCompareMN_MultiThread"]),
-    ("MultiThread:(3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster)",["ftISDetTrack.ISFaceDetectRgb_MultiThread","ftISFeature.ISGetFeatureWithFacePosPath_MultiThread","ftISCompareMN.ISCompareMNfaster_MultiThread"]),
+    ("SingleThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare",["ftISDetTrack.ISFaceDetectRgb_SingleThread","ftISFeature.ISGetFeatureWithFacePosPath_SingleThread","ftISCompare.ISCompare_SingleThread"]),
+    ("SingleThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN",["ftISDetTrack.ISFaceDetectRgb_SingleThread","ftISFeature.ISGetFeatureWithFacePosPath_SingleThread","ftISCompareMN.ISCompareMN_SingleThread"]),
+    ("SingleThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster",["ftISDetTrack.ISFaceDetectRgb_SingleThread","ftISFeature.ISGetFeatureWithFacePosPath_SingleThread","ftISCompareMN.ISCompareMNfaster_SingleThread"]),
+    ("MultiThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare",["ftISDetTrack.ISFaceDetectRgb_MultiThread","ftISFeature.ISGetFeatureWithFacePosPath_MultiThread","ftISCompare.ISCompare_MultiThread"]),
+    ("MultiThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN",["ftISDetTrack.ISFaceDetectRgb_MultiThread","ftISFeature.ISGetFeatureWithFacePosPath_MultiThread","ftISCompareMN.ISCompareMN_MultiThread"]),
+    ("MultiThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster",["ftISDetTrack.ISFaceDetectRgb_MultiThread","ftISFeature.ISGetFeatureWithFacePosPath_MultiThread","ftISCompareMN.ISCompareMNfaster_MultiThread"]),
 
     ("ftISDetTrack.ISFaceDetectRgb*",["ftISDetTrack.ISFaceDetectRgb_SingleThread",
         "ftISDetTrack.ISFaceDetectRgb_MultiThread",
         "ftISDetTrack.ISFaceDetectRgb_OutResultCheck",]),
+    ("ftISDetTrack.ISFaceDetectPath*",["ftISDetTrack.ISFaceDetectPath_SingleThread",
+        "ftISDetTrack.ISFaceDetectPath_MultiThread",
+        "ftISDetTrack.ISFaceDetectPath_OutResultCheck",]),
     ("ftISDetTrack.ISFaceDetTrackRgb*",["ftISDetTrack.ISFaceDetTrackRgb_SingleThread",
         "ftISDetTrack.ISFaceDetTrackRgb_MultiThread",
         "ftISDetTrack.ISFaceDetTrackRgb_OutResultCheck",]),
