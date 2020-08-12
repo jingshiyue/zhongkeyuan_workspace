@@ -5,11 +5,11 @@ from WuLanChaBuApi.TestApi.new_method import *
 
 class Regist(object):
     """人脸信息CRUD"""
-    def __init__(self):
+    def __init__(self,host = "http://172.18.2.128:10010/"):
         """人脸信息CRUD"""
         self.apiId = "123456"
         self.apiKey = "1285384ddfb057814bad78127bc789be"
-        self.hostaddress = "http://192.168.5.15:10019/"
+        self.hostaddress = host + "face-bussiness-server/"
         self.regist = self.hostaddress+"api/v1/face/regist"
         self.update = self.hostaddress+"api/v1/face/update"
         self.delete = self.hostaddress+"api/v1/face/delete"
@@ -27,8 +27,14 @@ class Regist(object):
         return header
 
     def api_v1_face_regist(self, body, sign_only="/api/v1/face/regist"):
-        """注册人脸"""
+        """注册人脸
+        上海有机所修改接口
+            1.主要用来进行访客的登记。
+            2.兼容多条记录的导入
+        
+        """
         header = self.get_header(sign_only)
+        print(self.regist)
         res = requests.post(url=self.regist,
                             headers=header,
                             json=body,
@@ -48,14 +54,17 @@ class Regist(object):
         return res.text
 
     def api_v1_face_delete(self, body, sign_only="/api/v1/face/delete"):
-        """删除人脸信息接口"""
+        """删除人脸信息接口
+            上海有机所修改的接口:
+                1.只能删除访客的人员信息。
+                2.服务器需要进行传入的员工编号进行校验是否是访客人员
+        """
         header = self.get_header(sign_only)
         res = requests.post(url=self.delete,
                             headers=header,
                             json=body,
                             verify=False
                             )
-        print(res.text)
         return res.text
 
     def api_v1_face_query(self, body, sign_only="/api/v1/face/query"):
@@ -93,4 +102,4 @@ class Regist(object):
 if __name__ == '__main__':
     regist = Regist()
     body = {}
-    regist.api_v1_face_regist(body)
+    regist.api_v1_face_update(body)

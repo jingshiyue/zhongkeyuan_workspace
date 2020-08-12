@@ -3,7 +3,6 @@
 # Author : zcl
 import pytest
 import json,sys
-# sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import *
 
 
@@ -15,11 +14,11 @@ def test_attendence_record_query():
         name="",  # 员工名称	否
         personCode="",  # 员工编码	否
         pageNum=1,  # 分页的起始页，从1开始	是
-        pageSize=100,  # 分页的大小	是
+        pageSize=1,  # 分页的大小	是
         isCount=1,  # 为1表是返回总数	是
         deptId="",  # 部门ID，为空字符串，表示所有部门	是
-        startTime="20190827",  # yyyyMMdd	是
-        endTime="20190827",  # yyyyMMdd	是
+        startTime="20191119",  # yyyyMMdd	是
+        endTime="20191119",  # yyyyMMdd	是
     )
     logger.info(res.text)
 

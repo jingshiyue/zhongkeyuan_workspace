@@ -10,15 +10,15 @@ def send_msg(msg) ->str:
     :return:
     """
     credentials = pika.PlainCredentials(username="root", password="123456")
-    parameters = pika.ConnectionParameters(host="192.168.5.15",
+    parameters = pika.ConnectionParameters(host="192.168.10.184",
                                            port=5672,
                                            virtual_host="/",
                                            credentials=credentials)
     connection = pika.BlockingConnection(parameters=parameters,)
-    channel = connection.channel()
-    channel.queue_declare(queue="bt_sec_queue",
+    channel = connection.channel() #获得信道
+    channel.queue_declare(queue="bt_sec_queue",  #声明队列
                           durable=True)
-    channel.basic_publish(exchange="",
+    channel.basic_publish(exchange="",  #发布消息
                           routing_key="bt_sec_queue",
                           body=msg,)
     #print(" [x] Sent %r:%r" % ("bt_sec_queue", msg))

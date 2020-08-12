@@ -9,9 +9,10 @@ class BlackListApi(object):
     对黑名单管理的CRUD类
     20190702新增白名单
     """
-    def __init__(self, host="https://192.168.5.15:4433/"):
+    def __init__(self, host="http://175.168.1.199:9091/"):
         # self.certificate = "D:/WorkSpace/https_20190709/API_https/cacert.crt"
-        self.certificate = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"
+        # self.certificate = "D:\workfile\zhongkeyuan_workspace\https_20190709\API_https\cacert.crt"  #用于Https
+        self.certificate = None   #用于http
         self.apiId = "123456"
         self.apiKey = "1285384ddfb057814bad78127bc789be"
         self.host = host
@@ -28,6 +29,7 @@ class BlackListApi(object):
         self.white_list_delete = self.host + self.data_platform_server + "/api/v1/face/whitelist/delete"   #白名单删除
         self.white_list_query = self.host + self.data_platform_server + "/api/v1/face/whitelist/query"   #白名单查询
         self.white_list_record_query = self.host + self.data_platform_server + "/api/v1/face/whitelist/record/query"   #安检员工记录查询
+        self.jms_server = "jms-server"
 
     def __new__(cls, *args, **kwargs):
         return super().__new__(cls)
@@ -42,7 +44,7 @@ class BlackListApi(object):
     def api_black_list_save(self,
                             this_sign="/api/v1/face/backlist/save",
                             reqId=get_uuid(),   #必须
-                            ids="",
+                            id="",
                             certificateNumber="",
                             peopleName="",      #必须
                             focusType=0,       #必须int 0：布控人员  1：失信人员  2：重点检查人员  3：本场关注人员  4：嫌疑人  5：上访人员  6：其他人员
@@ -51,12 +53,13 @@ class BlackListApi(object):
                             cancelTime="",   #撤控时间yyyyMMddHHmmss
                             sex=0,           #性别int
                             focusReason="布控原因",
-                            note="备注"
-                            ):
+                            note="备注",#必须
+                            isAllowPass=0 #integer	非必须 新增请求字段isAllowPass，标记布控人员是否允许通过大闸机，默认是0 不允许通过
+    ):
         """黑名单增加接口"""
         body = {"reqId": reqId,
-                "id": ids,  # 32位UUID，流水表记录ID，有就更新，无则增加
-                "certificateNumber": certificateNumber,
+                "id": id,  # 32位UUID，流水表记录ID，有就更新，无则增加
+                "certificateNumber":certificateNumber,
                 "peopleName": peopleName,
                 "focusType": focusType,
                 "img": img,
@@ -64,12 +67,8 @@ class BlackListApi(object):
                 "cancelTime":cancelTime,
                 "sex":sex,
                 "focusReason":focusReason,
-                "note":note
-                }
-        print(self.black_list_save)
-        print(self.get_headers(this_sign))
-        print(body)
-        print(self.certificate)
+                "note":note,}
+
         res = requests.post(url=self.black_list_save, headers=self.get_headers(this_sign),
                             json=body,
                             verify=self.certificate)

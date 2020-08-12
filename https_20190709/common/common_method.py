@@ -25,20 +25,6 @@ shiwanli8k_features = "D:\pre_data\picture8k"   #1:1用
 
 
 from https_20190709.common.Idcardnumber import get_random_id_number
-
-logger = logging.getLogger(__name__)
-logger.setLevel(level=logging.DEBUG)
-handler = logging.FileHandler("log.log", encoding="utf-8")
-handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-
-console = logging.StreamHandler()
-console.setFormatter(formatter)
-console.setLevel(logging.INFO)
-
-# logger.addHandler(handler)
-logger.addHandler(console)
 import requests
 
 # from BaiTaAirport2_month.common.logg import logger

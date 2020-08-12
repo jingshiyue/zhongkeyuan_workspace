@@ -8,7 +8,7 @@ logger = mylog.get_log().get_logger()
 
 
 class attendance_sys():
-    def __init__(self, host="http://192.168.5.15:10019/",server=""):
+    def __init__(self, host="http://172.18.2.199:10019/",server=""):
         self.host = host
         self.server = server
         self._api_v1_attendence_rule_save = self.host + self.server + "api/v1/attendence/rule/save"
@@ -38,6 +38,11 @@ class attendance_sys():
         self._api_v1_attendence_special_query = self.host + self.server + "api/v1/attendence/special/query"
         self._api_v1_attendence_special_delete = self.host + self.server + "api/v1/attendence/special/delete"
         self._api_v1_attendence_record_download = self.host + self.server + "api/v1/attendence/record/download"
+        self._api_v1_attendence_rest_delete = self.host + self.server + "api/v1/attendence/rest/delete"
+        self._api_v1_attendence_rest_query = self.host + self.server + "api/v1/attendence/rest/query"
+        self._api_v1_attendence_rest_save = self.host + self.server + "api/v1/attendence/rest/save"
+        self._api_v1_attendence_rest_update = self.host + self.server + "api/v1/attendence/rest/update"
+
 
 
     def get_headers(self,sign):
@@ -328,6 +333,95 @@ class attendance_sys():
                             )
         res.close()
         return res
+
+
+    """节假日登记-增加接口"""
+    def api_v1_attendence_rest_save(self,
+                                    reqId=get_uuid(),	        #string	必须		32位UUID
+                                    recordType=None,	#number	必须		0-节假日，1-补班 说明：节假日：起止日期不能只是周六周末；补班：只能是周六周末		
+                                    startTime="",	#string	必须		开始时间yyyyMMdd
+                                    endTime="",	    #string	必须		结束时间yyyyMMdd
+                                    remark=""):
+        body = {
+            "reqId":reqId,	      
+            "recordType":recordType,
+            "startTime":startTime,	
+            "endTime":endTime,	  
+            "remark":remark
+            }
+        res = requests.post(url=self._api_v1_attendence_rest_save,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/rest/save"),
+                            )
+        res.close()
+        return res    
+
+
+    """节假日登记-更新接口（暂定，未写）""" 
+    def api_v1_attendence_rest_update(self,
+                                    reqId=get_uuid(),	        #string	必须		32位UUID
+                                    recordType=None,	#number	必须		0-节假日，1-补班 说明：节假日：起止日期不能只是周六周末；补班：只能是周六周末		
+                                    startTime="",	#string	必须		开始时间yyyyMMdd
+                                    endTime="",	    #string	必须		结束时间yyyyMMdd
+                                    remark=""):
+        body = {
+            "reqId":reqId,	      
+            "recordType":recordType,
+            "startTime":startTime,	
+            "endTime":endTime,	  
+            "remark":remark
+            }
+        res = requests.post(url=self._api_v1_attendence_rest_update,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/rest/update"),
+                            )
+        res.close()
+        return res    
+
+
+    """节假日登记-查询接口""" 
+    def api_v1_attendence_rest_query(self,
+                                    reqId=get_uuid(),	        #string	必须		32位UUID
+                                    recordType=None,	#number	非必须	不传是全查	0-节假日，1-补班 说明：节假日：起止日期不能只是周六周末；补班：只能是周六周末		
+                                    startTime="",	#string	必须		开始时间yyyyMMdd
+                                    endTime="",	    #string	必须		结束时间yyyyMMdd
+                                    pageNum="",     #必须
+                                    pageSize="",    #必须
+                                    isCount=""):    #必须
+        body = {
+            "reqId":reqId,	      
+            "recordType":recordType,
+            "startTime":startTime,	
+            "endTime":endTime,	  
+            "pageNum":pageNum,
+            "pageSize":pageSize,
+            "isCount":pageNum
+            }
+        res = requests.post(url=self._api_v1_attendence_rest_query,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/rest/query"),
+                            )
+        res.close()
+        return res    
+
+
+
+    """节假日登记-删除接口""" 
+    def api_v1_attendence_rest_delete(self,
+                                    reqId=get_uuid(),	        #string	必须		32位UUID
+                                    ids="",			
+                                    ):    
+        body = {
+            "reqId":reqId,	      
+            "ids":ids,
+            }
+        res = requests.post(url=self._api_v1_attendence_rest_delete,
+                            json=body,
+                            headers=self.get_headers("/api/v1/attendence/rest/delete"),
+                            )
+        res.close()
+        return res  
+
 
 
 if __name__ == '__main__':

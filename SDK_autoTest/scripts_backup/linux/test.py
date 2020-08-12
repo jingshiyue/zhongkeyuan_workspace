@@ -220,11 +220,12 @@ def test():
             goto .appliance
         if a == "10":
             goto .home
-################
+#################
     if h == "8":
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.dumpConfigIni")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.dumpVersionNo")
         os.system("./FaceSDKTest --gtest_filter=ftISDetTrack.ISFaceDetectPath*")
+        ######################################################################
         os.system("echo SingleThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_SingleThread")
@@ -232,11 +233,11 @@ def test():
         os.system("echo SingleThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_SingleThread")
-        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMN_SingleThread")
+        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompareMN.ISCompareMN_SingleThread")
         os.system("echo SingleThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_SingleThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_SingleThread")
-        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMNfaster_SingleThread")
+        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompareMN.ISCompareMNfaster_SingleThread")
         os.system("echo MultiThread:1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_MultiThread")
@@ -244,11 +245,12 @@ def test():
         os.system("echo MultiThread:2.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMN")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_MultiThread")
-        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMN_MultiThread")
+        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompareMN.ISCompareMN_MultiThread")
         os.system("echo MultiThread:3.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompareMNfaster")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISDetTrack.ISFaceDetectRgb_MultiThread")
         os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISFeature.ISGetFeatureWithFacePosPath_MultiThread")
-        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompare.ISCompareMNfaster_MultiThread")
+        os.system("./FaceSDKTest smartirsec2018 --gtest_filter=ftISCompareMN.ISCompareMNfaster_MultiThread")
+        ######################################################################
         os.system("./FaceSDKTest --gtest_filter=ftISDetTrack.ISFaceDetectRgb*")
         os.system("./FaceSDKTest --gtest_filter=ftISDetTrack.ISFaceDetTrackRgb*")
         os.system("./FaceSDKTest --gtest_filter=ftISDetTrack.ISCalFaceInfoPath*")
@@ -258,6 +260,9 @@ def test():
         os.system("./FaceSDKTest --gtest_filter=ftISCompare.ISCompare_*")
         os.system("./FaceSDKTest --gtest_filter=ftISCompare.ISCompareMN_*")
         os.system("./FaceSDKTest --gtest_filter=ftISCompare.ISCompareMNfaster_*")
+        os.system("./FaceSDKTest --gtest_filter=ftISCompareMN.prepareFeatureAndPcaRapidlyUsingMultiThread")
+        os.system("./FaceSDKTest --gtest_filter=ftISCompareMN.ISCompareMN_*") 
+        os.system("./FaceSDKTest --gtest_filter=ftISCompareMN.ISCompareMNfaster_*") 
         os.system("./FaceSDKTest --gtest_filter=ftError.inputImagesWithATooSmallSize")
         os.system("./FaceSDKTest --gtest_filter=ftError.inputImagesCanNotBeFound")
         os.system("./FaceSDKTest --gtest_filter=ftError.detectWithOutCreatingDectectChannel")
@@ -271,8 +276,9 @@ def test():
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.whatFaceReturnsEarlierInOutResultAndWhatLater")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.personAndIdCardCompareOfOneDirectory")
         os.system("./FaceSDKTest --gtest_filter=ftAppliance.personAndIdCardCompareOfOneDirectorySteply")
+        os.system("echo cases in test.py have complated.")
         exit()
-################        
+###############
        
 
 print("prepare pics first, and then update configuration to config.ini!")

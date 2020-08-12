@@ -4,7 +4,6 @@
 
 import pytest
 import json,sys
-sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from Attendance_sys_CQZGH.utils.common_method import *
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import attendance_sys
 from Attendance_sys_CQZGH.utils.Log import mylog

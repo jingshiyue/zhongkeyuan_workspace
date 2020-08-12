@@ -297,49 +297,49 @@ if __name__ == "__main__":
     # config.write(open("./testbed.ini","w"))
 
 
-    env = "WIN764"
-    analyse_file = r"C:\Users\Administrator\Desktop\linux\SdkTestbed.log"
-    print("[分析文件]  %s" %analyse_file)
-    if not os.path.exists("result"):
-        os.mkdir("result")
-    excel = "./result/result_%s_%s.xls" % (env,time.strftime('%Y%m%d%H%M%S',time.localtime()))
-    wt_exc = wt_excel("result",excel)
-    wt_exc.wt_cell(0,0,"test suite".upper())
-    wt_exc.wt_cell(0,1,"test case".upper())
-    wt_exc.wt_cell(0,2,"test result".upper())
-    j = 1
-    for suite_name,cases_name in suite_dict.items():
-        if suite_name in suites_name:
-            suite = find_suites(analyse_file,suite_name)
-        else:
-            suite = find_suite(analyse_file,suite_name)
-        for case_name in cases_name:
-            case = find_case(suite,case_name)
-            rest = alynase_case_rest(case,
-                                    keyw1="rate",
-                                    keyw2="average time",
-                                    keyw3="[  PASSED  ]",
-                                    keyw4="[  FAILED  ]",
-                                    keyw5="are the same",
-                                    keyw6="identical person",
-                                    keyw7="two different persons",
-                                    keyw8="Compare Score:",
-                                    keyw9 = "positive samples",
-                                    keyw10="Shou Xuan Shi Bie Lvs",
-                                    keyw11="negative samples",
-                                    keyw12="Wu Shi Lv",
-                                     )
-            for i in range(3):
-                if i==0:
-                    wt_exc.wt_cell(j,i,str(suite_name))
-                if i==1:
-                    wt_exc.wt_cell(j,i,str(case_name))
-                if i==2:
-                    # print(rest)
-                    wt_exc.wt_cell(j,i,str(rest))
-            j += 1
-    output_xls = os.path.dirname(__file__) + excel[1:]
-    print("[OUTPUT] %s" %output_xls)
-    print("analyse successfully !!!")
+    # env = "WIN764"
+    # analyse_file = r"C:\Users\Administrator\Desktop\linux\SdkTestbed.log"
+    # print("[分析文件]  %s" %analyse_file)
+    # if not os.path.exists("result"):
+    #     os.mkdir("result")
+    # excel = "./result/result_%s_%s.xls" % (env,time.strftime('%Y%m%d%H%M%S',time.localtime()))
+    # wt_exc = wt_excel("result",excel)
+    # wt_exc.wt_cell(0,0,"test suite".upper())
+    # wt_exc.wt_cell(0,1,"test case".upper())
+    # wt_exc.wt_cell(0,2,"test result".upper())
+    # j = 1
+    # for suite_name,cases_name in suite_dict.items():
+    #     if suite_name in suites_name:
+    #         suite = find_suites(analyse_file,suite_name)
+    #     else:
+    #         suite = find_suite(analyse_file,suite_name)
+    #     for case_name in cases_name:
+    #         case = find_case(suite,case_name)
+    #         rest = alynase_case_rest(case,
+    #                                 keyw1="rate",
+    #                                 keyw2="average time",
+    #                                 keyw3="[  PASSED  ]",
+    #                                 keyw4="[  FAILED  ]",
+    #                                 keyw5="are the same",
+    #                                 keyw6="identical person",
+    #                                 keyw7="two different persons",
+    #                                 keyw8="Compare Score:",
+    #                                 keyw9 = "positive samples",
+    #                                 keyw10="Shou Xuan Shi Bie Lvs",
+    #                                 keyw11="negative samples",
+    #                                 keyw12="Wu Shi Lv",
+    #                                  )
+    #         for i in range(3):
+    #             if i==0:
+    #                 wt_exc.wt_cell(j,i,str(suite_name))
+    #             if i==1:
+    #                 wt_exc.wt_cell(j,i,str(case_name))
+    #             if i==2:
+    #                 # print(rest)
+    #                 wt_exc.wt_cell(j,i,str(rest))
+    #         j += 1
+    # output_xls = os.path.dirname(__file__) + excel[1:]
+    # print("[OUTPUT] %s" %output_xls)
+    # print("analyse successfully !!!")
 
-
+    os.system("echo SingleThread:(1.ISFaceDetectRgb+ISGetFeatureWithFacePosPath+ISCompare")

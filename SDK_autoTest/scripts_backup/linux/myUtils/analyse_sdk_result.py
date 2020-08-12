@@ -261,6 +261,7 @@ def alynase_case_rest(case_content,**kwags): #OutResultCheck
                     n = cont.find("\\r")
                     Num_N_DP = cont[m + len("for two different persons, but score more than compareFaceValue:"):n]
                     Num_N_DP = int(handle_str(Num_N_DP))
+                    print("Num_N_DP",Num_N_DP)
                     try:
                         zhengQueLv = (Num_P_DP+Num_N-Num_N_DP)/(Num_P+Num_N)*100
                     except:

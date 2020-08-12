@@ -391,7 +391,7 @@ if __name__ == "__main__":
             _memory = float((find_str(line, "Memory", 3)))
         if "CPU" in line:
             _cpu = float((find_str(line, "CPU", 5)))
-        if "2019" in line:
+        if "2020" in line:
             _t = '%.2f' % ((str2timestamp(line[0:19]) - _start) / 3600)
             _t = float(_t)
         cpu.append(_cpu)

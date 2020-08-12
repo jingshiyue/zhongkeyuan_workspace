@@ -1,8 +1,6 @@
 # coding:utf-8
 import pymysql
-from https_20190709.common.Log_z import mylog
 
-logger = mylog.get_log().get_logger()
 """
 class DataBase(object):
     def __init__(self, host, port, user, password, database):

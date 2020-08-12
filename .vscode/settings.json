@@ -1,9 +1,17 @@
 {
+    "editor.fontSize": 18,
+    "explorer.confirmDragAndDrop": false,
+    "extensions.autoUpdate": false,
+    "editor.fontFamily": "Consolas, Dengxian",
+    "workbench.sideBar.location": "left",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Nebula",
+    "window.zoomLevel": 0,
     "python.testing.pytestArgs": [
-        "Attendance_sys_CQZGH","-s","-v"
+      "Attendance_sys_CQZGH"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.pythonPath": "C:\\python37\\python.exe"
-}
+  }

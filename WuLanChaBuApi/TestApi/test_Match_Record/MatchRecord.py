@@ -25,8 +25,8 @@ class MatchRecord(object):
         """刷脸记录同步接口"""
 
         header = self.get_header(sign_only)
-        logger.info(body)
-        logger.info(header)
+        # logger.info(body)
+        # logger.info(header)
         logger.info(self.match)
         res = requests.post(url=self.match,
                             headers=header,

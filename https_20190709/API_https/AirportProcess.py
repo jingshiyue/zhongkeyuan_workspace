@@ -5,7 +5,7 @@ import threading
 
 
 class AirportProcess(BlackListApi):
-    def __init__(self, host="https://192.168.5.15:4433/"):
+    def __init__(self, host="http://172.18.2.199:9091/"):
         BlackListApi.__init__(self, host)
         self.A_security_ticket_check = self.host + self.anjian_server + "/api/v1/face/security/ticket-check"
         self.B_security_face_check = self.host + self.anjian_server + "/api/v1/face/security/face-check"
@@ -24,8 +24,6 @@ class AirportProcess(BlackListApi):
         self.api_v1_face_security_manual_optcheck = self.host + self.anjian_server + "/api/v1/face/security/manual-optcheck"  # 安检口人工放行
         self.api_anjian1_1 = self.host+self.anjian_server+"/api/v1/face/security/check"  # 安检1：1人脸验证
         self.api_v1_face_review_self_check = self.host+self.review_server+"/api/v1/face/review/self-check"  # 自助闸机复核接口
-
-
 
     def api_security_ticket_check(self,
                                   reqId=get_uuid(),
@@ -63,7 +61,10 @@ class AirportProcess(BlackListApi):
                 "ethnic": ethnic,  # 非必填
                 "contactWay": contactWay,  # 非必填
                 "cardPhoto": cardPhoto,
-                "fId": fId}
+                "fId": fId
+                }
+        # print(body)
+        # print(self.get_headers("/api/v1/face/security/ticket-check"))
         res = requests.post(url=self.A_security_ticket_check,
                             json=body,
                             headers=self.get_headers("/api/v1/face/security/ticket-check"),
@@ -91,7 +92,10 @@ class AirportProcess(BlackListApi):
                                      sceneFeature="",
                                      cardPhoto="",
                                      cardFeature="",
-                                     largePhoto=""):
+                                     largePhoto="",
+                                     facePst="",        #非必须，left,top,right,bottom  facePst和properyFeature必须至少传一个
+                                     properyFeature=""  #非必填,属性特征(前端不提取属性特征，由服务器根据largePhoto+facePst自行提取)会检测口罩
+                                     ):
         """2.3.15自助验证闸机B门接口（二期）"""
         body = {"reqId": reqId,
                 "gateNo": gateNo,
@@ -112,8 +116,12 @@ class AirportProcess(BlackListApi):
                 "sceneFeature": sceneFeature,
                 "cardPhoto": cardPhoto,
                 "cardFeature": cardFeature,
-                "largePhoto":largePhoto
+                "largePhoto":largePhoto, # 非必填
+                "facePst":facePst,  # 非必填left,top,right,bottom
+                "properyFeature":properyFeature #非必填,属性特征
                 }
+        # print(body)
+        # print(self.get_headers("/api/v1/face/security/face-check"))
         res = requests.post(url=self.B_security_face_check,
                             json=body,
                             headers=self.get_headers("/api/v1/face/security/face-check"),
@@ -122,46 +130,53 @@ class AirportProcess(BlackListApi):
         return res
 
     def api_anjian(self,
-                     anjiangateNo="T1AJ1",
-                     anjiandeviceId="T1AJ001",
-                     cardType=0,
-                     idCard="300238199312134390",
-                     nameZh="铁塔",
-                     nameEn="CHENKEYUN",
-                     age=25,
-                     sex=1,
-                     birthDate=get_birthday("300238199312134390"),
-                     address="重庆市大竹林街道",
-                     nationality="中国",
-                     ethnic="汉族",
-                     scenePhoto="204.jpg",
-                     sceneFeature="",
-                     cardPhoto="204.jpg",
-                     cardFeature="",
-                     largePhoto=""
+                   anjiangateNo="T1AJ1",
+                   anjiandeviceId="T1AJ001",
+                   cardType=0,
+                   idCard="300238199312134390",
+                   nameZh="铁塔",
+                   nameEn="CHENKEYUN",
+                   age=25,
+                   sex=1,
+                   birthDate=get_birthday("300238199312134390"),
+                   address="重庆市大竹林街道",
+                   certificateValidity="20081010-长期",# 时间yyyymmdd或者长期(起-止)
+                   nationality="中国",
+                   ethnic="汉族",
+                   scenePhoto="204.jpg",
+                   sceneFeature="",
+                   cardPhoto="204.jpg",
+                   cardFeature="",
+                   largePhoto="",
+                   facePst="",  #非必填,left,top,right,bottom    1.largePhoto+facePst  2.properyFeature二选一传
+                   properyFeature=""  #非必填,属性特征(前端不提取属性特征，由服务器根据largePhoto+facePst自行提取)不检测口罩，只用于判断年龄和性别
                    ):
         """安检1：1人脸验证"""
         body = {"reqId": get_uuid(),
-                 "gateNo": anjiangateNo,
-                 "deviceId": anjiandeviceId,
-                 "cardType": cardType,  # 证件类型 int
-                 "idCard": idCard,
-                 "nameZh": nameZh,
-                 "nameEn": nameEn,
-                 "age": age,  # int
-                 "sex": sex,  # int
-                 "birthDate": birthDate,
-                 "address": address,
-                 "certificateValidity": "20081010-20191206",  # 时间yyyymmdd或者长期(起-止)
+                "gateNo": anjiangateNo,
+                "deviceId": anjiandeviceId,
+                "cardType": cardType,  # 证件类型 int
+                "idCard": idCard,
+                "nameZh": nameZh,
+                "nameEn": nameEn,
+                "age": age,  # int
+                "sex": sex,  # int
+                "birthDate": birthDate,
+                "address": address,
+                 "certificateValidity": certificateValidity,  # 时间yyyymmdd或者长期(起-止)
                  "nationality": nationality,
                  "ethnic": ethnic,
                  "contactWay": "18680946659",
-                "scenePhoto": scenePhoto,
+                 "scenePhoto": scenePhoto,
                  "sceneFeature": sceneFeature,
                  "cardPhoto": cardPhoto,
                  "cardFeature": cardFeature,
-                 "largePhoto":largePhoto
-                 }
+                 "largePhoto":largePhoto,
+                 "facePst": facePst,  # left,top,right,bottom
+                 "properyFeature": properyFeature  # 属性特征
+                }
+        # print(self.get_headers("/api/v1/face/security/check"))
+        # print(get_uuid())
         res = requests.post(url=self.api_anjian1_1,
                             json=body,
                             headers=self.get_headers("/api/v1/face/security/check"),
@@ -176,7 +191,8 @@ class AirportProcess(BlackListApi):
                                    scenephoto="",
                                    scenefeature=""):
         """2.3.16 自助闸机复核接口（二期）"""
-        print(self.get_headers("/api/v1/face/review/self-check"))
+        # print(self.get_headers("/api/v1/face/review/self-check"))
+        # print(self.api_v1_face_review_self_check)
         body = {"reqId": reqid,
                 "gateNo": gateno,
                 "deviceId": deviceid,
@@ -213,7 +229,7 @@ class AirportProcess(BlackListApi):
                                      passengerName="", passengerEnglishName="", securityStatus="",
                                      securityPassTime="", securityGateNo="", securityDeviceNo="",
                                      flightNo="", boardingNumber="",
-                                     sourceType="",flightDay=""):
+                                     sourceType="",flightDay="",seatId=""):
         """2.3.7复核口人工复核接口（二期)安检的状态(0人证1:1 1 人工放行 2闸机B门通过 3-未知)"""
         body = {"reqId": reqId,
                 "gateNo": gateNo,
@@ -229,7 +245,8 @@ class AirportProcess(BlackListApi):
                 "flightNo": flightNo,
                 "boardingNumber": boardingNumber,
                 "sourceType": sourceType,
-                "flightDay":flightDay
+                "flightDay":flightDay,
+                "seatId":seatId
                 }
         res = requests.post(url=self.api_v1_face_review_manual_check,
                             headers=self.get_headers("/api/v1/face/review/manual-check"),
@@ -245,12 +262,13 @@ class AirportProcess(BlackListApi):
                                        gateNo="T1AJ1",
                                        deviceCode="T1AJMM007",
                                        boardingNumber="010",
-                                       seatId="001",
+                                       seatId="",
                                        startPort="HET",
                                        flightDay="1",
-                                       faceFeature=get_txt(shiwanli8k_features+"/999.txt"),
+                                       faceFeature="",
                                        kindType=0,                  # 类型：0：刷票 1：刷票放行
-                                       largePhoto=""
+                                       largePhoto="",
+                                       isFocus=0     #是否标记为布控人员  1-标记
                                        ):
         """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
         body = {"reqId": reqId,
@@ -264,8 +282,10 @@ class AirportProcess(BlackListApi):
                 "flightDay": flightDay,
                 "faceFeature": faceFeature,
                 "kindType": kindType,
-                "largePhoto":largePhoto
+                "largePhoto":largePhoto,
+                "isFocus":isFocus
                 }
+        # print(self.get_headers("/api/v1/face/security/manual-check"))
         res = requests.post(url=self.api_v1_face_security_manual_check,
                             headers=self.get_headers("/api/v1/face/security/manual-check"),
                             json=body,
@@ -284,8 +304,8 @@ class AirportProcess(BlackListApi):
                                              boardingNumber="001",
                                              flightDay="20181225",   # 传Dd
                                              faceFeature="",
-                                             sourceType="0"):
-        """2.3.9中转通道接口（一期二阶段）"""
+                                             sourceType=0): #0-中转；1-经停；3-中转放行；4-经停放行
+        """2.3.9中转通道接口（一期二阶段）2019.12.23废弃"""
         body = {"reqId": reqId,
                 "flightNo": flightNo,
                 "faceImage": faceImage,
@@ -309,25 +329,45 @@ class AirportProcess(BlackListApi):
                                              reqId=get_uuid(),
                                              flightNo="test006",
                                              faceImage="",
+                                             faceFeature="",
                                              deviceCode="T1ZZ002",
                                              gateNo="",
                                              seatId="1",
                                              startPort="HET",
                                              boardingNumber="001",
                                              flightDay="20181225",   # 传Dd
-                                             sourceType="0"):
+                                             sourceType=0,    #0,中转；1，经停；2、备降采集；3、中转人工放行；4、经停人工放行；5、备降人工放行 6、经停证件采集（废弃）
+                                             endPort="",
+                                             cardId="",       #非必须  sourceType为6-经停证采集必给
+                                             nameZh="",       #非必须  sourceType 为6-经停证采集必给
+                                             mainFlightNo="", #非必须  主航班
+                                             cardPhoto="",    #非必须  身份证件照base64编码
+                                             cardFeature="",  #非必须  证件照特征base64
+                                             largePhoto="",   #非必须  大图（口罩检测用）
+                                             facePst=""       #非必须  人脸坐标（口罩检测用）
+                                           ):
         """2.3.9中转通道接口（无特征传入）（二期）"""
         body = {"reqId": reqId,
                 "flightNo": flightNo,
                 "faceImage": faceImage,
+                "faceFeature":faceFeature,
                 "gateNo": gateNo,
                 "deviceCode": deviceCode,
                 "boardingNumber": boardingNumber,
                 "seatId": seatId,
                 "startPort": startPort,
                 "flightDay": flightDay,    # DD
-                "sourceType": sourceType
-                }
+                "sourceType": sourceType,
+                "endPort":endPort,
+                "cardId":cardId,  # 非必须  sourceType为6-经停证采集必给
+                "nameZh":nameZh,  # 非必须  sourceType 为6-经停证采集必给
+                "mainFlightNo":mainFlightNo,  # 非必须  主航班
+                "cardPhoto":cardPhoto,  # 非必须  身份证件照base64编码
+                "cardFeature":cardFeature,  # 非必须  证件照特征base64
+                "largePhoto":largePhoto,  # 非必须  大图（口罩检测用）
+                "facePst":facePst
+        }
+        # print(body)
         res = requests.post(url=self.api_v1_face_transfergate_face_collect,
                             headers=self.get_headers("/api/v1/face/transfergate/face-collect"),
                             json=body,
@@ -367,15 +407,15 @@ class AirportProcess(BlackListApi):
                                 faceFeature="",
                                 deviceCode="T1DJ001",
                                 boardingGate="14",
-                                flightNo="DL04462",
-                                flightDay="20190417",   # （yyyyMMdd）
                                 gateNo="07",
+                                flightNo="DL04462",
+                                flightDay="20190417"   # （yyyyMMdd）
                                 # faceInfo={"bottom": 11,
                                 #           "top": 33,
                                 #           "right": 55,
                                 #           "left": 66 }
                                 ):
-        """2.3.11登机口复核接口（二期优化）"""
+        """2.3.12登机口复核接口（二期优化）"""
         body = {"reqId": reqId,
                 "faceImage": faceImage,
                 "faceFeature": faceFeature,
@@ -388,6 +428,7 @@ class AirportProcess(BlackListApi):
                 # "faceInfo":faceInfo
                 }
         res = requests.post(url=self.api_v1_face_boarding_check,
+                            #url="http://172.18.2.28:11015/api/v1/face/boarding/check",
                             headers=self.get_headers("/api/v1/face/boarding/check"),
                             json=body,
                             verify=self.certificate)
@@ -426,7 +467,8 @@ class AirportProcess(BlackListApi):
                                        scenePhoto="",
                                        sourceType="",
                                        passengerName="",
-                                       boardingNumber=""
+                                       boardingNumber="",
+                                       seatId=""        #座位号
                                        ):
         """2.3.13登机口人工放行、报警接口（二期）"""
         body = {"reqId": reqId,
@@ -439,13 +481,14 @@ class AirportProcess(BlackListApi):
                 "scenePhoto": scenePhoto,
                 "sourceType": sourceType,  # 0-放行，1-报警
                 "passengerName": passengerName,
-                "boardingNumber": boardingNumber}
+                "boardingNumber": boardingNumber,
+                "seatId":seatId}
         res = requests.post(url=self.api_v1_face_boarding_manual_check,
                             headers=self.get_headers("/api/v1/face/boarding/manual-check"),
                             json=body,
                             verify=self.certificate)
         res.close()
-        print(body)
+        # print(body)
         return res
 
     def api_face_data_flowback_query(self,
@@ -455,25 +498,38 @@ class AirportProcess(BlackListApi):
                                      flightDay="",   # 航班dd
                                      boardingNumber="",
                                      isFuzzyQuery=0,
-                                     **kwargs
+                                     seatId=""
+                                     # **kwargs
                                      ):
         """2.3.17 人员回查-安检、登机口接口（二期）"""
-        if "seatId" in kwargs.keys():
-            body = {"reqId": reqId,
-                    "cardId": cardId,  # 否
-                    "flightNo": flightNo,  # 否
-                    "flightDay": flightDay,  # 否
-                    "boardingNumber": boardingNumber,
-                    "isFuzzyQuery" : isFuzzyQuery,
-                    "seatId":kwargs["seatId"]     #值为INF表示婴儿票
-                    }
-        else:
-            body = {"reqId": reqId,
-                    "cardId": cardId,  # 否
-                    "flightNo": flightNo,  # 否
-                    "flightDay": flightDay,  # 否
-                    "boardingNumber": boardingNumber,  # 否
-                    "isFuzzyQuery": isFuzzyQuery}
+        # if "seatId" in kwargs.keys():
+        #     body = {"reqId": reqId,
+        #             "cardId": cardId,  # 否
+        #             "flightNo": flightNo,  # 否
+        #             "flightDay": flightDay,  # 否
+        #             "boardingNumber": boardingNumber,
+        #             "isFuzzyQuery" : isFuzzyQuery,
+        #             "seatId":kwargs["seatId"]     #值为INF表示婴儿票
+        #             }
+        # else:
+        #     body = {"reqId": reqId,
+        #             "cardId": cardId,  # 否
+        #             "flightNo": flightNo,  # 否
+        #             "flightDay": flightDay,  # 否
+        #             "boardingNumber": boardingNumber,  # 否
+        #             "isFuzzyQuery": isFuzzyQuery
+        #
+        # print(body)
+
+        body = {"reqId": reqId,
+                "cardId": cardId,  # 否
+                "flightNo": flightNo,  # 否
+                "flightDay": flightDay,  # 否
+                "boardingNumber": boardingNumber,
+                "isFuzzyQuery" : isFuzzyQuery,
+                "seatId":seatId     #值为INF表示婴儿票
+                }
+        print(body)
         res = requests.post(url=self.api_v1_face_data_flowback_query,
                             headers=self.get_headers("/api/v1/face/data/flowback-query"),
                             json=body,
@@ -547,7 +603,7 @@ class AirportProcess(BlackListApi):
                 "boardingGate":boardingGate,
                 "flightDay": flightDay
                 }
-        res = requests.post(url=self.host + "jms-server/api/v1/face/boarding/start",
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/start",
                             headers=self.get_headers("/api/v1/face/boarding/start"),
                             json=body,
                             verify=self.certificate)
@@ -593,7 +649,7 @@ class AirportProcess(BlackListApi):
                 "boardingGate":boardingGate,
                 "flightDay": flightDay
                 }
-        res = requests.post(url=self.host + "jms-server/api/v1/face/boarding/finish",
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/finish",
                             headers=self.get_headers("/api/v1/face/boarding/finish"),
                             json=body,
                             verify=self.certificate)
@@ -616,7 +672,7 @@ class AirportProcess(BlackListApi):
                 "boardingGate":boardingGate,
                 "flightDay":flightDay
                 }
-        res = requests.post(url=self.host + "jms-server/api/v1/face/boarding/strange",
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/strange",
                             headers=self.get_headers("/api/v1/face/boarding/strange"),
                             json=body,
                             verify=self.certificate)
@@ -631,7 +687,7 @@ class AirportProcess(BlackListApi):
         body = {"reqId": reqId,
                 "boardingGate": boardingGate
                 }
-        res = requests.post(url=self.host + "jms-server/api/v1/face/boarding/flightplan",
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/flightplan",
                             headers=self.get_headers("/api/v1/face/boarding/flightplan"),
                             json=body,
                             verify=self.certificate)
@@ -676,12 +732,284 @@ class AirportProcess(BlackListApi):
                                           reqId=get_uuid(),
                                           flightNo=""
                                           ):
-        """2.3.25	调度系统航班查询"""
+        """2.3.26	调度系统航班查询"""
         body = {"reqId": reqId,
                 "flightNo": flightNo
                 }
-        res = requests.post(url=self.host + "jms-server/api/v1/face/boarding/queryFlights",
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/queryFlights",
                             headers=self.get_headers("/api/v1/face/boarding/queryFlights"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_recognition_info(self,
+                                     reqId=get_uuid(),
+                                     channelCode="T1PX1",
+                                     deviceId="T1PX001",
+                                     fid="",
+                                     faceImg="",
+                                     faceFeature="",
+                                     **kwargs
+                                     ):
+        '''2.3.25 旅客航班信息屏幕引导'''
+        if "faceInfos" in kwargs.keys():
+            body = {"reqId": reqId,
+                    "channelCode": channelCode,
+                    "deviceId": deviceId,
+                    "faceInfos":kwargs["faceInfos"]
+                    }
+        else:
+            body = {"reqId":reqId,
+                    "channelCode":channelCode,
+                    "deviceId":deviceId,
+                    "faceInfos":[{"fid":fid,
+                                  "faceImg":faceImg,
+                                  "faceFeature":faceFeature
+                                }]
+                    }
+        # print(self.get_headers("/api/v1/face/recognition/info"))
+        res = requests.post(url=self.host + self.screen_guider + "/api/v1/face/recognition/info",
+                            headers=self.get_headers("/api/v1/face/recognition/info"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_face_abnormal_passenger_query(self,
+                                          reqId=get_uuid(),
+                                          pageNum=1,               #必须，分页页码
+                                          pageSize=20,          #必须，分页长度
+                                          isCount=1,            #必须，为1时查询总记录数
+                                          searchTime=""         #非必须，第一次的搜索时间，yyyyMMddHHmmss
+                                          ):
+        """2.4.20.1数据平台异常记录查询"""
+        body = {"reqId": reqId,
+                "pageNum":pageNum,
+                "pageSize":pageSize,
+                "isCount":isCount,
+                "searchTime":searchTime
+                }
+        res = requests.post(url=self.host + self.data_platform_server + "/api/v1/face/abnormal-passenger/query",
+                            headers=self.get_headers("/api/v1/face/abnormal-passenger/query"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_face_lib_recognize_n_query(self,
+                                      reqId=get_uuid(),  #必须
+                                      img=""             #必须,base64图片编码
+                                      ):
+        """2.4.21.1 底库TOPN查询"""
+        body = {"reqId": reqId,
+                "img":img
+                }
+        res = requests.post(url=self.host + self.data_platform_server + "/api/v1/face/lib-recognize/n-query",
+                            headers=self.get_headers("/api/v1/face/lib-recognize/n-query"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_passenger_query(self,
+                                          reqId=get_uuid(),
+                                          flightNo="",               #必须，航班号
+                                          date="",          #必须，日期yyyy-MM-dd
+                                          queryType=1,            #必须，查询类型：0-建库旅客查询；1-已登机旅客查询；2-未登机旅客查询; 3-全查询
+                                          pageNum=1,         #必须，页码
+                                          pageSize=20,      #必须，分页长度
+                                          isCount=1,         #必须，为1时查询总记录数
+                                          gateNo="",
+                                          boardingGate=""
+                                          ):
+        """2.3.13登机口建库、已登机、未登机旅客查询接口（20191105）"""
+        body = {"reqId": reqId,
+                "flightNo":flightNo,
+                "date":date,
+                "queryType":queryType,
+                "pageNum":pageNum,
+                "pageSize":pageSize,
+                "isCount":isCount,
+                "gateNo":gateNo,
+                "boardingGate":boardingGate
+                }
+        # print(self.get_headers("/api/v1/face/boarding/passenger-query"))
+        # print(body)
+        res = requests.post(url=self.host + self.boardinggate_server + "/api/v1/face/boarding/passenger-query",
+                            #url="http://172.18.2.28:11015/api/v1/face/boarding/passenger-query",
+                            headers=self.get_headers("/api/v1/face/boarding/passenger-query"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_active(self,
+                                  reqId=get_uuid(),
+                                  flightNo="",               #必须，航班号
+                                  gateNo="",          #必须，登机口编码
+                                  boardingGate="",            #必须，登机口
+                                  deviceCode="",         #必须，设备编码
+                                  flightDay=""          #必须,日期yyyy-MM-dd
+                                  ):
+        """2.3.27 调度系统异常航班激活"""
+        body = {"reqId": reqId,
+                "flightNo":flightNo,
+                "gateNo":gateNo,
+                "boardingGate":boardingGate,
+                "deviceCode":deviceCode,
+                "flightDay":flightDay
+                }
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/active",
+                            headers=self.get_headers("/api/v1/face/boarding/active"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_lib_delete(self,
+                                  reqId=get_uuid(),
+                                  flightNo="",               #必须，航班号
+                                  gateNo="",          #必须，登机口编码
+                                  boardingGate="",            #必须，登机口
+                                  deviceCode="",         #必须，设备编码
+                                  id=""          #必须,日期yyyy-MM-dd
+                                  ):
+        """2.3.28 底库删除接口（新增）"""
+        body = {"reqId": reqId,
+                "flightNo":flightNo,
+                "gateNo":gateNo,
+                "boardingGate":boardingGate,
+                "deviceCode":deviceCode,
+                "id":id
+                }
+        res = requests.post(url=self.host + self.boardinggate_server + "/api/v1/face/boarding/lib-delete",
+                            headers=self.get_headers("/api/v1/face/boarding/lib-delete"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_cancel(self,
+                                  reqId=get_uuid(),
+                                  flightNo="",               #必须，航班号
+                                  gateNo="",          #必须，登机口编码
+                                  boardingGate="",            #必须，登机口
+                                  deviceCode="",         #必须，设备编码
+                                  flightDay=""          #必须,日期yyyy-MM-dd
+                                  ):
+        """2.3.29 调度系统人工取消航班"""
+        body = {"reqId": reqId,
+                "flightNo":flightNo,
+                "gateNo":gateNo,
+                "boardingGate":boardingGate,
+                "deviceCode":deviceCode,
+                "flightDay":flightDay
+                }
+        res = requests.post(url=self.host + self.jms_server + "/api/v1/face/boarding/cancel",
+                            headers=self.get_headers("/api/v1/face/boarding/cancel"),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_ticket_check(self,
+                                          reqId=get_uuid(),      # 必须  string 32位UUID
+                                          deviceCode="",         # 必须  string 设备编号
+                                          boardingGate="",       # 必须  string 登机口编号
+                                          gateNo="",             # 必须  string 登机口区域编号
+                                          flightNo="",           # 必须  string 航班号
+                                          flightDay="",          # 必须  string 航班日（yyyyMMdd）
+                                          IsVipChannel=0,        # 非必须integer 是否贵宾通道（新增）1-是 0-不是
+                                          boardingNumber="",     # 非必须string 登机序列号
+                                          seatId="",             # 非必须string 座位号
+                                          mainFlightNo="",       # 非必须string 主航班号
+                                          cardId="",             # 非必须string 身份证号
+                                          cardType="",           # 非必须string 证件类型
+                                          nameZh="",             # 非必须string 旅客姓名
+                                          sex=""                 # 非必须string 旅客性别
+                                          ):
+        """2.3.30 登机口刷票登机接口（新增）"""
+        body = {"reqId":reqId,
+                "deviceCode":deviceCode,
+                "boardingGate":boardingGate,
+                "gateNo":gateNo,
+                "flightNo":flightNo,
+                "flightDay":flightDay,
+                "IsVipChannel":IsVipChannel,
+                "boardingNumber":boardingNumber,
+                "seatId":seatId,
+                "mainFlightNo":mainFlightNo,
+                "cardId":cardId,
+                "cardType":cardType,
+                "nameZh":nameZh,
+                "sex":sex
+                }
+        # print(body)
+        api_url = "/api/v1/face/boarding/ticket-check"
+        res = requests.post(url=self.host + self.boardinggate_server + api_url,
+                            headers=self.get_headers(api_url),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_weight_upload(self,
+                                           reqId=get_uuid(),   # 必须string 32位UUID
+                                           deviceCode="",      # 非必须string 设备编号
+                                           boardingGate="",    # 必须string 登机口编号
+                                           gateNo="",          # 非必须string 登机口区域编号
+                                           flightNo="",        # 必须string 航班号
+                                           flightDay="",       # 必须string 航班日（yyyyMMdd）
+                                           boardingNumber="",  # 非必须string 登机序列号（证件信息和票信息二选一）
+                                           seatId="",          # 非必须string 座位号
+                                           cardId="",          # 非必须string 证件信息和票信息二选一
+                                           cardType=0,         # 非必须integer 证件类型
+                                           nameZh="",          # 非必须string 中文姓名
+                                           weight=0,           # 必须number 旅客及行李重量
+                                          ):
+        """2.3.31 登机口重量采集接口（新增）"""
+        body = {"reqId":reqId,
+                "deviceCode":deviceCode,
+                "boardingGate":boardingGate,
+                "gateNo":gateNo,
+                "flightNo":flightNo,
+                "flightDay":flightDay,
+                "boardingNumber":boardingNumber,
+                "seatId":seatId,
+                "cardId":cardId,
+                "cardType":cardType,
+                "nameZh":nameZh,
+                "weight":weight
+                }
+        api_url = "/api/v1/face/boarding/weight/upload"
+        res = requests.post(url=self.host + self.boardinggate_server + api_url,
+                            headers=self.get_headers(api_url),
+                            json=body,
+                            verify=self.certificate)
+        res.close()
+        return res
+
+    def api_v1_face_boarding_weight_query(self,
+                                          reqId=get_uuid(),   # 必须string 32位UUID
+                                          flightNo="",        # 非必须string 航班号
+                                          flightDay="",       # 必须string 航班日（yyyyMMdd）
+                                          pageNum=1,          # 必须integer 页码
+                                          pageSize=20,        # 必须integer 查询条数
+                                          isCount=1           # 非必须integer 为1查询总数
+                                         ):
+        """2.3.31 登机口重量采集查询接口（新增）"""
+        body = {"reqId":reqId,
+                "flightNo":flightNo,
+                "flightDay":flightDay,
+                "pageNum":pageNum,
+                "pageSize":pageSize,
+                "isCount":isCount
+                }
+        # print(body)
+        api_url = "/api/v1/face/boarding/weight/query"
+        res = requests.post(url=self.host + self.data_platform_server + api_url,
+                            headers=self.get_headers(api_url),
                             json=body,
                             verify=self.certificate)
         res.close()
@@ -689,239 +1017,149 @@ class AirportProcess(BlackListApi):
 
 
 
+
 if __name__ == '__main__':
-    # res = AirportProcess().api_v1_face_boarding_queryFlights(reqId=get_uuid(),
-    #                                                           flightNo="CZ6182"
+    # 数据准备
+    # bdno = str(random.randint(1, 999))  # 登机序号
+    bdno = "169"  # 登机序号
+    # flight_no = produce_flight_number()  # 航班号
+    flight_no = "AB0002"  # 航班号
+    feature_num = int(bdno)  # 照片特征文件名，每次+2
+    idcard = get_random_id_number()  # 随机身份证号码
+    # idcard = "511401199010211111"
+    date = produce_flight_date()  # 当天日期YYYYMMDD
+    main_path = "D:/pre_data/new_feature"
+    main_path_old = "D:/pre_data/old_feature"
+    cardPhoto = to_base64(main_path + "/picture/%s.jpg" % feature_num)  # 身份证照片
+    facePst = read_feature(main_path + "/picture_facePst/%s.txt" % feature_num)  # 读取属性特征坐标
+    cardPhoto_mouth_muffle = to_base64(main_path + "/mouth_muffle/image/1.jpg")  # 带口罩图片
+    feature_8k = read_feature(main_path_old + "/picture8k/%s.txt" % feature_num)  # 读取8k特征
+    feature_8k_other = read_feature(main_path_old + "/picture8k/%s.txt" %(feature_num+1))  # 读取8k特征
+    feature_2k = read_feature(main_path_old + "/picture2k/%s.txt" % feature_num)  # 读取2k特征
+    lk_cname = "周志喜%s" % bdno  # 中文姓名
+    print("身份证号码:" + idcard + ",航班号:" + flight_no + ",登机序号:" + bdno)
+    # res = AirportProcess().api_face_boarding_manual_check(flightNo="JD5572",
+    #                                                        date=date,
+    #                                                        boardingGate="04",
+    #                                                        deviceCode="T1AF003",
+    #                                                        gateNo="T1AF3",
+    #                                                        cardId="330602198201104310",
+    #                                                        scenePhoto=cardPhoto,
+    #                                                        sourceType=0,
+    #                                                        passengerName="",
+    #                                                        boardingNumber="",
+    #                                                        seatId="INF"  # 座位号
+    #                                                        )
+    # print(res.json())
+    # for i in range(400):
+    #     # 中转通道接口（无特征传入）
+    #     res = AirportProcess().api_face_transfergate_face_collect(flightNo=flight_no,
+    #                                                               faceImage=cardPhoto,
+    #                                                               faceFeature=feature_8k,
+    #                                                               deviceCode="T1ZZ002",
+    #                                                               gateNo="T1AF1",
+    #                                                               seatId="",
+    #                                                               startPort="HET",
+    #                                                               boardingNumber="",
+    #                                                               flightDay=date[-2:],  # 传Dd
+    #                                                               sourceType=0,  # 0,中转；1，经停；2、备降采集；3、中转人工放行；4、经停人工放行；5、备降人工放行 6、经停证件采集（废弃）
+    #                                                               endPort="",
+    #                                                               cardId=str(i),  # 非必须  sourceType为6-经停证采集必给
+    #                                                               nameZh="3",  # 非必须  sourceType 为6-经停证采集必给
+    #                                                               mainFlightNo=flight_no,  # 非必须  主航班
+    #                                                               cardPhoto=cardPhoto,  # 非必须  身份证件照base64编码
+    #                                                               cardFeature=feature_8k,  # 非必须  证件照特征base64
+    #                                                               largePhoto=cardPhoto,  # 非必须  大图（口罩检测用）
+    #                                                               facePst=facePst  # 非必须  人脸坐标（口罩检测用）
+    #                                                               )
+    #     print(res.json())
+    #登机口重量采集接口
+    # res = AirportProcess().api_v1_face_boarding_weight_upload(deviceCode="123",  # 非必须string 设备编号
+    #                                                            boardingGate="02",  # 必须string 登机口编号
+    #                                                            gateNo="123",  # 非必须string 登机口区域编号
+    #                                                            flightNo=flight_no,  # 必须string 航班号
+    #                                                            flightDay=date,  # 必须string 航班日（yyyyMMdd）
+    #                                                            boardingNumber="123",  # 非必须string 登机序列号（证件信息和票信息二选一）
+    #                                                            seatId="123",  # 非必须string 座位号
+    #                                                            cardId="",  # 非必须string 证件信息和票信息二选一
+    #                                                            cardType=0,  # 非必须integer 证件类型
+    #                                                            nameZh="123",  # 非必须string 中文姓名
+    #                                                            weight=10,  # 必须number 旅客及行李重量
+    #                                                            )
+    # print(res.json())
+    # print(type(res.json()))
+    # 登机口重量采集查询接口
+    res = AirportProcess().api_v1_face_boarding_weight_query(flightNo="CA8295",  # 非必须string 航班号
+                                                              flightDay="20200420",  # 必须string 航班日（yyyyMMdd）
+                                                              pageNum=1,  # 必须integer 页码
+                                                              pageSize=20,  # 必须integer 查询条数
+                                                              isCount=1  # 非必须integer 为1查询总数
+                                                              )
+    print("重量查询" + res.text)
+    # # 登机口刷票登机
+    # res = AirportProcess().api_v1_face_boarding_ticket_check(deviceCode="T3AF003",  # 必须  string 设备编号
+    #                                                           boardingGate="04",  # 必须  string 登机口编号
+    #                                                           gateNo="T3AF3",  # 必须  string 登机口区域编号
+    #                                                           flightNo="AB0003",  # 必须  string 航班号
+    #                                                           flightDay=date,  # 必须  string 航班日（yyyyMMdd）
+    #                                                           IsVipChannel=0,  # 非必须integer 是否贵宾通道（新增）1-是 0-不是
+    #                                                           boardingNumber="",  # 非必须string 登机序列号
+    #                                                           seatId="",  # 非必须string 座位号
+    #                                                           mainFlightNo="",  # 非必须string 主航班号
+    #                                                           cardId="",  # 非必须string 身份证号
+    #                                                           cardType="",  # 非必须string 证件类型
+    #                                                           nameZh="",  # 非必须string 旅客姓名
+    #                                                           sex=""  # 非必须string 旅客性别
     #                                                           )
-    # print(res.text)
-    scenePhoto = to_base64("D:/pre_data/picture(现场照片)/12.jpg")
-    sceneFeature = read_feature("D:/pre_data/picture8k/12.txt")
-    sceneFeature_2k = read_feature("D:/pre_data/picture2k/12.txt")
-    cardFeature = read_feature("D:/pre_data/idcard8k/12.txt")
-
-    # res = AirportProcess().api_security_ticket_check(reqId=get_uuid(),
-    #                           gateNo="T1AJ1",
-    #                           deviceId="T1AJ001",
-    #                           cardType="0",
-    #                           idCard="500104198507011925",
-    #                           nameZh="郭泓宁",
-    #                           nameEn="nameEn",
-    #                           age=23,
-    #                           sex=1,
-    #                           birthDate="19850701",
-    #                           address="重庆市",
-    #                           certificateValidity="20120101-20230202",
-    #                           nationality="CHina",
-    #                           ethnic="汉族",
-    #                           contactWay="0123456789",
-    #                           cardPhoto=scenePhoto,
-    #                           fId=get_uuid()
-    #                           )
-    # print(res.text)
-    # def fuhe():
-    #     while True:
-    #         start_time = time.clock()
-    #         res = AirportProcess().api_face_review_self_check(reqid=get_uuid(),
-    #                                        gateno="T1AF1",
-    #                                        deviceid="T1AF001",
-    #                                        scenephoto=scenePhoto,
-    #                                        scenefeature=sceneFeature_2k)
-    #         end_time = time.clock()
-    #         print(res.text)
-    #         print("响应时间：" + str(end_time-start_time))
-    # for i in range(30):
-    #     th = threading.Thread(target=fuhe)
-    #     th.start()
-    res = AirportProcess().api_face_review_self_check(reqid=get_uuid(),
-                               gateno="12",
-                               deviceid="12",
-                               scenephoto="saf",
-                               scenefeature="sadf")
-    print(res.text)
-
-    #
-    # res = AirportProcess().api_face_security_face_check(reqId=get_uuid(),
-    #                                                      gateNo="T1AJ1",
-    #                                                      deviceId="T1AJ001",
-    #                                                      cardType="0",
-    #                                                      idCard="500104198507011925",
-    #                                                      nameZh="郭泓宁",
-    #                                                      nameEn="nameEn",
-    #                                                      age=None,
-    #                                                      sex=None,
-    #                                                      birthDate="19850701",
-    #                                                      address="重庆市",
-    #                                                      certificateValidity="20180101-20260203",
-    #                                                      nationality="China",
-    #                                                      ethnic="汉族",
-    #                                                      contactWay="0123456789",
-    #                                                      scenePhoto=scenePhoto,
-    #                                                      sceneFeature=sceneFeature,
-    #                                                      cardPhoto=scenePhoto,
-    #                                                      cardFeature=cardFeature)
-    # print(res.text)
-
-
-
-    # res = AirportProcess().api_v1_face_boarding_queryFlights(reqId=get_uuid(),
-    #                                       flightNo="JD5283"
-    #                                       )
-    # print(res.text)
-    # res = AirportProcess().api_security_ticket_check(gateNo="123",
-    #                               deviceId="123",
-    #                               cardType="0",
-    #                               idCard="123",
-    #                               nameZh="nameZh",
-    #                               nameEn="nameEn",
-    #                               age=None,
-    #                               sex=None,
-    #                               birthDate="99-01-12",
-    #                               address="重庆市",
-    #                               certificateValidity="20120101-20230202",
-    #                               nationality="CHina",
-    #                               ethnic="汉族",
-    #                               contactWay="0123456789",
-    #                               cardPhoto="123",
-    #                               fId=get_uuid()
-    #                               )
-    # print(res.text)
-    # res = AirportProcess().api_data_flight_activate(reqId=get_uuid(),
-    #                                                  flightDate="20190603",  # yyyyMMdd
-    #                                                  flightNo="MF8027"
+    # print(res.json())
+    # 人工结束登机
+    # res = AirportProcess().api_face_boarding_finish(flightNo="MU5459",
+    #                                                  boardingGate="04",
+    #                                                  deviceCode="T1ZZ002",
+    #                                                  gateNo="1",
+    #                                                  flightDay="2020-04-20"  # YYYY-MM-DD
     #                                                  )
-    # print(res.text)
-    # res = AirportProcess().api_face_boarding_start(reqId=get_uuid(),
-    #                                              flightNo="MF8124",
-    #                                              boardingGate="05",
-    #                                              deviceCode="T1ZZ002",
-    #                                              gateNo="T1ZZ002",
-    #                                              flightDay="2019-05-24"
-    #                                              )
-    # print(res.text)
-    # res = AirportProcess().api_face_boarding_finish(reqId=get_uuid(),
-    #                                              flightNo="GS6619",
-    #                                              boardingGate="05",
-    #                                              deviceCode="T1ZZ002",
-    #                                              gateNo="T1ZZ002",
-    #                                              flightDay=""  # YYYY-MM-DD
-    #                                              )
-    # print(res.text)
-    # res = AirportProcess().api_face_boarding_strange(reqId=get_uuid(),
-    #                                               flightNo="GS6619",
-    #                                               boardingGate="06",
-    #                                               deviceCode="T1ZZ002",
-    #                                               gateNo="T1ZZ002",
-    #                                               flightDay="2019-05-24"  # YYYY-MM-DD
-    #                                               )
-    # print(res.text)
-    pass
-    # res = AirportProcess().api_security_ticket_check(
-    #                               reqId=get_uuid(),
-    #                               gateNo="T1AJ",
-    #                               deviceId="T1AJ001",
-    #                               cardType="0",
-    #                               idCard="233238199312134392",
-    #                               nameZh="nameZh",
-    #                               nameEn="nameEn",
-    #                               age=get_age("233238199312134392"),
-    #                               sex=1,
-    #                               birthDate=get_birthday("233238199312134392"),
-    #                               address="重庆市",
-    #                               certificateValidity="20120101-20230202",
-    #                               nationality="China",
-    #                               ethnic="汉族",
-    #                               contactWay="0123456789",
-    #                               cardPhoto=Base64Picture,
-    #                               fId=get_uuid()
-    #                               )
-    # print(res.text)
-    #
-    # res = AirportProcess().api_face_security_face_check(reqId=get_uuid(),
-    #                                  gateNo="T1AJ1",
-    #                                  deviceId="T1AJ001",
-    #                                  cardType="0",
-    #                                  idCard="233238199312134392",
-    #                                  nameZh="nameZh",
-    #                                  nameEn="nameEn",
-    #                                  age=get_age("233238199312134392"),
-    #                                  sex="1",
-    #                                  birthDate=get_birthday("233238199312134392"),
-    #                                  address="重庆市",
-    #                                  certificateValidity="20180101-20260203",
-    #                                  nationality="China",
-    #                                  ethnic="汉族",
-    #                                  contactWay="0123456789",
-    #                                  scenePhoto=Base64Picture,
-    #                                  sceneFeature=get_txt(shiwanli8k_features+"/0.txt"),
-    #                                  cardPhoto=Base64Picture,
-    #                                  cardFeature=get_txt(shiwanid8k_features+"/0.txt"))
-    #
-    # print(res.text)
-    #
-    #
-    #
-    # res1 = AirportProcess().api_face_review_self_check(reqid=get_uuid(),
-    #                                gateno="T1AF1",
-    #                                deviceid="T1AF001",
-    #                                scenephoto=Base64Picture,
-    #                                scenefeature=get_txt(shiwanli2k_features+"/0.txt"))
-    #
-    # print(res1.text)
-    # idcard_list = get_id_re_match()
-    # print(idcard_list)
-    # for i in range(0, 20):
-    #     # res = AirportProcess().api_security_ticket_check(reqId=get_uuid(),
-    #     #                           gateNo="T1AJ2",
-    #     #                           deviceId="T1AJ002",
-    #     #                           cardType="0",
-    #     #                           idCard=idcard_list[i],
-    #     #                           nameZh="nameZh",
-    #     #                           nameEn="nameEn",
-    #     #                           age=get_age(idcard_list[i]),
-    #     #                           sex=1,
-    #     #                           birthDate=get_birthday(idcard_list[i]),
-    #     #                           address="重庆市",
-    #     #                           certificateValidity="20120101-20230202",
-    #     #                           nationality="CHina",
-    #     #                           ethnic="汉族",
-    #     #                           contactWay="0123456789",
-    #     #                           cardPhoto=Base64Picture,
-    #     #                           fId=get_uuid())
-    #     # print(res.text)
-    #     # time.sleep(1)
-    #     # res1 = AirportProcess().api_face_security_face_check(reqId=get_uuid(),
-    #     #                              gateNo="T1AJ2",
-    #     #                              deviceId="T1AJ002",
-    #     #                              cardType="0",
-    #     #                              idCard=idcard_list[i],
-    #     #                              nameZh="nameZh",
-    #     #                              nameEn="nameEn",
-    #     #                              age=get_age(idcard_list[i]),
-    #     #                              sex="1",
-    #     #                              birthDate=get_birthday(idcard_list[i]),
-    #     #                              address="重庆市",
-    #     #                              certificateValidity="20180101-20260203",
-    #     #                              nationality="China",
-    #     #                              ethnic="汉族",
-    #     #                              contactWay="0123456789",
-    #     #                              scenePhoto=Base64Picture,
-    #     #                              sceneFeature=get_txt(shiwanli8k_features+"/"+str(i+6000)+".txt"),
-    #     #                              cardPhoto=Base64Picture,
-    #     #                              cardFeature=get_txt(shiwanid8k_features+"/"+str(i+6000)+".txt"))
-    #     # print(res1.text)
-    #     # print("第%d次完成"%(i+1))
-    #     # time.sleep(6)
-    #
-    #
-    #     res2 = AirportProcess().api_face_review_self_check(
-    #         reqid=get_uuid(),
-    #                                gateno="T1AF2",
-    #                                deviceid="T1AF002",
-    #                                scenephoto=Base64Picture,
-    #                                scenefeature=get_txt(shiwanli2k_features+"/"+str(i+6000)+".txt")
-    #     )
-    #     print(res2.text)
-    #     print("第%d次完成" % (i+1))
-    #     time.sleep(1)
+    # print(res.json())
+    '''
+    # 0-建库旅客查询；1-已登机旅客查询；2-未登机旅客查询
+    res = AirportProcess().api_v1_face_boarding_passenger_query(flightNo="GT1004",  # 必须,航班号
+                                                                date="2020-04-20",  # 必须,日期yyyy-MM-dd
+                                                                queryType=1,  # 必须,查询类型：0-建库旅客查询；1-已登机旅客查询；2-未登机旅客查询
+                                                                pageNum=1,  # 必须，分页页码
+                                                                pageSize=20,  # 必须，分页长度b
+                                                                isCount=1,  # 必须，为1返回总数
+                                                                gateNo="",
+                                                                boardingGate="04"
+                                                                )
+    print(res.json())
+'''
+    # 回查旅客信息
+    res = AirportProcess().api_face_data_flowback_query(cardId="",
+                                                        flightNo="CA8295",
+                                                        flightDay="-1",  # 航班dd
+                                                        boardingNumber="001",
+                                                        isFuzzyQuery=1,  # 1-为模糊查询，非1为精确查询
+                                                        seatId=""
+                                                        )
+    print("传入座位号回查" + res.text)
+
+    # # 登机口复核
+    # res = AirportProcess().api_face_boarding_review_check(faceImage=cardPhoto,
+    #                                                        faceFeature=feature_2k,
+    #                                                        deviceCode="T1DJ001",
+    #                                                        boardingGate="04",
+    #                                                        gateNo="07",
+    #                                                        flightNo="DL04462",
+    #                                                        flightDay="20190417"  # （yyyyMMdd）
+    #                                                        )
+    # print("登机口复核" + res.text)
+    # 小闸机复核
+    # res = AirportProcess().api_face_review_self_check(gateno="T1AF3",
+    #                                                    deviceid="T1AF003",
+    #                                                    scenephoto=to_base64(r"C:\Users\admin\Desktop\TIM图片20200420113404.jpg"),
+    #                                                    scenefeature=read_feature(r"C:\Users\admin\Desktop\0.txt")
+    #                                                   )
+    # print(res.json())
+
 
 

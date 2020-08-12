@@ -2,7 +2,6 @@
 # Time : 2019/8/22 13:45 
 # Author : zcl
 import pytest,sys,json
-# sys.path.append(r"D:\workfile\zhongkeyuan_workspace")
 from WuLanChaBuApi.TestApi.test_Match_Record.MatchRecord import MatchRecord
 from Attendance_sys_CQZGH.utils.common_method import *
 from Attendance_sys_CQZGH.Attendance_sys_CQZGH_api import *
@@ -14,7 +13,7 @@ from WuLanChaBuApi.TestApi.Test_depart.Depart import Depart
 from WuLanChaBuApi.common.mysql_class import *
 
 
-depart = Depart()
+depart = Depart(host="http://172.18.2.199:9091/face-bussiness-server/")
 ###############################
 #准备数据（制造考勤状态）：创建部门-> 创建底库 -> 创建人脸数据库->绑定人脸库id与底库id
 ###############################
@@ -24,8 +23,8 @@ def test_create_data_process_01():
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     body = {"reqId": get_uuid(),      # 32位UUID
             "departmentCode": get_uuid(),  # 部门编号
-            "departmentName": "新增部门01",  # 部门名称
-            "createdTime": "2019-08-30 11:43:41",
+            "departmentName": "新增部门02",  # 部门名称
+            "createdTime": "2019-12-17 11:49:41",
             "address": "重庆",
             "linkman": "xx",
             "linkPhone": "18680946659",
@@ -50,49 +49,52 @@ def test_create_data_process_02():
             "libraryCode": "AA00101",
             "libraryType": 1,
             "remark": "在室内办公人员在这个底库"}
-    res = FaceLib().api_v1_facelib_create(body)
-    json_data = json.loads(res)
+    res = FaceLib("http://175.168.1.128:9091/face-bussiness-server/").api_v1_facelib_create(body)
+    json_data = json.loads(res.text)
     logger.info(json_data)
-    assert json.loads(res.text)["status"] == 0
+    # assert json.loads(res.text)["status"] == 0
     logger.info("创建底库 完成！！！")
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
 
-@pytest.mark.skip(reason="注册人脸信息,存在人脸信息表里")
-def test_create_data_process_03(start=135,end=137):#添加人数
+# @pytest.mark.skip(reason="注册人脸信息,存在人脸信息表里")
+def test_create_data_process_03(start=140,end=160):#添加人数
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     _registInfo = []
     for num in range(start,end):
-        reg_info = { "name":"测试考勤修改%d" %num,
+        reg_info = { "name":"测试20191217%d" %num,
                      "sex":1,
-                     "personCode":"501382199001017%d" %num, #填身份证
-                     "cobDepartmentId":"4028858f6ccd13c0016ccd1a88a3000b",    #String    32位部门ID，对应3.3的部门表的ID
+                     "personCode":"501382199201017%d" %num, #填身份证
+                     "cobDepartmentId":"2f2881006efe13c1016f11a4f4350004",    #String    32位部门ID，对应3.3的部门表的ID
                      "faceImg":to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\%d.jpg" %num),
-                      "birthdayDate":"19900101",
-                      "nationality":"中国",
+                     "birthdayDate":"19920101",
+                      "nationality":"小日本鬼子",
                       "ethnic":"汉",
-                      "codeType":1
+                      "codeType":1,
+                      "entryDate":"20190925"    #非必须    yyyyMMdd  
                      }
         _registInfo.append(reg_info)
     body = {
          "reqId":get_uuid(),
          "num":len(_registInfo),
-         "registInfo":_registInfo
+         "registInfo":_registInfo,
     }
-    res = Regist().api_v1_face_regist(body)
+
+    res = Regist(host="http://175.168.1.128:10020/").api_v1_face_regist(body)
     logger.info(res.text)
     logger.info("人脸信息表里加入 人脸信息 完成！！！")
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 
 
-@pytest.mark.skip(reason="人脸信息与人脸库的绑定接口，存在人脸图像库关系表里")
+# @pytest.mark.skip(reason="人脸信息与人脸库的绑定接口，存在人脸图像库关系表里")
 def test_create_data_process_04(staff_dic):
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
     relations = []
     """修改人脸信息与人脸库的绑定接口"""
     for i in staff_dic:
+        print(staff_dic[i]["num"])
         relations_one = {"personId": staff_dic[i]["id"],
-                         "faceLibIds": "4028858f6cd61b18016cd65d511c010b", #底库id
+                         "faceLibIds": "2f2881006efe13c1016f11a4f4350004", #底库id
                          "optType": 2,
                          "fId": get_uuid()}
         relations.append(relations_one)
@@ -121,14 +123,14 @@ def test_matchrecord_process_01(staff_dic,staff_num=35):
     :return:
     """
     logger.info("**************%s 测试开始**************" % sys._getframe().f_code.co_name)
-    _MatchRecord = MatchRecord("http://192.168.5.15:10019/")
+    _MatchRecord = MatchRecord("http://172.18.2.199:10019/")
     picpath = r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)"
     records = []
     k = 100
     m = 0
     for staff, value in staff_dic.items():
         if m < staff_num:
-            for time in ["20190831093000"]:  #一天的打卡时间
+            for time in ["20190923093000","20190923123000","20190923183000"]:  #一天的打卡时间
             # for time in ["20190830120000"]:  # 一天的打卡时间
                 record = {
                     "id": get_uuid(),
@@ -159,7 +161,7 @@ def test_matchrecord_process_01(staff_dic,staff_num=35):
             }
     res = _MatchRecord.api_face_matchrecord_sync(body)
     logger.info(res.text)
-    assert json.loads(res.text)["status"] == 0
+    # assert json.loads(res.text)["status"] == 0
     logger.info("刷脸成功！！！")
     logger.info("**************%s 测试完成**************" % sys._getframe().f_code.co_name)
 

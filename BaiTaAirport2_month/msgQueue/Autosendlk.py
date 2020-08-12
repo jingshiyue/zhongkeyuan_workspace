@@ -2,14 +2,10 @@
 import os
 import random
 from xml.etree import ElementTree as ET
-
-from BaiTaAirport2_month.common.Log import MyLog
 from BaiTaAirport2_month.common.common_method import *
 from BaiTaAirport2_month.msgQueue.msg import send_msg
 
 name = os.path.realpath(__file__).split("\\")[-1].split(".")[0]
-log = MyLog(name=name)
-
 
 def send_lkxx(lk_IsInternation="0",
               lk_bdno="01",
@@ -28,8 +24,11 @@ def send_lkxx(lk_IsInternation="0",
               lk_insur="0",
               lk_outtime="20140626102446",
               lk_sex="1",
-              lk_vip="0"):
-
+              lk_vip="0",
+              lk_seat=""):
+    #值机信息: 身份证、登机序号、不一致
+    # 航班号、中文名、可以一致
+    # 座位号可以为空
     """
     发送旅客信息表到消息队列
     :param lk_IsInternation:  1     是否国际 0否，1是，2未知
@@ -88,14 +87,16 @@ def send_lkxx(lk_IsInternation="0",
     root[3][0][16].text = lk_inf
     root[3][0][18].text = lk_insur
     root[3][0][20].text = lk_outtime
+    root[3][0][22].text = lk_seat
     root[3][0][23].text = lk_sex
     root[3][0][26].text = lk_vip
-    tree.write(file_or_filename="lkxx1.xml",
+
+    tree.write(file_or_filename=base_dir_path+"./lkxx1.xml",
                encoding="utf-8",
                xml_declaration=True)
-    with open("lkxx1.xml", "rb") as fp:
+
+    with open(base_dir_path+"./lkxx1.xml", "rb") as fp:
         data = fp.read().decode("utf-8")
-        # print(data)
         send_msg(data)
 
 
@@ -139,17 +140,17 @@ def send_ajxx(ajxxb_id="1138301",
 
 if __name__ == '__main__':
     # lk_sex = str(random.randint(1, 2))
-    # send_lkxx(lk_cardid="400228199612134390",
-    #           lk_chkt=get_time_mmss(),
-    #           lk_cname="博尔济吉特·布木布泰",
-    #           lk_date=produce_flight_date(),
-    #           lk_desk="TEN",
-    #           lk_flight="neimeng1",
-    #           lk_id="1234567891",
-    #           lk_bdno="001",
-    #           lk_insur="1",
-    #           lk_outtime=get_flight_out_time(2),
-    #           lk_sex="1")
+    send_lkxx(lk_cardid="400228199612134390",
+              lk_chkt=get_time_mmss(),
+              lk_cname="博尔济吉特·布木布泰",
+              lk_date=produce_flight_date(),
+              lk_desk="TEN",
+              lk_flight="neimeng1",
+              lk_id="1234567891",
+              lk_bdno="001",
+              lk_insur="1",
+              lk_outtime=get_flight_out_time(2),
+              lk_sex="1")
 
 
     # a = 1
@@ -210,23 +211,27 @@ if __name__ == '__main__':
 
 
 
-    send_lkxx(lk_IsInternation="0",  # 1     是否国际 0否，1是，2未知
-              lk_bdno="559",  # 2     <!--2 10 登机序号 -->  3位
-              lk_cardid="500382199907027074",  # 4     证件号码
-              lk_chkt=get_time_mmss(),  # 6     值机日期
-              lk_cname="西瓜088",  # 8     旅客中文姓名80
-              lk_date=produce_flight_date(),  # 9     9航班日期 8 YYYYMMDD
-              lk_del="0",  # 10    是否删除 0否  1是
-              lk_desk="CTY",  # 11    11目的地  机场三字代表码
-              lk_ename="xigua",  # 12    旅客英文姓名
-              lk_flight="JD5890",  # 13    航班号 12
-              lk_gateno="T1AJ1",  # 14    登机口号码 无意义
-              lk_id=str(random.randint(1, 999)),  # 15    旅客ID 主键 str 36
-              lk_inf=" ",  # 16    16婴儿标志3 INF带婴儿 “”表示未带婴儿
-              lk_insur="0",  # 18    是否购保1
-              lk_outtime="20190812195500",  # 20    旅客起飞时间
-              lk_sex="1",  # 23    性别  1男性 2女性 0 未知
-              lk_vip="0")
-    print("值机成功！")
-
+    # send_lkxx(lk_IsInternation="0",  # 1     是否国际 0否，1是，2未知
+    #           lk_bdno="556",  # 2     <!--2 10 登机序号 -->  3位
+    #           lk_cardid="500382199907027070",  # 4     证件号码
+    #           lk_chkt=get_time_mmss(),  # 6     值机日期
+    #           lk_cname="西瓜088",  # 8     旅客中文姓名80
+    #           lk_date=produce_flight_date(),  # 9     9航班日期 8 YYYYMMDD
+    #           lk_del="0",  # 10    是否删除 0否  1是
+    #           lk_desk="CTY",  # 11    11目的地  机场三字代表码
+    #           lk_ename="xigua",  # 12    旅客英文姓名
+    #           lk_flight="JD5892",  # 13    航班号 12
+    #           lk_gateno="T1AJ1",  # 14    登机口号码 无意义
+    #           lk_id=str(random.randint(1, 999)),  # 15    旅客ID 主键 str 36
+    #           lk_inf=" ",  # 16    16婴儿标志3 INF带婴儿 “”表示未带婴儿
+    #           lk_insur="0",  # 18    是否购保1
+    #           lk_outtime="20191106195500",  # 20    旅客起飞时间
+    #           lk_sex="1",  # 23    性别  1男性 2女性 0 未知
+    #           lk_vip="0")
+    # print("值机成功！")
+    # import string
+    #
+    # slcLetter = random.choice(string.ascii_uppercase)
+    # i = random.randint(1, 99)
+    # print(str(i)+slcLetter)
 

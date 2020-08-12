@@ -41,10 +41,10 @@ caseManger_dic = collections.OrderedDict([
                                         {"多线程下1:1对比":["多线程下1:1对比"]},
                                     ]),
 
-                        ("人脸辨认指标（1:N）",[           {"1:N对比数据准备":["1:N测试前的数据准备"]},
-                                                            {"1:N对比": ["单线程下1:N对比","多线程下1:N对比"]},
-                                                            {"特征值预先载入1:N对比": ["单线程下特征值预先载入1:N对比","多线程下特征值预先载入1:N对比"]},
-                                                        ]),
+                       ("人脸辨认指标（1:N）",[           {"1:N对比数据准备":["1:N测试前的数据准备"]},
+                                                           {"1:N对比": ["单线程下1:N对比","多线程下1:N对比"]},
+                                                           {"特征值预先载入1:N对比": ["单线程下特征值预先载入1:N对比","多线程下特征值预先载入1:N对比"]},
+                                                       ]),
 
                         ("特殊场景测试",[
                                     {"特殊场景测试": ["对小尺寸图片的识别", "无输入图片情况下的识别","无检测通道情况下的识别","对输入图片检测不到人脸时的识别",
@@ -153,6 +153,7 @@ def get_html_for_Case(sanJiName,rd_xls,rd_result_xls):
     erJiName_has = False
     jieguo_str = ""
     _2colNum = get_pos_from_cellValue(sanJiName,2,rd_xls) #3级标题位置(x,y)
+    print(sanJiName,_2colNum)
     _2colNum = _2colNum[0]
     siJiName = rd_xls.get_cell_value(_2colNum[0], _2colNum[1] + 1)  #4级标题。流程名
     leiMing = rd_xls.get_cell_value(_2colNum[0], _2colNum[1] + 1)
@@ -172,8 +173,7 @@ def get_html_for_Case(sanJiName,rd_xls,rd_result_xls):
                 if rd_result_xls.get_cell_value(jieGuoIdx[0],jieGuoIdx[1]) in fuBiaoTi and rd_result_xls.get_cell_value(jieGuoIdx[0],jieGuoIdx[1]-1) in leiMing:
                     jieguo = rd_result_xls.get_cell_value(jieGuoIdx[0],jieGuoIdx[1]+1)
                     jieguo_list = jieguo.strip("[").strip("]").split(",")
-                    # logging.debug(jieguo_list)
-                    if "'失败'" in jieguo_list:
+                    if " '失败'" in jieguo_list:
                         jieguo_str = "失败" + "<br>"
                     else:
                         for i in jieguo_list:
@@ -299,12 +299,11 @@ if __name__ == '__main__':
             for yiji, val in caseManger_dic.items():  # zidian bianli
                 for ii in caseManger_dic[yiji]:  # liebiao bianli
                     for erji, vv in ii.items():  # zidian bianli
-                        for sanji in vv:  #
-                            # logging.debug(sanji)
+                        for sanji in vv: 
                             tmp = get_html_for_Case(sanji,rd_xls,rd_result_xls)
-                            # logging.debug(yiji,erji,sanji)
+                            #logging.debug(yiji,erji,sanji)
                             contentHtml = contentHtml + tmp
-                            # logging.debug(tmp)
+                            #logging.debug(tmp)
     hf.close()
     config.set("testbed","html",config.get("testbed","resultPath")+"/"+"result.html")
     with open("./testbed.ini", 'w') as config_file:

@@ -3,123 +3,10 @@
 # Author : zcl
 import pytest,random,os,sys,pymysql
 from https_20190709.common.common_method import *
-from https_20190709.common.params_init_z import *
 from BaiTaAirport2_month.common import Idcardnumber
 from https_20190709.API_https.AirportProcess import *
-from https_20190709.common.Log_z import mylog
 from BaiTaAirport2_month.msgQueue import Autosendlk
 from BaiTaAirport2_month.common.mysql_class import *
-logger = mylog.get_log().get_logger()
-
-
-@pytest.fixture()
-def struct_pho():
-    """
-    初始化照片、特征
-    :return:
-    """
-    pho_dic = {}
-    scenePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\2.jpg")
-    cardPhoto = scenePhoto
-    largePhoto = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\0.jpg")
-
-    feature_files = os.listdir(r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k")
-    feature_file = feature_files[random.randint(0, len(feature_files) - 1)]
-    sceneFeature = read_feature(os.path.join(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture8k",feature_file))
-    sceneFeature_2k = read_feature(os.path.join(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture2k",feature_file))
-    cardFeature = read_feature(os.path.join(r"D:\workfile\zhongkeyuan_workspace\test_photoes\idcard8k",feature_file))
-
-    pho_dic["scenePhoto"] = scenePhoto
-    pho_dic["cardPhoto"] = cardPhoto
-    pho_dic["largePhoto"] = largePhoto
-    pho_dic["cardFeature"] = cardFeature
-    pho_dic["sceneFeature"] = sceneFeature
-    pho_dic["sceneFeature_2k"] = sceneFeature_2k
-    return pho_dic
-
-
-@pytest.fixture()
-def insert_data_into_mysql(host="175.168.1.91",
-                           port="3306",
-                           user="root",
-                           password="123456",
-                           db="secsystem",
-                           charset="utf8mb4",
-                           sql=""
-                           ):
-    try:
-        # Connect to the database
-        connection = pymysql.connect(host=host,
-                                     port=int(port),
-                                     user=user,
-                                     password=password,
-                                     db=db,
-                                     charset=charset,
-                                     cursorclass=pymysql.cursors.DictCursor)
-    except pymysql.err.OperationalError as e:
-        logger.error("Mysql Error %d: %s" % (e.args[0], e.args[1]))
-
-    bdno = str(random.randint(1,999))
-    date = produce_flight_date()
-    flight_no = produce_flight_number()
-    sql = "insert into sec_passenger_entity(bdno,date,flight,strt) values ('%s','%s','%s','het');" % (
-    bdno, date, flight_no)
-    with connection.cursor() as cursor:
-        try:
-            cursor.execute(sql)
-            connection.commit()
-            logger.info("表:sec_passenger_entity 插入数据成功")
-        except:
-            connection.rollback()
-            logger.error("表:sec_passenger_entity 插入数据失败...")
-            exit()
-    return bdno,date,flight_no
-
-
-@pytest.fixture()
-def creat_zhiji_random(insert_data_into_mysql):
-    """
-    在值机前先往表里（sec_passenger_entity）加入数据
-    产生随机的值机人信息（起飞时间不管，主要是航班号，序号，身份证号码），信息在lkxx1.xml里
-    """
-    zhiji_dic = {}
-    sex = random.randint(1, 2)
-    idNo = Idcardnumber.get_random_id_number(sex=sex)
-    lk_chkt = get_time_mmss()
-    lk_flight = insert_data_into_mysql[2]
-    lk_bdno = insert_data_into_mysql[0]
-    lk_date = produce_flight_date()
-    lk_id = str(random.randint(1, 999))
-    lk_outtime = get_flight_out_time()
-    Autosendlk.send_lkxx(
-        lk_IsInternation="0",  # 1     是否国际 0否，1是，2未知
-        lk_bdno=lk_bdno,  # 2     <!--2 10 登机序号 -->  3位
-        lk_cardid=idNo,  # 4     证件号码
-        lk_chkt=lk_chkt,  # 6     值机日期
-        lk_cname="西瓜",  # 8     旅客中文姓名80
-        lk_date=lk_date,  # 9     9航班日期 8 YYYYMMDD
-        lk_del="0",  # 10    是否删除 0否  1是
-        lk_desk="CTU",  # 11    11目的地  机场三字代表码
-        lk_ename="XIGUA",  # 12    旅客英文姓名
-        lk_flight=lk_flight,  # 13    航班号 12
-        lk_gateno="10",  # 14    登机口号码 无意义k_g
-        lk_id=lk_id,  # 15    旅客ID 主键 str 36
-        lk_inf=" ",  # 16    16婴儿标志3 INF带婴儿 “”表示未带婴儿
-        lk_insur="0",  # 18    是否购保1
-        lk_outtime=lk_outtime,  # 20    旅客起飞时间
-        lk_sex=str(sex),  # 23    性别  1男性 2女性 0 未知
-        lk_vip="0")
-    zhiji_dic["idNo"] = idNo #身份证号
-    zhiji_dic["lk_flight"] = lk_flight #航班号
-    zhiji_dic["lk_bdno"] = lk_bdno #登机序号
-    zhiji_dic["lk_date"] = lk_date #航班日期 8 YYYYMMDD
-    zhiji_dic["lk_chkt"] = lk_chkt #值机日期 返回YYYYMMDDhhmmss的时间格式
-    # zhiji_dic[""] =
-    # zhiji_dic[""] =
-    # zhiji_dic[""] =
-    # zhiji_dic[""] =
-    logger.info(zhiji_dic)
-    return zhiji_dic
 
 def log(res):
     """
@@ -127,21 +14,19 @@ def log(res):
     :param res:
     :return:
     """
-    logger.info("---------------------------------------------------")
-    logger.info(res.text)
-    logger.info("---------------------------------------------------")
+    logging.info("---------------------------------------------------")
+    logging.info(res.text)
+    logging.info("---------------------------------------------------")
     sleep(1)
 
 
-
-
-
-#######################################################################################
-# @pytest.mark.skip(reason="debug skip")
-def test_02(creat_zhiji_random,struct_pho): #02表示第二行
+# @pytest.mark.skip(reason="A-> B-> 复核")
+@pytest.mark.parametrize("insert_data_into_mysql", [{"bdno": "16", "date": "20191024", "flight_no": "FU6630"}],indirect=True)
+@pytest.mark.parametrize("creat_zhiji_random", [{"lk_bdno": "16", "lk_date": "20191024", "lk_flight": "FU6630"}],indirect=True)
+def test_02(insert_data_into_mysql,creat_zhiji_random,struct_pho): #02表示第二行
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
     """2.3.20自助验证闸机A门接口（二期）"""
     res = AirportProcess().api_security_ticket_check(
         reqId=get_uuid(),  # 必填
@@ -163,8 +48,9 @@ def test_02(creat_zhiji_random,struct_pho): #02表示第二行
         fId=get_uuid()  # 必填
     )
     log(res)
-    """2.3.21自助验证闸机B门接口（二期）"""
 
+
+    """2.3.21自助验证闸机B门接口（二期）"""
     res = AirportProcess().api_face_security_face_check(
         reqId=get_uuid(),  # 必填
         gateNo="T1AJ1",  # 必填
@@ -208,13 +94,13 @@ def test_02(creat_zhiji_random,struct_pho): #02表示第二行
         isFuzzyQuery=0)  # 不传是默认模糊查询，传值1-为模糊查询，非1为精确查询
     log(res)
 
-    logger.info("test_02测试完成")
+    logging.info("test_02测试完成")
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_03(creat_zhiji_random,struct_pho): #03表示第三行
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
     res = AirportProcess().api_face_security_manual_check(
                                 reqId=get_uuid(),
@@ -249,14 +135,14 @@ def test_03(creat_zhiji_random,struct_pho): #03表示第三行
                         sourceType=0,
                         flightDay=zhiji_dic["lk_date"])
     log(res)
-    logger.info("test_03测试完成")
+    logging.info("test_03测试完成")
 
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_04(creat_zhiji_random,struct_pho): #04表示第四行
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
     """2.3.20自助验证闸机A门接口（二期）"""
     res = AirportProcess().api_security_ticket_check(
                                   reqId=get_uuid(),     #必填
@@ -329,13 +215,13 @@ def test_04(creat_zhiji_random,struct_pho): #04表示第四行
         scenephoto = pho_dic["scenePhoto"],  # 必填,可以不用2K
         scenefeature = pho_dic["sceneFeature_2k"])  # 必填,需要2K文件夹里
     log(res)
-    logger.info("test_04测试完成")
+    logging.info("test_04测试完成")
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_05(creat_zhiji_random,struct_pho): #05表示第五行
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
 
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
     res = AirportProcess().api_face_security_manual_check(
@@ -371,14 +257,14 @@ def test_05(creat_zhiji_random,struct_pho): #05表示第五行
                         sourceType=0,
                         flightDay=zhiji_dic["lk_date"])
     log(res)
-    logger.info("test_05测试完成")
+    logging.info("test_05测试完成")
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_06(creat_zhiji_random,struct_pho):
     another_pho = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\1.jpg")
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
 
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
     res = AirportProcess().api_face_security_manual_check(
@@ -477,13 +363,13 @@ def test_06(creat_zhiji_random,struct_pho):
         scenephoto = pho_dic["scenePhoto"],  # 必填,可以不用2K
         scenefeature = pho_dic["sceneFeature_2k"])  # 必填,需要2K文件夹里
     log(res)
-    logger.info("test_06测试完成")
+    logging.info("test_06测试完成")
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_07(creat_zhiji_random,struct_pho):
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
 
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
     res = AirportProcess().api_face_security_manual_check(
@@ -519,13 +405,13 @@ def test_07(creat_zhiji_random,struct_pho):
         sourceType=0,
         flightDay=zhiji_dic["lk_date"])
     log(res)
-    logger.debug("test_07测试完成")
+    logging.debug("test_07测试完成")
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_08(creat_zhiji_random,struct_pho):
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
 
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
     res = AirportProcess().api_face_security_manual_check(
@@ -598,14 +484,14 @@ def test_08(creat_zhiji_random,struct_pho):
         scenephoto = pho_dic["scenePhoto"],  # 必填,可以不用2K
         scenefeature = pho_dic["sceneFeature_2k"])  # 必填,需要2K文件夹里
     log(res)
-    logger.info("test_08测试完成")
+    logging.info("test_08测试完成")
 
 
-@pytest.mark.skip(reason="debug skip")
+# @pytest.mark.skip(reason="debug skip")
 def test_09(creat_zhiji_random,struct_pho):
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
     another_pho = to_base64(r"D:\workfile\zhongkeyuan_workspace\test_photoes\picture(现场照片)\1.jpg")
 
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
@@ -658,13 +544,13 @@ def test_09(creat_zhiji_random,struct_pho):
         sourceType=0,
         flightDay=zhiji_dic["lk_date"])
     log(res)
-    logger.debug("test_09测试完成")
+    logging.debug("test_09测试完成")
 
 # @pytest.mark.skip(reason="debug skip")
 def test_10(creat_zhiji_random,struct_pho):
     zhiji_dic = creat_zhiji_random
     pho_dic = struct_pho
-    logger.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
+    logging.info("测试的身份证号码:%s" %zhiji_dic["idNo"])
 
     """2.3.8安检人工通道接口，直接刷票（一期二阶段）"""
     res = AirportProcess().api_face_security_manual_check(
@@ -757,7 +643,7 @@ def test_10(creat_zhiji_random,struct_pho):
     res_pho = requests.get(url=large_photo_path, verify=BlackListApi().certificate)
     assert res_pho.content == raw_largePhoto_data  #断言 安检流水表，redis中有上传的大图
 
-    logger.info("%s 测试完成" % sys._getframe().f_code.co_name)
+    logging.info("%s 测试完成" % sys._getframe().f_code.co_name)
 
 
 
